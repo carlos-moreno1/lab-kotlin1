@@ -9,6 +9,6 @@ esta misma por lo tanto se busca facilitar y llevar a cabo un sistema que permit
 | -------- | -------------------|
 | Jugador NOOB | Hace uso del sistema de gestion |
 | Jugador PRO | Ingresar aldeanos al sistema |
-| aldeano HACKER | Borra el registro de otros aldeanos |
+| Aldeano HACKER | Borra el registro de otros aldeanos |
 
 # 
