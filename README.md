@@ -7,7 +7,7 @@ esta zona, por lo tanto, se busca facilitar y llevar a cabo un sistema que permi
 ## Usuarios del sistema
 | Usuarios | Tarea desempeñada  |
 | -------- | -------------------|
-| Jugador NOOB | Vista superficial del registro de aldeanos por objeeto a la venta y sus coordenadas |
+| Jugador NOOB | Vista superficial del registro de aldeanos por objeto a la venta y sus coordenadas |
 | Jugador PRO | Vista detallada del registro y permisos para registrar aldeanos en el sistema sistema |
 | Jugador ADMIN | Tiene el control total del sistema, encargado principalmente de mantener la estabilidad en el sistema |
 
