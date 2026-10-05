@@ -1,4 +1,4 @@
-# Gestion de aldeanos en Minecraft
+# Minecraft Villager Management 
 
 ## Problema a resolver:
 Se tiene una cantidad no manejable de aldeanos en cierta zona de un mundo de Minecraft. Los jugadores tienen dificultades para organizar, registrar y administrar
