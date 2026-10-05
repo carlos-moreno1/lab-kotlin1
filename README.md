@@ -11,8 +11,6 @@ esta misma por lo tanto se busca facilitar y llevar a cabo un sistema que permit
 | Jugador PRO | Vista detallada del registro y permisos para registrar aldeanos en el sistema sistema |
 | Jugador ADMIN | Tiene el control total del sistema, encargado principalmente de mantener la estabilidad en el sistema |
 
-<p align="center">
-  <img src="[http://some_place.com/image.png](https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSN60cRLfe2wYPUMDscFPGhzHs6EzydyBI1b-2ZswZi1nxPdUkII5QLp0g&s=10)" />
-</p>
+![image](https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSN60cRLfe2wYPUMDscFPGhzHs6EzydyBI1b-2ZswZi1nxPdUkII5QLp0g&s=10)
 
 
