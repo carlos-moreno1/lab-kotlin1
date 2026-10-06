@@ -7,9 +7,9 @@ esta zona, por lo tanto, se busca facilitar y llevar a cabo un sistema que permi
 ## Usuarios del sistema
 | Usuarios | Tarea desempeñada  |
 | -------- | -------------------|
-| Jugador NOOB | Vista superficial del registro de aldeanos por objeto a la venta y sus coordenadas |
-| Jugador PRO | Vista detallada del registro y permisos para registrar aldeanos en el sistema sistema |
-| Jugador ADMIN | Tiene el control total del sistema, encargado principalmente de mantener la estabilidad en el sistema |
+| Noob | Vista superficial del registro de aldeanos por objeto a la venta y sus coordenadas |
+| Pro | Vista detallada del registro y permisos para registrar aldeanos en el sistema sistema |
+| Admin | Tiene el control total del sistema, encargado principalmente de mantener la estabilidad en el sistema |
 
 ![image](https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSN60cRLfe2wYPUMDscFPGhzHs6EzydyBI1b-2ZswZi1nxPdUkII5QLp0g&s=10)
 
@@ -26,9 +26,9 @@ classDiagram
         <<abstract>>
     }
 
-    class Comun
-    class Avanzado
-    class Administrador
+    class Noob
+    class Pro
+    class Admin
 
     class Granjero
     class Herrero
