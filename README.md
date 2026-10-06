@@ -38,7 +38,7 @@ classDiagram
     Aldeano <|-- Herrero
     Aldeano <|-- Bibliotecario
 
-    Usuario <|-- Comun
-    Usuario <|-- Avanzado
-    Usuario <|-- Administrador
+    Usuario <|-- Noob
+    Usuario <|-- Pro
+    Usuario <|-- Admin
 ```
