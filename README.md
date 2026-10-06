@@ -13,4 +13,32 @@ esta zona, por lo tanto, se busca facilitar y llevar a cabo un sistema que permi
 
 ![image](https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSN60cRLfe2wYPUMDscFPGhzHs6EzydyBI1b-2ZswZi1nxPdUkII5QLp0g&s=10)
 
+## Diagrama UML (Avance)
 
+```mermaid
+classDiagram
+
+    class Aldeano {
+        <<abstract>>
+    }
+
+    class Usuario {
+        <<abstract>>
+    }
+
+    class Comun
+    class Avanzado
+    class Administrador
+
+    class Granjero
+    class Herrero
+    class Bibliotecario
+
+    Aldeano <|-- Granjero
+    Aldeano <|-- Herrero
+    Aldeano <|-- Bibliotecario
+
+    Usuario <|-- Comun
+    Usuario <|-- Avanzado
+    Usuario <|-- Administrador
+```
