@@ -81,9 +81,9 @@ class Consola {
             val acciones = mutableListOf<() -> Unit>()
 
                 if (permisos >= 1) {
-                    acciones.add { servidor.verAldeanos() }
-                    acciones.add { servidor.verDatosAldeanos() }
-                    acciones.add { servidor.buscarIntercambio() }
+                    acciones.add { servidor.verListaAldeanos() }
+                    acciones.add { servidor.verDatosAldeano() }
+                    acciones.add { servidor.buscarTradeo() }
                 }
 
                 if (permisos >= 2) {
