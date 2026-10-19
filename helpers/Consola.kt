@@ -14,6 +14,7 @@ class Consola {
         fun menuLogin() {
             println("\n=== VILLAGER MANAGEMENT SYSTEM ===")
             println("1. Iniciar Sesión")
+            // FALTA OPCION PARA REGISTRARSE.
             println("2. Salir")
             print("Elija opción: ")
         }
@@ -34,19 +35,7 @@ class Consola {
             }
         }
         
-        // Menú secundario (Sesión iniciada)(TODOS)
-        fun menuPrincipal() {
-            println("\n--- MENÚ PRINCIPAL ---")
-            println("1. Mostrar datos")
-            println("2. Ver datos Aldeanos")
-            println("3. Agregar Aldeano")
-            println("4. Modificar Tradeos")
-            println("5. Emplear Aldeano")
-            println("6. Eliminar Aldeano")
-            println("7. Buscar intercambio")
-            println("8. Cerrar Sesión")
-        }
-        
+        // Menú secundario (Sesión iniciada)(TODOS)    
         fun menuPrincipal(permisos: Int) {
             println("\n--- MENÚ PRINCIPAL ---")
             var n = 1
@@ -74,25 +63,25 @@ class Consola {
             print("Elija opción: ")
         }
 
-        fun sesion(permisos: Int) {
+        fun sesion(permisos: String) {
         while (true) {
             menuPrincipal(permisos)
 
             val acciones = mutableListOf<() -> Unit>()
 
-                if (permisos >= 1) {
+                if (permisos == "Noob") {
                     acciones.add { servidor.verListaAldeanos() }
                     acciones.add { servidor.verDatosAldeano() }
                     acciones.add { servidor.buscarTradeo() }
                 }
 
-                if (permisos >= 2) {
+                if (permisos == "Pro") {
                     acciones.add { servidor.agregarAldeano() }
                     acciones.add { servidor.eliminarAldeano() }
                     acciones.add { servidor.emplearAldeano() }
                 }
 
-                if (permisos >= 3) {
+                if (permisos == "Admin") {
                     acciones.add { servidor.agregarTradeo() }
                     acciones.add { servidor.eliminarTradeo() }
                     acciones.add { servidor.promoverUsuario() }
