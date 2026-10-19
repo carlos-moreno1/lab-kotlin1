@@ -1,17 +1,13 @@
 package cl.ucm.helpers
 import cl.ucm.models.*
     
-    
-
-    
-
-    
-    
 class Consola {
     companion object {
         
         fun leerOpcion(): Int {
-            return readln().toIntOrNull() ?: 0
+            val entrada = readlnOrNull() ?: return 0
+            print("Elija opción: ")
+            return entrada.toIntOrNull()?.takeIf { it in 1..8 } ?: 0
         }
         
         // Menú inicial (Fuera de sesión)
@@ -38,7 +34,7 @@ class Consola {
             }
         }
         
-        // Menú secundario (Sesión iniciada)
+        // Menú secundario (Sesión iniciada)(TODOS)
         fun menuPrincipal() {
             println("\n--- MENÚ PRINCIPAL ---")
             println("1. Mostrar datos")
@@ -49,9 +45,69 @@ class Consola {
             println("6. Eliminar Aldeano")
             println("7. Buscar intercambio")
             println("8. Cerrar Sesión")
+        }
+        
+        fun menuPrincipal(permisos: Int) {
+            println("\n--- MENÚ PRINCIPAL ---")
+            var n = 1
+
+            if (permisos >= 1) {
+                println("${n++}. Ver Aldeanos")
+                println("${n++}. Ver datos Aldeanos")
+                println("${n++}. Buscar Intercambio")
+            }
+
+            if (permisos >= 2) {
+                println("${n++}. Agregar Aldeano")
+                println("${n++}. Eliminar Aldeano")
+                println("${n++}. Emplear Aldeano")
+            }
+
+            if (permisos >= 3) {
+                println("${n++}. Agregar Tradeos")
+                println("${n++}. Eliminar Tradeos")
+                println("${n++}. Promover Usuario")
+                println("${n++}. Banear Usuario")
+            }
+
+            println("${n}. Cerrar Sesión") // Para volver al menu de login.
             print("Elija opción: ")
         }
 
+        fun sesion(permisos: Int) {
+        while (true) {
+            menuPrincipal(permisos)
 
+            val acciones = mutableListOf<() -> Unit>()
+
+                if (permisos >= 1) {
+                    acciones.add { servidor.verAldeanos() }
+                    acciones.add { servidor.verDatosAldeanos() }
+                    acciones.add { servidor.buscarIntercambio() }
+                }
+
+                if (permisos >= 2) {
+                    acciones.add { servidor.agregarAldeano() }
+                    acciones.add { servidor.eliminarAldeano() }
+                    acciones.add { servidor.emplearAldeano() }
+                }
+
+                if (permisos >= 3) {
+                    acciones.add { servidor.agregarTradeo() }
+                    acciones.add { servidor.eliminarTradeo() }
+                    acciones.add { servidor.promoverUsuario() }
+                    acciones.add { servidor.banearUsuario() }
+                }
+
+                when (val opcion = leerOpcion()) {
+                    in 1..acciones.size -> acciones[opcion - 1]()
+                    acciones.size + 1 -> {
+                        println("Sesión cerrada.")
+                        return
+                    }
+                    else -> println("Opción inválida.")
+                }
+            }
+        }  
     }
 }
