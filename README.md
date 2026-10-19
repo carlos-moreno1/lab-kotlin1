@@ -78,14 +78,26 @@ classDiagram
 
     class Aldeano {
         <<abstract>>
-        
         + nombre: String?
         + posicion: String
-        + profesion: String*
+        + status: String*
         - id: Int
+    }
+
+    class Empleado {
+        + status: String
+        + profesion: String
         - tradeos: MutableList~Tradeo~
         + obtenerTradeo(): List~Tradeo~
         + agregarTradeo(itemPago: String, cantidadPago: Int, itemVende: String, cantidadVende: Int): Boolean
+    }
+
+    class Cesante {
+        + status: String
+    }
+
+    class Nitwit {
+        + status: String
     }
 
     class Tradeo {
@@ -95,31 +107,17 @@ classDiagram
         + cantidadVende: Int 
     }
 
-    class Granjero {
-        + profesion: String
-    }
-    class Bibliotecario
-    class HerreroArmas
-    class HerreroHerramientas
-    class Flechero
-    class Clerigo
-    class Cartografo
-
     %% HERENCIA
-    Aldeano <|-- Granjero
-    Aldeano <|-- Bibliotecario
-    Aldeano <|-- HerreroArmas
-    Aldeano <|-- HerreroHerramientas
-    Aldeano <|-- Flechero
-    Aldeano <|-- Clerigo
-    Aldeano <|-- Cartografo
+    Aldeano <|-- Empleado
+    Aldeano <|-- Cesante
+    Aldeano <|-- Nitwit
 
     Usuario <|-- Noob
     Usuario <|-- Pro
     Usuario <|-- Admin
 
     %% RELACIONES
-    Aldeano "1" *-- "0..*" Tradeo
+    Empleado "1" *-- "0..*" Tradeo
     Servidor "1" *-- "0..*" Aldeano : Controla
     Servidor "1" o-- "0..*" Usuario : Administra
     Usuario ..> Servidor : Interactua con

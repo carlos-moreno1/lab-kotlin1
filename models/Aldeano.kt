@@ -11,22 +11,25 @@ package cl.ucm.models
  */
 
 
-abstract class Aldeano(
-    val nombre: String?,
-    val posicion: String
-) {
+abstract class Aldeano(val nombre: String?, val posicion: String) {
     init {
         require(posicion.isNotBlank()) {"Posición no ingresada."}
     }
-    
     constructor(posicion: String): this(null, posicion)
     
     private val id: Int = 0 // Luego hacer una lista con IDs para asignar la sgte. libre
-    abstract val profesion: String
+    abstract val status: String
+}
+
+class Empleado(
+    nombre: String?,
+    posicion: String,
+    val profesion: String
+) : Aldeano(nombre, posicion) {
+    override val status: String = "Empleado"
+    
     private val tradeos: MutableList<Tradeo> = mutableListOf()
-
     fun obtenerTradeo(): List<Tradeo> = tradeos.toList()
-
     fun agregarTradeo(
         itemPago: String,
         cantidadPago: Int,
@@ -41,12 +44,18 @@ abstract class Aldeano(
             return false
         }
     }
-
 }
 
-class Granjero(
-    nombre: String? = null, //Considerar usar constructor secundario  de manera general en la superclase
-    posicion: String
+class Cesante(
+    nombre: String?,
+    posicion: String,
 ) : Aldeano(nombre, posicion) {
-    override val profesion: String = "Granjero"
+    override val status: String = "Cesante"
+}
+
+class Nitwit(
+    nombre: String?,
+    posicion: String,
+) : Aldeano(nombre, posicion) {
+    override val status: String = "Nitwit"
 }
