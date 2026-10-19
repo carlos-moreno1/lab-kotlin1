@@ -29,37 +29,50 @@ class Servidor() { // Volver Object singleton
         return true
     }
     
-    //Menú Principal (Acceso TODOS)
+    //Menú Principal
     fun verListaAldeanos():Boolean {
         if (aldeanos.isEmpty()) return false
-        
-        println("Aldeanos registrados:")
         aldeanos.forEachIndexed { index, aldeano ->
-            println("\n${index + 1}.")
-            aldeano.verDatos()
+            println("${index + 1}. Nombre: ${aldeano.nombre}. Status: ${aldeano.status}.")
         }
-
         return true
     }
-    fun verDatosAldeano(val nombre, val status) {
-        if (aldeanos.isEmpty()) return false
-        if (aldeanos.any { it.nombre == nombre }) return false
-
+    fun verDatosAldeano(nombre: String): Boolean {
+        val aldeano = aldeanos.firstOrNull { it.nombre == nombre } ?: return false
+        aldeano.verDatos()
+        return true
     }
-    fun buscarTradeo()
-    fun cerrarSesion()
+    fun verTradeosAldeano() {
+        //Muestra lista de tradeos completa
+    }
+    fun buscarTradeo() {
+        //Definir 3 casos según lo que se reciba: solo ItemPago, solo ItemVende o ambos
+        //Tal vez devidir en 3 funciones diferentes
+    }
+    fun cerrarSesion() {
+        //Llevar a menú de login
+    }
     
-    //Menú Pro (y Admin)
-    fun agregarAldeano()
-    fun emplearAldeano()
-    fun eliminarAldeano()
+    //Menú Pro y Admin
+    fun agregarAldeano() {
+        // Antes de agregar verifica que el nombre no se repita
+    }
+    fun emplearAldeano() {
+        // Verifica si es cesante. Copia sus datos. Elimina la instancia actual de la lista y crea otra con los mismos datos + profesión
+    }
+    fun eliminarAldeano() {
+        // Elimina de la lista
+    }
     
     //Menú Admin
     fun agregarTradeo()
     fun eliminarTradeo()
-    fun promoverUsuario()
-    fun banearUsuario()
+    fun promoverUsuario() {
+        // Solo de Noob a Pro
+    }
+    fun banearUsuario() {
+        // Elimina de la lista de usuarios
+        // Considerar hacer lista de baneados y que no se pueda registrar nadie con ese nombre (opcional)
+    }
     
 }
-
-// Hacer que Cesante pueda pasar a Empleado (copiar datos, borrar instancia de Cesante y crear una de Empleado con los mismo datos + nueva profesión)

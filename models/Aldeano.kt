@@ -1,17 +1,14 @@
 package cl.ucm.models
 
-// Considerar hacer todas las variables de datos private o protected y que se entreguen a traves de una funcion
 abstract class Aldeano(val nombre: String?, val posicion: String) {
     init {
         require(posicion.isNotBlank()) {"Posición no ingresada."}
     }
     constructor(posicion: String): this(null, posicion)
     
-    private val id: Int = 0 // Luego hacer una lista con IDs para asignar la sgte. libre
     abstract val status: String
     
     open fun verDatos() {
-        println("ID: $id")
         println("Nombre: $nombre")
         println("Status: $status")
         println("Posición: $posicion")
