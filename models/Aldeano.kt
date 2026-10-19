@@ -1,5 +1,6 @@
 package cl.ucm.models
 
+// Considerar hacer todas las variables de datos private o protected y que se entreguen a traves de una funcion
 abstract class Aldeano(val nombre: String?, val posicion: String) {
     init {
         require(posicion.isNotBlank()) {"Posición no ingresada."}
