@@ -49,31 +49,31 @@ classDiagram
     class Servidor {
         - aldeanosRegistrados: List~Aldeano~
         - usuariosConectados: List~Usuario~
-        + iniciarSesion(nickname: String): Usuario
-        + buscarTradeo(objeto: String): List~Aldeano~
-        + registrarAldeano(pro: Pro, aldeano: Aldeano): boolean
-        + removerAldeano(pro: Pro, idAldeano: int): boolean
-        + banearUsuario(admin: Admin, usuarioABanear: Usuario): boolean
+        + register(nombre: String, password: String): Boolean
+        + login(nombre: String, password: String): Boolean
+        + mostrarUsuarios(): Boolean
+        + verListaAldeanos():Boolean
+        + verDatosAldeano(nombre: String): Boolean
     }
 
     class Usuario {
         <<abstract>>
-        # nickname: String
-        # consultarTradeos()
-        # verMapaAldeanos()
+        + nombre: String
+        # password: String
+        + verificarPassword(pass: String): Boolean
+        + mostrarPermisos(): String*
     }
 
     class Noob {
+        + mostrarPermisos(): String
     }
     
     class Pro {
-        - registrarNuevoAldeano(nombre: String): Bool
-        - removerAldeano(id: int): Bool
+        + mostrarPermisos(): String
     }
     
     class Admin {
-        - expulsarUsuario(nickname: String)
-        - mostrarDatos(): String
+        + mostrarPermisos(): String
     }
 
     class Aldeano {
@@ -81,7 +81,6 @@ classDiagram
         + nombre: String?
         + posicion: String
         + status: String*
-        - id: Int
     }
 
     class Empleado {
