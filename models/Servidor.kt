@@ -14,8 +14,20 @@ class Servidor() { // Volver Object singleton
         val usuario = usuarios.firstOrNull { it.nombre == nombre } ?: return false
         return usuario.verificarPassword(password)
     }
-    fun mostrarUsuarios() {
-        
+    fun mostrarUsuarios():Boolean {
+        if (usuarios.isEmpty()) return false
+
+        println("Usuarios registrados:")
+        usuarios.forEachIndexed { index, usuario ->
+            val tipo = when (usuario) {
+                is Noob -> "Noob"
+                is Pro -> "Pro"
+                is Admin -> "Admin"
+                else -> "Usuario"
+            }
+            println("${index + 1}. ${usuario.nombre} ($tipo)")
+        }
+        return true
     }
     
     //Menú Principal
