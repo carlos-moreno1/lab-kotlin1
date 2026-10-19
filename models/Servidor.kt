@@ -1,8 +1,8 @@
 package cl.ucm.models
 
 class Servidor() { // Volver Object singleton
-    private val aldeanos: MutableList<Aldeano> = mutableListOf()
     private val usuarios: MutableList<Usuario> = mutableListOf()
+    private val aldeanos: MutableList<Aldeano> = mutableListOf()
     
     //Menú LogIn
     fun register(nombre: String, password: String): Boolean {
@@ -20,30 +20,45 @@ class Servidor() { // Volver Object singleton
         println("Usuarios registrados:")
         usuarios.forEachIndexed { index, usuario ->
             val tipo = when (usuario) {
-                is Noob -> "Noob"
                 is Pro -> "Pro"
                 is Admin -> "Admin"
-                else -> "Usuario"
+                else -> "Noob"
             }
             println("${index + 1}. ${usuario.nombre} ($tipo)")
         }
         return true
     }
     
-    //Menú Principal
-    fun verDatosAldeano()
+    //Menú Principal (Acceso TODOS)
+    fun verListaAldeanos():Boolean {
+        if (aldeanos.isEmpty()) return false
+        
+        println("Aldeanos registrados:")
+        aldeanos.forEachIndexed { index, aldeano ->
+            println("\n${index + 1}.")
+            aldeano.verDatos()
+        }
+
+        return true
+    }
+    fun verDatosAldeano(val nombre, val status) {
+        if (aldeanos.isEmpty()) return false
+        if (aldeanos.any { it.nombre == nombre }) return false
+
+    }
     fun buscarTradeo()
     fun cerrarSesion()
     
-    //Menú Pro
+    //Menú Pro (y Admin)
     fun agregarAldeano()
-    fun modificarTradeos()
     fun emplearAldeano()
     fun eliminarAldeano()
     
     //Menú Admin
-    fun ascender()
-    fun banear()
+    fun agregarTradeo()
+    fun eliminarTradeo()
+    fun promoverUsuario()
+    fun banearUsuario()
     
 }
 
