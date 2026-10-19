@@ -37,7 +37,7 @@ el servidor:
 | :---: | :---: |
 | Noob | Tiene permisos de solo lectura. Su vista es superficial: busca objetos<br>a la venta y consulta las coordenadas para saber a dónde ir.|
 | Pro | Tiene permisos de escritura. Además de consultar, es el encargado<br>de registrar nuevos aldeanos en el sistema y eliminarlos si mueren o<br>son movidos. |
-| Admin | Tiene el control total. Se encarga de mantener el orden, con la<br>capacidad exclusiva de expulsar (banear) a usuarios problemáticos<br>del sistema. |
+| Admin | Tiene el control total. Se encarga de mantener el orden, con la<br>capacidad exclusiva de expulsar (banear) a usuarios problemáticos<br>del sistema como tambien ascenderlos de rango. |
 
 ## Diagrama UML (Avance)
 
