@@ -1,7 +1,8 @@
 package cl.ucm.models
 
-abstract class Aldeano(val nombre: String?, val posicion: String) {
+abstract class Aldeano(val nombre: String, val posicion: String) {
     init {
+        require(nombre.isNotBlank()) {"Nombre no ingresado."}
         require(posicion.isNotBlank()) {"Posición no ingresada."}
     }
     constructor(posicion: String): this(null, posicion)
@@ -15,7 +16,7 @@ abstract class Aldeano(val nombre: String?, val posicion: String) {
     }
 }
 
-class Empleado(nombre: String?, posicion: String, val profesion: String): Aldeano(nombre, posicion) {
+class Empleado(nombre: String, posicion: String, val profesion: String): Aldeano(nombre, posicion) {
     override val status: String = "Empleado"
     private val tradeos: MutableList<Tradeo> = mutableListOf()
     
@@ -41,12 +42,21 @@ class Empleado(nombre: String?, posicion: String, val profesion: String): Aldean
             return false
         }
     }
+    
+    fun verTradeos(){
+        if (tradeos.isEmpty()) {
+            println("Sin tradeos registrados.")
+        }
+        tradeos.forEachIndexed { index, tradeo ->
+            println("${index + 1}. En venta: $tradeo.cantidadVende ${tradeo.itemVende}. Precio a pagar: $tradeo.cantidadPago ${tradeo.itemPago}.")
+        }
+    }
 }
 
-class Cesante(nombre: String?, posicion: String): Aldeano(nombre, posicion) {
+class Cesante(nombre: String, posicion: String): Aldeano(nombre, posicion) {
     override val status: String = "Cesante"
 }
 
-class Nitwit(nombre: String?, posicion: String): Aldeano(nombre, posicion) {
+class Nitwit(nombre: String, posicion: String): Aldeano(nombre, posicion) {
     override val status: String = "Nitwit"
 }

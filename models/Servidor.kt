@@ -2,7 +2,7 @@ package cl.ucm.models
 
 class Servidor() { // Volver Object singleton
     private val usuarios: MutableList<Usuario> = mutableListOf()
-    private val aldeanos: MutableList<Aldeano> = mutableListOf()
+    private val aldeanos: MutableList<Aldeano> = mutableListOf() // Considerar hacer 3 listas según status y una lista con esas 3 listas
     
     //Menú LogIn
     fun register(nombre: String, password: String): Boolean {
@@ -42,20 +42,41 @@ class Servidor() { // Volver Object singleton
         aldeano.verDatos()
         return true
     }
-    fun verTradeosAldeano() {
-        //Muestra lista de tradeos completa
+    fun verTradeosAldeano(nombre: String): Boolean {
+        val aldeano = aldeanos.firstOrNull { it.nombre == nombre && it.status == "Empleado"} ?: return false
+        aldeano.verTradeos()
+        return true
     }
+    
+    /*CONSIDERAR REPLANTEAR PARA HACER MÁS SENCILLA LA IMPLEMENTACIÓN Y UTIL PARA USUARIO*/
     fun buscarTradeo() {
         //Definir 3 casos según lo que se reciba: solo ItemPago, solo ItemVende o ambos
-        //Tal vez devidir en 3 funciones diferentes
     }
+    
     fun cerrarSesion() {
         //Llevar a menú de login
+        
+        //Considerar añadir atributo a clase suario de status = "Online" o "Offline"
+        //La consola usaria ese atributo para algunas verificaciones
+        //Ver bien factibilidad y utilidad antes de implementar
     }
     
     //Menú Pro y Admin
-    fun agregarAldeano() {
-        // Antes de agregar verifica que el nombre no se repita
+    
+    /*Separar para dos casos generales: Empleado y NO empleado*/
+    fun agregarAldeano(nombre: String, posicion: String, status: String): Boolean {
+        if (aldeanos.any {it.nombre == nombre}) return false
+        try {
+            
+            
+            return true    
+        }
+        catch (e: IllegalArgumentException) {
+            
+            return false
+        }
+        
+        
     }
     fun emplearAldeano() {
         // Verifica si es cesante. Copia sus datos. Elimina la instancia actual de la lista y crea otra con los mismos datos + profesión
