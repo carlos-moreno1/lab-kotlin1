@@ -50,7 +50,8 @@ class Servidor() { // Volver Object singleton
     
     /*CONSIDERAR REPLANTEAR PARA HACER MÁS SENCILLA LA IMPLEMENTACIÓN Y UTIL PARA USUARIO*/
     fun buscarTradeo() {
-        // Cambiar a buscar segun profesión
+        // Buscar por item deseado
+        // Buscar segun profesion (crear otra funcion aparte)
     }
     
     fun cerrarSesion() {
