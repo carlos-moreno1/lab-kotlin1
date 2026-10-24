@@ -1,6 +1,8 @@
 package cl.ucm.models
 
 abstract class Aldeano(val nombre: String, val posicion: String) {
+    // Añadir sistema IDs
+    // Si un aldeano se elimina, su ID queda libre? sino considerar añadir registro de aldeanos eliminados.
     init {
         require(nombre.isNotBlank()) {"Nombre no ingresado."}
         require(posicion.isNotBlank()) {"Posición no ingresada."}
