@@ -14,11 +14,28 @@ class Consola {
         fun menuLogin() {
             println("\n=== VILLAGER MANAGEMENT SYSTEM ===")
             println("1. Iniciar Sesión")
-            // FALTA OPCION PARA REGISTRARSE.
-            println("2. Salir")
+            println("2. Registrarse")
+            println("3. Salir")
             print("Elija opción: ")
         }
-
+        
+        fun registrarSesion(): Boolean {
+            print("Ingrese usuario: ")
+            val usuario = readln()
+            print("Ingrese contraseña: ")
+            val password = readln()
+            print("Confirme contraseña: ")
+            val passVer = readln()
+            if (password == passVer):
+                return if (servidor.register(usuario, password)) {
+                    println("Registro de usuario exitoso.")
+                    true
+                } else {
+                    println("Registro de sesión incorrecto.")
+                    false
+                }
+            // Falta
+        }
     
         fun inicioSesion(): Boolean {
             print("Ingrese usuario: ")
