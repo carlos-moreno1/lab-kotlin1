@@ -33,17 +33,19 @@ class Servidor() { // Volver Object singleton
     fun verListaAldeanos():Boolean {
         if (aldeanos.isEmpty()) return false
         aldeanos.forEachIndexed { index, aldeano ->
-            println("${index + 1}. Nombre: ${aldeano.nombre}. Status: ${aldeano.status}.")
+            println("Id: ${index + 1}. Nombre: ${aldeano.nombre}. Status: ${aldeano.status}.")
         }
         return true
     }
-    fun verDatosAldeano(nombre: String): Boolean {
-        val aldeano = aldeanos.firstOrNull { it.nombre == nombre } ?: return false
+    fun verDatosAldeano(id: Int): Boolean {
+        if (id < 1) return false
+        val aldeano = aldeanos.getOrNull(id - 1) ?: return false
         aldeano.verDatos()
         return true
     }
-    fun verTradeosAldeano(nombre: String): Boolean {
-        val aldeano = aldeanos.firstOrNull { it.nombre == nombre && it.status == "Empleado"} ?: return false
+    fun verTradeosAldeano(id: Int): Boolean {
+        if (id < 1) return false
+        val aldeano = aldeanos.getOrNull(id - 1) as? Empleado ?: return false
         aldeano.verTradeos()
         return true
     }
@@ -81,14 +83,18 @@ class Servidor() { // Volver Object singleton
             return false
         }
     }
-    fun emplearAldeano(indice: Int, profesion: String): Boolean {
+    fun emplearAldeano(id: Int, profesion: String): Boolean {
+        if (id < 1) return false
+        val indice = id - 1
         val original = aldeanos.getOrNull(indice) ?: return false
         if (original !is Cesante) return false // Verifica que cumpla el requisito para ser empleado
 
         aldeanos[indice] = Empleado(original.nombre, original.posicion, profesion) // Reemplaza instancia por otra con mismos datos + profesión
         return true
     }
-    fun eliminarAldeano(indice: Int): Boolean {
+    fun eliminarAldeano(id: Int): Boolean {
+        if (id < 1) return false
+        val indice = id - 1
         if (indice !in aldeanos.indices) return false
         aldeanos.removeAt(indice)
         return true
