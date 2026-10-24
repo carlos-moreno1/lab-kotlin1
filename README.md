@@ -47,8 +47,6 @@ A continuación, se detalla la estructura lógica del sistema:
 classDiagram
     direction LR
     class Servidor {
-        - aldeanosRegistrados: List~Aldeano~
-        - usuariosConectados: List~Usuario~
         + register(nombre: String, password: String): Boolean
         + login(nombre: String, password: String): Boolean
         + mostrarUsuarios(): Boolean
