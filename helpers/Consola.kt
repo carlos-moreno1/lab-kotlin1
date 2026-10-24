@@ -26,15 +26,19 @@ class Consola {
             val password = readln()
             print("Confirme contraseña: ")
             val passVer = readln()
-            if (password == passVer):
-                return if (servidor.register(usuario, password)) {
+        
+            return if (password == passVer) {
+                if (servidor.register(usuario, password)) {
                     println("Registro de usuario exitoso.")
                     true
                 } else {
-                    println("Registro de sesión incorrecto.")
+                    println("Registro de sesión incorrecto. El usuario podría ya existir.")
                     false
                 }
-            // Falta
+            } else {
+                println("Error: Las contraseñas no coinciden.")
+                false
+            }
         }
     
         fun inicioSesion(): Boolean {
