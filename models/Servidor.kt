@@ -55,11 +55,7 @@ class Servidor() { // Volver Object singleton
     }
     
     fun cerrarSesion() {
-        //Llevar a menú de login
-        
-        //Considerar añadir atributo a clase suario de status = "Online" o "Offline"
-        //La consola usaria ese atributo para algunas verificaciones
-        //Ver bien factibilidad y utilidad antes de implementar
+        //Considerar definir como funcion de Consola y no aqui
     }
     
     //Menú Pro y Admin
