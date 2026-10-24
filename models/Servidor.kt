@@ -3,6 +3,10 @@ package cl.ucm.models
 class Servidor() { // Volver Object singleton
     private val usuarios: MutableList<Usuario> = mutableListOf()
     private val aldeanos: MutableList<Aldeano> = mutableListOf() // Considerar hacer 3 listas según status y una lista con esas 3 listas
+    private var proximoId = 1
+    
+    //Funciones auxiliares
+    private fun siguienteId(): Int = proximoId++ // En esta forma NO reutiliza las IDs de aldeanos ya eliminados
     
     //Menú LogIn
     fun register(nombre: String, password: String): Boolean {
@@ -60,25 +64,48 @@ class Servidor() { // Volver Object singleton
     //Menú Pro y Admin
     
     /*Separar para dos casos generales: Empleado y NO empleado*/
-    fun agregarAldeano(nombre: String, posicion: String, status: String): Boolean {
-        if (aldeanos.any {it.nombre == nombre}) return false
+    fun agregarAldeanoEmpleado(nombre: String, posicion: String, profesion: String): Boolean {
         try {
-            
-            
+            aldeanos.add(Empleado(siguienteId(), nombre, posicion, profesion))
             return true    
         }
         catch (e: IllegalArgumentException) {
-            
             return false
         }
-        
-        
     }
-    fun emplearAldeano() {
-        // Verifica si es cesante. Copia sus datos. Elimina la instancia actual de la lista y crea otra con los mismos datos + profesión
+    fun agregarAldeanoNoEmpleado(nombre: String, posicion: String, status: String): Boolean {
+        try {
+            when (status) {
+                "Cesante" -> aldeanos.add(Cesante(siguienteId(), nombre, posicion))
+                "Nitwit" -> aldeanos.add(Nitwit(siguienteId(), nombre, posicion))
+                else -> return false
+            }
+            return true    
+        }
+        catch (e: IllegalArgumentException) {
+            return false
+        }
     }
-    fun eliminarAldeano() {
-        // Elimina de la lista
+    fun emplearAldeano(id: Int, profesion: String): Boolean {
+        if (id < 1)  return false // Verifica id valido
+        
+        val indice = aldeanos.indexOfFirst { it.id == id } // Busca aldeano con ID
+        if (indice == -1) return false
+
+        val original = aldeanos[indice]
+        if (original !is Cesante) return false // Verifica que cumpla el requisito para ser empleado
+
+        aldeanos[indice] = Empleado(original.id, original.nombre, original.posicion, profesion) // Reemplaza instancia por otra con mismos datos + profesión
+        return true
+    }
+    fun eliminarAldeano(id: Int): Boolean {
+        if (id < 1) return false
+
+        val indice = aldeanos.indexOfFirst { it.id == id }
+        if (indice == -1) return false
+
+        aldeanos.removeAt(indice)
+        return true
     }
     
     //Menú Admin
