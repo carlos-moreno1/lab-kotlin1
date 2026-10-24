@@ -48,7 +48,6 @@ class Servidor() { // Volver Object singleton
         return true
     }
     
-    /*CONSIDERAR REPLANTEAR PARA HACER MÁS SENCILLA LA IMPLEMENTACIÓN Y UTIL PARA USUARIO*/
     fun buscarTradeo() {
         // Buscar por item deseado
         // Buscar segun profesion (crear otra funcion aparte)
