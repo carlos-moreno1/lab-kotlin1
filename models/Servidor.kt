@@ -3,10 +3,6 @@ package cl.ucm.models
 class Servidor() { // Volver Object singleton
     private val usuarios: MutableList<Usuario> = mutableListOf()
     private val aldeanos: MutableList<Aldeano> = mutableListOf() // Considerar hacer 3 listas según status y una lista con esas 3 listas
-    private var proximoId = 1
-    
-    //Funciones auxiliares
-    private fun siguienteId(): Int = proximoId++ // En esta forma NO reutiliza las IDs de aldeanos ya eliminados
     
     //Menú LogIn
     fun register(nombre: String, password: String): Boolean {
@@ -52,13 +48,12 @@ class Servidor() { // Volver Object singleton
         return true
     }
     
-    fun buscarTradeo() {
-        // Buscar por item deseado
-        // Buscar segun profesion (crear otra funcion aparte)
+    fun buscarTradeo(item: String): Boolean {
+        // Buscar item deseado (que vende aldeano)
     }
     
-    fun cerrarSesion() {
-        //Considerar definir como funcion de Consola y no aqui
+    fun buscarProfesion(profesion: String): Boolean {
+        // Imprime lista con datos de aldeanos con la profesión indicada
     }
     
     //Menú Pro y Admin
@@ -66,7 +61,7 @@ class Servidor() { // Volver Object singleton
     /*Separar para dos casos generales: Empleado y NO empleado*/
     fun agregarAldeanoEmpleado(nombre: String, posicion: String, profesion: String): Boolean {
         try {
-            aldeanos.add(Empleado(siguienteId(), nombre, posicion, profesion))
+            aldeanos.add(Empleado(nombre, posicion, profesion))
             return true    
         }
         catch (e: IllegalArgumentException) {
@@ -76,8 +71,8 @@ class Servidor() { // Volver Object singleton
     fun agregarAldeanoNoEmpleado(nombre: String, posicion: String, status: String): Boolean {
         try {
             when (status) {
-                "Cesante" -> aldeanos.add(Cesante(siguienteId(), nombre, posicion))
-                "Nitwit" -> aldeanos.add(Nitwit(siguienteId(), nombre, posicion))
+                "Cesante" -> aldeanos.add(Cesante(nombre, posicion))
+                "Nitwit" -> aldeanos.add(Nitwit(nombre, posicion))
                 else -> return false
             }
             return true    
@@ -86,24 +81,15 @@ class Servidor() { // Volver Object singleton
             return false
         }
     }
-    fun emplearAldeano(id: Int, profesion: String): Boolean {
-        if (id < 1)  return false // Verifica id valido
-        
-        val indice = aldeanos.indexOfFirst { it.id == id } // Busca aldeano con ID
-        if (indice == -1) return false
-
-        val original = aldeanos[indice]
+    fun emplearAldeano(indice: Int, profesion: String): Boolean {
+        val original = aldeanos.getOrNull(indice) ?: return false
         if (original !is Cesante) return false // Verifica que cumpla el requisito para ser empleado
 
-        aldeanos[indice] = Empleado(original.id, original.nombre, original.posicion, profesion) // Reemplaza instancia por otra con mismos datos + profesión
+        aldeanos[indice] = Empleado(original.nombre, original.posicion, profesion) // Reemplaza instancia por otra con mismos datos + profesión
         return true
     }
-    fun eliminarAldeano(id: Int): Boolean {
-        if (id < 1) return false
-
-        val indice = aldeanos.indexOfFirst { it.id == id }
-        if (indice == -1) return false
-
+    fun eliminarAldeano(indice: Int): Boolean {
+        if (indice !in aldeanos.indices) return false
         aldeanos.removeAt(indice)
         return true
     }

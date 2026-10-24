@@ -1,11 +1,10 @@
 package cl.ucm.models
 
-abstract class Aldeano(val id: Int, val nombre: String, val posicion: String) {
+abstract class Aldeano(val nombre: String, val posicion: String) {
     init {
         require(nombre.isNotBlank()) {"Nombre no ingresado."}
         require(posicion.isNotBlank()) {"Posición no ingresada."}
     }
-    constructor(id: Int, posicion: String): this(id, "Unknown", posicion)
     
     abstract val status: String
     
@@ -16,7 +15,7 @@ abstract class Aldeano(val id: Int, val nombre: String, val posicion: String) {
     }
 }
 
-class Empleado(id: Int, nombre: String, posicion: String, val profesion: String): Aldeano(id, nombre, posicion) {
+class Empleado(nombre: String, posicion: String, val profesion: String): Aldeano(nombre, posicion) {
     override val status: String = "Empleado"
     private val tradeos: MutableList<Tradeo> = mutableListOf()
     
@@ -53,10 +52,10 @@ class Empleado(id: Int, nombre: String, posicion: String, val profesion: String)
     }
 }
 
-class Cesante(id: Int, nombre: String, posicion: String): Aldeano(id, nombre, posicion) {
+class Cesante(nombre: String, posicion: String): Aldeano(nombre, posicion) {
     override val status: String = "Cesante"
 }
 
-class Nitwit(id: Int, nombre: String, posicion: String): Aldeano(id, nombre, posicion) {
+class Nitwit(nombre: String, posicion: String): Aldeano(nombre, posicion) {
     override val status: String = "Nitwit"
 }
