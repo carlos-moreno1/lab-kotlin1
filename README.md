@@ -112,7 +112,7 @@ classDiagram
         + profesion: String
         - tradeos: MutableList~Tradeo~
         + obtenerTradeo(): List~Tradeo~
-        + agregarTradeo(itemPago: String, cantidadPago: Int, itemVende: String, cantidadVende: Int): Boolean
+        + agregarTradeo(itemPago: String, cantPago: Int, itemVenta: String, cantVenta: Int): Boolean
     }
 
     class Cesante {
@@ -125,9 +125,9 @@ classDiagram
 
     class Tradeo {
         + itemPago: String
-        + cantidadPago: Int
-        + itemVende: String
-        + cantidadVende: Int 
+        + cantPago: Int
+        + itemVenta: String
+        + cantVenta: Int
     }
 
     %% HERENCIA

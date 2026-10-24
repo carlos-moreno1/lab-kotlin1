@@ -1,19 +1,42 @@
 package cl.ucm.models
 
-class Servidor() { // Volver Object singleton
+/**
+ * Administra los usuarios y aldeanos registrados, y ofrece operaciones para consultarlos y modificarlos.
+ */
+class Servidor() {
     private val usuarios: MutableList<Usuario> = mutableListOf()
-    private val aldeanos: MutableList<Aldeano> = mutableListOf() // Considerar hacer 3 listas según status y una lista con esas 3 listas
+    private val aldeanos: MutableList<Aldeano> = mutableListOf()
     
-    //Menú LogIn
+    /**
+     * Registra un usuario nuevo si el nombre aún no está en uso.
+     *
+     * @param nombre Nombre que identificará al usuario.
+     * @param password Contraseña del usuario.
+     * @return `true` si el usuario se registra; `false` si el nombre ya existe.
+     */
     fun register(nombre: String, password: String): Boolean {
         if (usuarios.any { it.nombre == nombre }) return false
         usuarios.add(Noob(nombre, password))
         return true
     }
+
+    /**
+     * Valida el intento de inicio de sesión de un usuario registrado.
+     *
+     * @param nombre Nombre del usuario.
+     * @param password Contraseña que se desea verificar.
+     * @return `true` si nombre y contraseña coinciden; `false` si no existe el usuario o la contraseña no coincide.
+     */
     fun login(nombre: String, password: String): Boolean {
         val usuario = usuarios.firstOrNull { it.nombre == nombre } ?: return false
         return usuario.verificarPassword(password)
     }
+
+    /**
+     * Muestra los usuarios registrados y su tipo por consola.
+     *
+     * @return `true` si se muestra al menos un usuario; `false` si la lista está vacía.
+     */
     fun mostrarUsuarios():Boolean {
         if (usuarios.isEmpty()) return false
 
@@ -30,6 +53,11 @@ class Servidor() { // Volver Object singleton
     }
     
     //Menú Principal
+    /**
+     * Muestra en la consola una vista superficial de los datos de los aldeanos registrados en el sistema.
+     *
+     * @return `true` si se muestra al menos un aldeano; `false` si la lista está vacía.
+     */
     fun verListaAldeanos():Boolean {
         if (aldeanos.isEmpty()) return false
         aldeanos.forEachIndexed { index, aldeano ->
@@ -37,12 +65,26 @@ class Servidor() { // Volver Object singleton
         }
         return true
     }
+
+    /**
+     * Muestra los datos del aldeano correspondiente al identificador indicado.
+     *
+     * @param id Identificador del aldeano, comenzando en 1.
+     * @return `true` si existe el aldeano; `false` si el identificador no es válido.
+     */
     fun verDatosAldeano(id: Int): Boolean {
         if (id < 1) return false
         val aldeano = aldeanos.getOrNull(id - 1) ?: return false
         aldeano.verDatos()
         return true
     }
+
+    /**
+     * Muestra los intercambios del aldeano empleado correspondiente al identificador indicado.
+     *
+     * @param id Identificador del aldeano, comenzando en 1.
+     * @return `true` si el identificador corresponde a un empleado; `false` en caso contrario.
+     */
     fun verTradeosAldeano(id: Int): Boolean {
         if (id < 1) return false
         val aldeano = aldeanos.getOrNull(id - 1) as? Empleado ?: return false
@@ -58,9 +100,14 @@ class Servidor() { // Volver Object singleton
         // Imprime lista con datos de aldeanos con la profesión indicada
     }
     
-    //Menú Pro y Admin
-    
-    /*Separar para dos casos generales: Empleado y NO empleado*/
+    /**
+     * Crea y registra un aldeano empleado.
+     *
+     * @param nombre Nombre del aldeano.
+     * @param posicion Posición del aldeano.
+     * @param profesion Profesión del aldeano.
+     * @return `true` si se registra el aldeano; `false` si alguno de sus datos no es válido.
+     */
     fun agregarAldeanoEmpleado(nombre: String, posicion: String, profesion: String): Boolean {
         try {
             aldeanos.add(Empleado(nombre, posicion, profesion))
@@ -70,6 +117,15 @@ class Servidor() { // Volver Object singleton
             return false
         }
     }
+
+    /**
+     * Crea y registra un aldeano sin empleo según el estado indicado.
+     *
+     * @param nombre Nombre del aldeano.
+     * @param posicion Posición del aldeano.
+     * @param status Estado del aldeano; debe ser `"Cesante"` o `"Nitwit"`.
+     * @return `true` si se registra el aldeano; `false` si el estado o alguno de sus datos no es válido.
+     */
     fun agregarAldeanoNoEmpleado(nombre: String, posicion: String, status: String): Boolean {
         try {
             when (status) {
@@ -83,6 +139,14 @@ class Servidor() { // Volver Object singleton
             return false
         }
     }
+
+    /**
+     * Cambia a empleado al aldeano cesante indicado.
+     *
+     * @param id Identificador del aldeano, comenzando en 1.
+     * @param profesion Profesión que se le asignará al aldeano.
+     * @return `true` si el aldeano cesante fue empleado; `false` si el identificador no es válido o no corresponde a un cesante.
+     */
     fun emplearAldeano(id: Int, profesion: String): Boolean {
         if (id < 1) return false
         val indice = id - 1
@@ -92,6 +156,13 @@ class Servidor() { // Volver Object singleton
         aldeanos[indice] = Empleado(original.nombre, original.posicion, profesion) // Reemplaza instancia por otra con mismos datos + profesión
         return true
     }
+
+    /**
+     * Elimina de la lista al aldeano con el identificador indicado.
+     *
+     * @param id Identificador del aldeano, comenzando en 1.
+     * @return `true` si se eliminó el aldeano; `false` si el identificador no es válido.
+     */
     fun eliminarAldeano(id: Int): Boolean {
         if (id < 1) return false
         val indice = id - 1
@@ -100,7 +171,6 @@ class Servidor() { // Volver Object singleton
         return true
     }
     
-    //Menú Admin
     fun agregarTradeo()
     fun eliminarTradeo()
     fun promoverUsuario() {
