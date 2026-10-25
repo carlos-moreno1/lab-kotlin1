@@ -116,6 +116,13 @@ class Admin(nombre: String, password: String): Usuario(nombre, password, 3) {
         return "[$nombre - ADMIN]: Control Total (Nivel $permisos)"
     }
 
+    /**
+     * Elimina un usuario del sistema delegando la instruccion al servidor.
+     *
+     * @param servidor Instancia activa del servidor.
+     * @param nickname Nombre del usuario a expulsar.
+     * @return 'true' si se expulso el usuario, 'false' si no se encontro.
+     */
     fun expulsarUsuario(servidor: Servidor, nickname: String): Boolean {
         println("Expulsando al usuario $nickname")
         return servidor.banearUsuario(nickname)
