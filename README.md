@@ -110,7 +110,6 @@ classDiagram
     class Empleado {
         + status: String
         + profesion: String
-        - tradeos: MutableList~Tradeo~
         + obtenerTradeo(): List~Tradeo~
         + agregarTradeo(itemPago: String, cantPago: Int, itemVenta: String, cantVenta: Int): Boolean
     }
