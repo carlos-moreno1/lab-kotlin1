@@ -5,10 +5,34 @@ import cl.ucm.models.*
 // GRUPO: BENJAMÍN MUÑOZ BALBOA, CARLOS ROJAS VALDÉS, CARLOS MORENO ROJAS, MANUEL ASTUDILLO AYALA.
 
 fun main () {
+    
+    val servidor = Servidor()
+    var opcion: int
+    var sesionIniciada = false
+
+    do{
+        Consola.menuLogin() // muestra el menu
+        opcion= Consola.leerOpcion()    //seleccionamos una opcion
+        when(Opcion){
+            1-> {
+                sesionIniciada =Consola.inicioSesion(servidor)
+            }
+            2->{
+                Consola.registrarSesion(servidor)
+            }
+            3->{
+                println("Cerrando programa")
+            }
+            else->{
+                println("selecciona una opcion valida")
+            }
+        }
+    } while(opcion != 3 && !sesionIniciada)
+    /*  
     val Consola = Consola()
     val Opcion = Consola.leerOpcion()
 
-    val servidor = Servidor()
+   
 
     val Aldeano = Aldeano()    
         val Empleado = Empleado()
@@ -16,7 +40,6 @@ fun main () {
         val Cesante = Cesante()
         val Nitwit = Nitwit()
     val Usuario= Usuario()
-        val
 
 
 
@@ -31,7 +54,7 @@ fun main () {
 
 
 
-   /* //Menú Principal
+    //Menú Principal
     verDatosAldeano()
     buscarTradeo()
     cerrarSesion()
