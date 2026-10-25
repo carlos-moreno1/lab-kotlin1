@@ -26,11 +26,12 @@ class Servidor() {
      *
      * @param nombre Nombre del usuario.
      * @param password Contraseña que se desea verificar.
-     * @return `true` si nombre y contraseña coinciden; `false` si no existe el usuario o la contraseña no coincide.
+     * @return El usuario si el inicio de sesión es válido; `null` si no existe, está baneado o la contraseña no coincide.
      */
-    fun login(nombre: String, password: String): Boolean {
-        val usuario = usuarios.firstOrNull { it.nombre == nombre } ?: return false
-        return usuario.verificarPassword(password)
+    fun login(nombre: String, password: String): Usuario? {
+        val usuario = usuarios.firstOrNull { it.nombre == nombre } ?: return null
+        if (usuario is Baneado || !usuario.verificarPassword(password)) return null
+        return usuario
     }
 
     /**
@@ -46,6 +47,7 @@ class Servidor() {
             val tipo = when (usuario) {
                 is Pro -> "Pro"
                 is Admin -> "Admin"
+                is Baneado -> "Baneado"
                 else -> "Noob"
             }
             println("${index + 1}. ${usuario.nombre} ($tipo)")
@@ -257,20 +259,59 @@ class Servidor() {
         }
         return true
     }
-    fun promoverUsuario(): Boolean {
-        // Solo de Noob a Pro
+
+    /**
+     * Promueve a un usuario de tipo [Noob] a [Pro], conservando sus datos de acceso.
+     *
+     * @param nombre Nombre del usuario que se desea promover.
+     * @return `true` si el usuario existe y es [Noob]; `false` en caso contrario.
+     */
+    fun promoverUsuario(nombre: String): Boolean {
+        val indice = usuarios.indexOfFirst { it.nombre == nombre }
+        if (indice == -1) return false
+
+        val usuario = usuarios[indice]
+        if (usuario !is Noob) return false
+
+        usuarios[indice] = Pro(usuario.nombre, usuario.password)
+        return true
     }
-    fun banearUsuario(): Boolean {
-        val usuarioEncontrado = usuarios.find { it.nombre == nickname }
-        return if (usuarioEncontrado != null) {
-            usuarios.remove(usuarioEncontrado)
-            println("Usuario $nickname baneado exitosamente.")
-            true
-        } else {
-            println("El usuario $nickname no existe.")
-            false
+
+    /**
+     * Convierte en [Baneado] al usuario indicado, excepto si es [Admin].
+     *
+     * @param nombre Nombre del usuario que se desea banear.
+     * @return `true` si el usuario existe y no es [Admin]; `false` si no existe o es administrador.
+     */
+    fun banearUsuario(nombre: String): Boolean {
+        val indice = usuarios.indexOfFirst { it.nombre == nombre }
+        if (indice == -1) {
+            println("El usuario $nombre no existe.")
+            return false
         }
-        // Considerar hacer lista de baneados y que no se pueda registrar nadie con ese nombre (opcional)
+
+        val usuario = usuarios[indice]
+        if (usuario is Admin) return false
+
+        usuarios[indice] = Baneado(usuario.nombre, usuario.password)
+        println("Usuario $nombre baneado exitosamente.")
+        return true
     }
-    
+
+    /**
+     * Desbanea al usuario indicado y lo convierte en [Noob].
+     *
+     * @param nombre Nombre del usuario que se desea desbanear.
+     * @return `true` si el usuario existe y es [Baneado]; `false` en caso contrario.
+     */
+    fun desbanearUsuario(nombre: String): Boolean {
+        val indice = usuarios.indexOfFirst { it.nombre == nombre }
+        if (indice == -1) return false
+
+        val usuario = usuarios[indice]
+        if (usuario !is Baneado) return false
+
+        usuarios[indice] = Noob(usuario.nombre, usuario.password)
+        return true
+    }
 }
