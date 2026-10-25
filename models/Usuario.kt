@@ -1,5 +1,12 @@
 package cl.ucm.models
 
+/**
+ * Clase abstracta que define las propiedades y comportamientos comunes de todos los usuarios del sistema.
+ *
+ * @property nombre Identificador o nombre de usuario
+ * @property password Contraseña de acceso, encapsulada y protegida para las subclases.
+ * @property permisos Nivel numerico de privilegios asociado al rol de usuario.
+ */
 abstract class Usuario(val nombre: String, protected val password: String, val permisos: Int) {
     constructor(nombre: String, permisos: Int) : this(nombre, "123456", permisos) //permite crear usuario solo con un nombre y asigna contraseña por defecto
 
