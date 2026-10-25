@@ -6,13 +6,28 @@ package cl.ucm.models
  * @property nombre Nombre del aldeano.
  * @property posicion Ubicación o posición del aldeano dentro del juego.
  */
-abstract class Aldeano(val nombre: String, val posicion: String) {
+abstract class Aldeano(val nombre: String, posicion: String) {
+    var posicion: String = posicion
+        private set
+
     init {
         require(nombre.isNotBlank()) {"Nombre no ingresado."}
         require(posicion.isNotBlank()) {"Posición no ingresada."}
     }
     
     abstract val status: String
+
+    /**
+     * Actualiza la posición del aldeano.
+     *
+     * @param nuevaPosicion Nueva posición; no puede estar vacía ni contener solo espacios.
+     * @return `true` si se actualizó; `false` si la posición no es válida.
+     */
+    fun cambiarPosicion(nuevaPosicion: String): Boolean {
+        if (nuevaPosicion.isBlank()) return false
+        posicion = nuevaPosicion
+        return true
+    }
     
     /**
      * Muestra por consola el nombre, el estado y la posición del aldeano.
