@@ -261,7 +261,15 @@ class Servidor() {
         // Solo de Noob a Pro
     }
     fun banearUsuario(): Boolean {
-        // Elimina de la lista de usuarios
+        val usuarioEncontrado = usuarios.find { it.nombre == nickname }
+        return if (usuarioEncontrado != null) {
+            usuarios.remove(usuarioEncontrado)
+            println("Usuario $nickname baneado exitosamente.")
+            true
+        } else {
+            println("El usuario $nickname no existe.")
+            false
+        }
         // Considerar hacer lista de baneados y que no se pueda registrar nadie con ese nombre (opcional)
     }
     
