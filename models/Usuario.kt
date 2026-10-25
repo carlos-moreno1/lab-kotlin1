@@ -27,6 +27,13 @@ abstract class Usuario(val nombre: String, protected val password: String, val p
         return (password == pass)
     }
 
+    /**
+     * Busca un tradeo especifico en los tradeos disponibles (delega la accion al servidor).
+     *
+     * @param servidor Instancia del servidor que procesa la busqueda.
+     * @param item Nombre del tradeo a buscar.
+     */
+
     fun consultarTradeos(servidor: Servidor, item: String) {
         println("Consultando base de datos...")
         servidor.buscarTradeo(item)
