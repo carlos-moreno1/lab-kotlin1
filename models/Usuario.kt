@@ -58,6 +58,9 @@ abstract class Usuario(val nombre: String, protected val password: String, val p
     abstract fun mostrarPermisos(): String
 }
 
+/**
+ * Representa a un usuario básico con nivel de privilegios 1 (solo lectura).
+ */
 class Noob(nombre: String, password: String): Usuario(nombre, password, 1) {
     constructor(nombre: String) : super(nombre, 1)
 
