@@ -106,6 +106,10 @@ class Pro(nombre: String, password: String): Usuario(nombre, password, 2) {
  * Representa a un administrador con nivel de privilegios 3 (control total).
  */
 class Admin(nombre: String, password: String): Usuario(nombre, password, 3) {
+
+    /**
+     * Constructor secundario que asigna la contraseña predeterminada del nivel admin.
+     */
     constructor(nombre: String) : super(nombre, 3)
 
     override fun mostrarPermisos(): String {
