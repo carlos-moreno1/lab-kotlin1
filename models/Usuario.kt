@@ -87,6 +87,15 @@ class Pro(nombre: String, password: String): Usuario(nombre, password, 2) {
         return "[$nombre - PRO]: Permisos de escritura (Nivel $permisos)"
     }
 
+    /**
+     * Registra un nuevo aldeano en la base de datos.
+     *
+     * @param servidor Instancia activa del servidor.
+     * @param nombre Nombre del aldeano.
+     * @param posicion Ubicacion del aldeano.
+     * @param profesion Profesion del aldeano.
+     * @return 'true' si el registro fue exitoso, 'false' en caso contrario.
+     */
     fun registrarNuevoAldeano(servidor: Servidor, nombre: String, posicion: String, profesion: String): Boolean {
         println("Registrando a $nombre como $profesion...")
         return servidor.agregarAldeanoEmpleado(nombre, posicion, profesion)
