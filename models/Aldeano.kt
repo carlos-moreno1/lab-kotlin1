@@ -71,6 +71,18 @@ class Empleado(nombre: String, posicion: String, val profesion: String): Aldeano
             return false
         }
     }
+
+    /**
+     * Elimina un intercambio usando el identificador mostrado al usuario, comenzando en 1.
+     *
+     * @param id Identificador del intercambio en la lista.
+     * @return `true` si se eliminó el intercambio; `false` si el identificador no es válido.
+     */
+    fun eliminarTradeo(id: Int): Boolean {
+        if (id !in 1..tradeos.size) return false
+        tradeos.removeAt(id - 1)
+        return true
+    }
     
     /**
      * Muestra por consola los intercambios registrados o indica si no hay ninguno.

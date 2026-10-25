@@ -92,12 +92,56 @@ class Servidor() {
         return true
     }
     
+    /**
+     * Busca y muestra todos los empleados que venden el artículo indicado.
+     *
+     * @param item Artículo que se busca en los intercambios.
+     * @return `true` si al menos un empleado vende el artículo; `false` en caso contrario.
+     */
     fun buscarTradeo(item: String): Boolean {
-        // Buscar item deseado (que vende aldeano)
+        var encontrado = false
+
+        for ((index, aldeano) in aldeanos.withIndex()) {
+            val empleado = aldeano as? Empleado ?: continue
+            val tradeosEncontrados = empleado.obtenerTradeo().filter { it.itemVenta == item }
+            if (tradeosEncontrados.isEmpty()) continue
+
+            encontrado = true
+            println("${index + 1}. ${empleado.nombre} (Ubicado en: ${empleado.posicion}):")
+            tradeosEncontrados.forEach { tradeo ->
+                println(" Vende: ${tradeo.cantVenta} ${tradeo.itemVenta}")
+                println(" Precio: ${tradeo.cantPago} ${tradeo.itemPago}")
+            }
+        }
+
+        if (!encontrado) {
+            println("No hay aldeanos que vendan $item.")
+            return false
+        }
+        return true
     }
     
+    /**
+     * Muestra los empleados que tienen la profesión indicada y su ubicación.
+     *
+     * @param profesion Profesión que se busca.
+     * @return `true` si se muestra al menos un empleado; `false` si no hay coincidencias.
+     */
     fun buscarProfesion(profesion: String): Boolean {
-        // Imprime lista con datos de aldeanos con la profesión indicada
+        var encontrado = false
+        for ((index, aldeano) in aldeanos.withIndex()) {
+            val empleado = aldeano as? Empleado ?: continue
+            if (empleado.profesion != profesion) continue
+
+            println("${index + 1}. ${empleado.nombre} (Ubicado en: ${empleado.posicion})")
+            encontrado = true
+        }
+
+        if (!encontrado) {
+            println("No hay aldeanos con la profesión $profesion.")
+            return false
+        }
+        return true
     }
     
     /**
@@ -171,12 +215,51 @@ class Servidor() {
         return true
     }
     
-    fun agregarTradeo()
-    fun eliminarTradeo()
-    fun promoverUsuario() {
+    /**
+     * Registra un intercambio en el empleado indicado.
+     *
+     * @return `true` si el intercambio se agregó; `false` si el empleado o los datos no son válidos.
+     */
+    fun agregarTradeo(
+        idAldeano: Int,
+        itemPago: String,
+        cantPago: Int,
+        itemVenta: String,
+        cantVenta: Int
+    ): Boolean {
+        val empleado = aldeanos.getOrNull(idAldeano - 1) as? Empleado
+        if (empleado == null) {
+            println("No existe un empleado con ese id.")
+            return false
+        }
+
+        return empleado.agregarTradeo(itemPago, cantPago, itemVenta, cantVenta)
+    }
+
+    /**
+     * Elimina del empleado indicado el intercambio con el identificador proporcionado.
+     *
+     * @param idAldeano Identificador del aldeano empleado, comenzando en 1.
+     * @param idTradeo Identificador del intercambio, comenzando en 1.
+     * @return `true` si el intercambio se eliminó; `false` si los identificadores no son válidos.
+     */
+    fun eliminarTradeo(idAldeano: Int, idTradeo: Int): Boolean {
+        val empleado = aldeanos.getOrNull(idAldeano - 1) as? Empleado
+        if (empleado == null) {
+            println("No existe un empleado con ese id.")
+            return false
+        }
+
+        if (!empleado.eliminarTradeo(idTradeo)) {
+            println("No existe un tradeo con ese id.")
+            return false
+        }
+        return true
+    }
+    fun promoverUsuario(): Boolean {
         // Solo de Noob a Pro
     }
-    fun banearUsuario() {
+    fun banearUsuario(): Boolean {
         // Elimina de la lista de usuarios
         // Considerar hacer lista de baneados y que no se pueda registrar nadie con ese nombre (opcional)
     }
