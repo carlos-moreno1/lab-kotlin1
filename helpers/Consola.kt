@@ -48,7 +48,7 @@ object Consola {
             usuarioLogueado
         } else {
             println("Inicio de sesión incorrecto.")
-            false
+            null
         }
     }
 
