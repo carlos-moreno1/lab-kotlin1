@@ -36,7 +36,7 @@ object Consola {
      *
      * @return `true` si las credenciales son válidas.
      */
-    fun inicioSesion(servidor: Servidor): Boolean {
+    fun inicioSesion(servidor: Servidor): Usuario? {
         print("Ingrese usuario: ")
         val usuario = readln()
         print("Ingrese contraseña: ")
