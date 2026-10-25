@@ -50,6 +50,11 @@ abstract class Usuario(val nombre: String, protected val password: String, val p
         servidor.verListaAldeanos()
     }
 
+    /**
+     * Devuelve una cadena con el rol y nivel de permisos del usuario.
+     *
+     * @return String con el detalle de los privilegios.
+     */
     abstract fun mostrarPermisos(): String
 }
 
