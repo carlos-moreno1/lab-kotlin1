@@ -39,6 +39,12 @@ abstract class Usuario(val nombre: String, protected val password: String, val p
         servidor.buscarTradeo(item)
     }
 
+    /**
+     * Solicita al servidor mostrar la lista de aldeanos registrados.
+     *
+     * @param servidor Instancia activa del servidor que contiene la informacion
+     */
+
     fun verMapaAldeanos(servidor: Servidor) {
         println("Mostrando mapa de posiciones...")
         servidor.verListaAldeanos()
