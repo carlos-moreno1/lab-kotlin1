@@ -1,30 +1,79 @@
 package cl.ucm.helpers
 import cl.ucm.models.*
-    
+
+/**
+ * Interfaz de consola de "Villager Management System".
+ *
+ * Concentra los menús, la lectura por teclado y el despacho de acciones hacia
+ * [servidor].
+ */
 class Consola {
     companion object {
-        
+
+        /**
+         * Lee una opción del menú desde la entrada estándar.
+         *
+         * Descarta entradas no numéricas o fuera de rango.
+         *
+         * @return la opción elegida, o `0` si la entrada es inválida o se cerró el flujo.
+         */
         fun leerOpcion(): Int {
-            val entrada = readlnOrNull() ?: return 0
             print("Elija opción: ")
-            return entrada.toIntOrNull()?.takeIf { it in 1..8 } ?: 0
+            val entrada = readlnOrNull() ?: return 0
+            return entrada.toIntOrNull()?.takeIf { it in 1..11 } ?: 0
         }
-        
-        // Menú inicial (Fuera de sesión)
+
+        /**
+         * Imprime el menú de inicio (fuera de sesión).
+         */
         fun menuLogin() {
             println("\n=== VILLAGER MANAGEMENT SYSTEM ===")
             println("1. Iniciar Sesión")
-            println("2. Salir")
+            println("2. Registrarse")
+            println("3. Salir")
             print("Elija opción: ")
         }
 
-    
+        /**
+         * Pide usuario y contraseña dos veces y registra la cuenta en [servidor].
+         *
+         * @return `true` si el registro fue exitoso; `false` si las contraseñas no
+         *   coinciden o el usuario ya existe.
+         * @see inicioSesion
+         */
+        fun registrarSesion(): Boolean {
+            print("Ingrese usuario: ")
+            val usuario = readln()
+            print("Ingrese contraseña: ")
+            val password = readln()
+            print("Confirme contraseña: ")
+            val passVer = readln()
+
+            return if (password == passVer) {
+                if (servidor.register(usuario, password)) {
+                    println("Registro de usuario exitoso.")
+                    true
+                } else {
+                    println("Registro de sesión incorrecto. El usuario podría ya existir.")
+                    false
+                }
+            } else {
+                println("Error: Las contraseñas no coinciden.")
+                false
+            }
+        }
+
+        /**
+         * Autentica al usuario en el [servidor].
+         *
+         * @return `true` si las credenciales son válidas.
+         */
         fun inicioSesion(): Boolean {
             print("Ingrese usuario: ")
             val usuario = readln()
             print("Ingrese contraseña: ")
             val password = readln()
-            
+
             return if (servidor.login(usuario, password)) {
                 println("Inicio de sesión exitoso.")
                 true
@@ -33,20 +82,12 @@ class Consola {
                 false
             }
         }
-        
-        // Menú secundario (Sesión iniciada)(TODOS)
-        fun menuPrincipal() {
-            println("\n--- MENÚ PRINCIPAL ---")
-            println("1. Mostrar datos")
-            println("2. Ver datos Aldeanos")
-            println("3. Agregar Aldeano")
-            println("4. Modificar Tradeos")
-            println("5. Emplear Aldeano")
-            println("6. Eliminar Aldeano")
-            println("7. Buscar intercambio")
-            println("8. Cerrar Sesión")
-        }
-        
+
+        /**
+         * Imprime el menú principal mostrando solo las opciones habilitadas.
+         *
+         * @param permisos nivel de acceso: `1` = Noob, `2` = Pro, `3` = Admin.
+         */
         fun menuPrincipal(permisos: Int) {
             println("\n--- MENÚ PRINCIPAL ---")
             var n = 1
@@ -70,29 +111,34 @@ class Consola {
                 println("${n++}. Banear Usuario")
             }
 
-            println("${n}. Cerrar Sesión") // Para volver al menu de login.
+            println("${n}. Cerrar Sesión") // Para volver al menú de login.
             print("Elija opción: ")
         }
 
+        /**
+         * Ejecuta el bucle de sesión hasta que el usuario elige «Cerrar Sesión».
+         *
+         * @param permisos nivel de acceso: `1` = Noob, `2` = Pro, `3` = Admin.
+         */
         fun sesion(permisos: Int) {
-        while (true) {
-            menuPrincipal(permisos)
+            while (true) {
+                menuPrincipal(permisos)
 
-            val acciones = mutableListOf<() -> Unit>()
+                val acciones = mutableListOf<() -> Unit>()
 
-                if (permisos >= 1) {
+                if (permisos == 1) {
                     acciones.add { servidor.verListaAldeanos() }
                     acciones.add { servidor.verDatosAldeano() }
                     acciones.add { servidor.buscarTradeo() }
                 }
 
-                if (permisos >= 2) {
+                if (permisos == 2) {
                     acciones.add { servidor.agregarAldeano() }
                     acciones.add { servidor.eliminarAldeano() }
                     acciones.add { servidor.emplearAldeano() }
                 }
 
-                if (permisos >= 3) {
+                if (permisos == 3) {
                     acciones.add { servidor.agregarTradeo() }
                     acciones.add { servidor.eliminarTradeo() }
                     acciones.add { servidor.promoverUsuario() }
@@ -108,6 +154,6 @@ class Consola {
                     else -> println("Opción inválida.")
                 }
             }
-        }  
+        }
     }
 }
