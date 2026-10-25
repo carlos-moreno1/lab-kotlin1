@@ -42,7 +42,8 @@ object Consola {
         print("Ingrese contraseña: ")
         val password = readln()
 
-        return if (servidor.login(usuario, password)) {
+        val usuarioLogueado = servidor.login(usuario, password)
+        return if (usuarioLogueado != null) {
             println("Inicio de sesión exitoso.")
             true
         } else {
