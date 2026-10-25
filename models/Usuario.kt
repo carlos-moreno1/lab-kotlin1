@@ -8,7 +8,20 @@ package cl.ucm.models
  * @property permisos Nivel numerico de privilegios asociado al rol de usuario.
  */
 abstract class Usuario(val nombre: String, protected val password: String, val permisos: Int) {
-    constructor(nombre: String, permisos: Int) : this(nombre, "123456", permisos) //permite crear usuario solo con un nombre y asigna contraseña por defecto
+    /**
+     * Constructor secundario que crea un usuario asignando una contraseña predefinida.
+     *
+     * @param nombre Nombre de usuario.
+     * @param permisos Nivel numerico de privilegios.
+     */
+    constructor(nombre: String, permisos: Int) : this(nombre, "123456", permisos)
+
+    /**
+     * Verifica si la contraseña coincide con la registrada.
+     *
+     * @param pass Contraseña a validar.
+     * @return 'true' si la contraseña es corecta, 'false' si es incorrecta.
+     */
 
     fun verificarPassword(pass: String): Boolean {
         return (password == pass)
