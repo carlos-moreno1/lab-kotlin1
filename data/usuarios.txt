@@ -1,0 +1,3 @@
+Noob,Alex,claveAlex123
+Pro,Sam,claveSam456
+Baneado,Robin,claveRobin789

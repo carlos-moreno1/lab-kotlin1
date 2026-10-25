@@ -1,12 +1,100 @@
 package cl.ucm.models
 
+import java.io.File
+import java.io.IOException
+
 /**
  * Administra los usuarios y aldeanos registrados, y ofrece operaciones para consultarlos y modificarlos.
  */
 class Servidor() {
     private val usuarios: MutableList<Usuario> = mutableListOf()
     private val aldeanos: MutableList<Aldeano> = mutableListOf()
-    
+
+    init {
+        usuarios.add(Admin("Notch", "miancra"))
+    }
+
+    /**
+     * Carga los aldeanos definidos en `aldeanos.txt`.
+     *
+     * El archivo debe contener una entrada por línea, con los campos separados por comas:
+     * estado, nombre, posición y, opcionalmente para empleados, profesión.
+     * Las líneas incompletas y los estados no reconocidos se omiten. Si el archivo no existe
+     * o no se puede leer, se informa el error por consola.
+     */
+    fun cargarAldeanos() {
+        val archivo = File("data/aldeanos.txt")
+        if (!archivo.exists()) {
+            println("Archivo 'aldeanos.txt' no encontrado. No se cargaron aldeanos.")
+            return
+        }
+
+        try {
+            for (linea in archivo.readLines()) {
+                val datos = linea.split(",")
+                if (datos.size < 3) continue
+
+                val tipo = datos[0].trim()
+                val nombre = datos[1].trim()
+                val posicion = datos[2].trim()
+
+                when (tipo) {
+                    "Empleado" -> {
+                        val profesion = if (datos.size >= 4) datos[3].trim() else "Librero"
+                        agregarAldeanoEmpleado(nombre, posicion, profesion)
+                    }
+                    "Cesante" -> agregarAldeanoNoEmpleado(nombre, posicion, "Cesante")
+                    "Nitwit" -> agregarAldeanoNoEmpleado(nombre, posicion, "Nitwit")
+                }
+            }
+            println("Datos iniciales cargados exitosamente desde 'aldeanos.txt'.")
+        } catch (e: IOException) {
+            println("Error al leer el archivo: ${e.message}")
+        }
+    }
+
+    /**
+     * Carga los usuarios definidos en `usuarios.txt`.
+     *
+     * El archivo debe contener una entrada por línea, con los campos separados por comas:
+     * tipo, nombre y contraseña. Los tipos válidos son `Noob`, `Pro` y `Baneado`;
+     * los administradores no se cargan desde el archivo.
+     * Las líneas incompletas, los tipos no reconocidos y los nombres ya registrados se omiten.
+     * Si el archivo no existe o no se puede leer, se informa el error por consola.
+     */
+    fun cargarUsuarios() {
+        val archivo = File("data/usuarios.txt")
+        if (!archivo.exists()) {
+            println("Archivo 'usuarios.txt' no encontrado. No se cargaron usuarios.")
+            return
+        }
+
+        try {
+            for (linea in archivo.readLines()) {
+                val datos = linea.split(",")
+                if (datos.size < 3) continue
+
+                val tipo = datos[0].trim()
+                val nombre = datos[1].trim()
+                val password = datos[2].trim()
+                if (nombre.isBlank() || password.isBlank()) continue
+                if (usuarios.any { it.nombre == nombre }) continue
+
+                val usuario = when (tipo) {
+                    "Noob" -> Noob(nombre, password)
+                    "Pro" -> Pro(nombre, password)
+                    "Baneado" -> Baneado(nombre, password)
+                    else -> null
+                }
+
+                if (usuario != null) usuarios.add(usuario)
+            }
+            println("Usuarios cargados exitosamente desde 'usuarios.txt'.")
+        } catch (e: IOException) {
+            println("Error al leer el archivo: ${e.message}")
+        }
+    }
+
     /**
      * Registra un usuario nuevo si el nombre aún no está en uso.
      *
