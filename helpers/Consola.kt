@@ -45,7 +45,7 @@ object Consola {
         val usuarioLogueado = servidor.login(usuario, password)
         return if (usuarioLogueado != null) {
             println("Inicio de sesión exitoso.")
-            true
+            usuarioLogueado
         } else {
             println("Inicio de sesión incorrecto.")
             false
