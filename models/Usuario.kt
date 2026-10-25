@@ -77,6 +77,10 @@ class Noob(nombre: String, password: String): Usuario(nombre, password, 1) {
  * Representa a un usuario intermedio con nivel de privilegios 2 (escritura y registro).
  */
 class Pro(nombre: String, password: String): Usuario(nombre, password, 2) {
+
+    /**
+     * Constructor secundario que asigna la contraseña predeterminada del nivel pro.
+     */
     constructor(nombre: String) : super(nombre, 2)
 
     override fun mostrarPermisos(): String {
