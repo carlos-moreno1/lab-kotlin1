@@ -1,7 +1,7 @@
 package cl.ucm.models
 
 abstract class Usuario(val nombre: String, protected val password: String, val permisos: Int) {
-    constructor(nombre: String, permisos: int) : this(nombre, "123456", permiso) //permite crear usuario solo con un nombre y asigna contraseña por defecto
+    constructor(nombre: String, permisos: Int) : this(nombre, "123456", permisos) //permite crear usuario solo con un nombre y asigna contraseña por defecto
 
     fun verificarPassword(pass: String): Boolean {
         return (password == pass)
@@ -53,7 +53,9 @@ class Admin(nombre: String, password: String): Usuario(nombre, password, 3) {
         return servidor.banearUsuario(nickname)
     }
 
-    fun mostrarDatos(): String {
-        return "Mostrando datos..."
+    fun mostrarDatos(servidor: Servidor): String {
+        println("Obteniendo registros del servidor...")
+        servidor.mostrarUsuarios()
+        return "Consulta de datos finalizada"
     }
 }
