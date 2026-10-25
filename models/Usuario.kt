@@ -128,6 +128,12 @@ class Admin(nombre: String, password: String): Usuario(nombre, password, 3) {
         return servidor.banearUsuario(nickname)
     }
 
+    /**
+     * Consulta y muestra todos los usuarios registrados del sistema.
+     *
+     * @param servidor Instancia activa del servidor.
+     * @return String Confirmacion de la ejecucion de la consulta.
+     */
     fun mostrarDatos(servidor: Servidor): String {
         println("Obteniendo registros del servidor...")
         servidor.mostrarUsuarios()
