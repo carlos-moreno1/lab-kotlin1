@@ -31,7 +31,6 @@ object Consola {
         return entrada.toIntOrNull()?.takeIf { it in 1..11 } ?: 0
     }
 
-    
     /**
      * Autentica al usuario en el [servidor].
      *
@@ -76,29 +75,26 @@ object Consola {
         }
     }
 
-
     /**
      * Imprime el menú principal mostrando solo las opciones habilitadas.
      *
-     * @param permisos nivel de acceso: "1" = Noob, "2" = Pro, "3" = Admin.
+     * @param usuario El objeto que representa al usuario autenticado y su rol.
      */
-    fun menuPrincipal(permisos: Int) {
+    fun menuPrincipal(usuario: Usuario) {
         println("\n--- MENÚ PRINCIPAL ---")
         var n = 1
 
-        if (permisos >= 1) {
-            println("${n++}. Ver Aldeanos")
-            println("${n++}. Ver datos Aldeanos")
-            println("${n++}. Buscar Intercambio")
-        }
+        println("${n++}. Ver Aldeanos")
+        println("${n++}. Ver datos Aldeanos")
+        println("${n++}. Buscar Intercambio")
 
-        if (permisos >= 2) {
+        if (usuario is Pro || usuario is Admin) {
             println("${n++}. Agregar Aldeano")
             println("${n++}. Eliminar Aldeano")
             println("${n++}. Emplear Aldeano")
         }
 
-        if (permisos >= 3) {
+        if (usuario is Admin) {
             println("${n++}. Agregar Tradeos")
             println("${n++}. Eliminar Tradeos")
             println("${n++}. Promover Usuario")
@@ -112,31 +108,137 @@ object Consola {
     /**
      * Ejecuta el bucle de sesión hasta que el usuario elige «Cerrar Sesión».
      *
-     * @param permisos nivel de acceso: "1" = Noob, "2" = Pro, "3" = Admin.
+     * @param servidor La instancia del servidor.
+     * @param usuario El objeto que representa al usuario autenticado y su rol ([Admin], [Pro] o [Noob]).
      */
-    fun sesion(servidor: Servidor, permisos: Int) {
+    fun sesion(servidor: Servidor, usuario: Usuario) {
         while (true) {
-            menuPrincipal(permisos)
+            menuPrincipal(usuario)
 
             val acciones = mutableListOf<() -> Unit>()
 
-            if (permisos >= 1) {
-                acciones.add { servidor.verListaAldeanos() }
-                acciones.add { servidor.verDatosAldeano() }
-                acciones.add { servidor.buscarTradeo() }
-            }
+            val accionesNoob = listOf<() -> Unit>(
+                { servidor.verListaAldeanos() },
+                {
+                    print("Ingrese ID del aldeano: ")
+                    val id = readln().toIntOrNull() ?: 0
+                    servidor.verDatosAldeano(id)
+                },
+                {
+                    print("Ingrese el item a buscar: ")
+                    val item = readln()
+                    servidor.buscarTradeo(item)
+                }
+            )
 
-            if (permisos >= 2) {
-                acciones.add { servidor.agregarAldeano() }
-                acciones.add { servidor.eliminarAldeano() }
-                acciones.add { servidor.emplearAldeano() }
-            }
+            val accionesPro = listOf<() -> Unit>(
+                {
+                    print("Ingrese nombre: ")
+                    val nombre = readln()
+                    print("Ingrese posicion: ")
+                    val pos = readln()
+                    print("Ingrese estado: ")
+                    val estado = readln()
+                    
+                    val exito = if (estado.equals("Empleado", ignoreCase = true)) {
+                        print("Ingrese profesion: ")
+                        servidor.agregarAldeanoEmpleado(nombre, pos, readln())
+                    } else {
+                        servidor.agregarAldeanoNoEmpleado(nombre, pos, estado)
+                    }
+                    
+                    if (exito) {
+                        println("Aldeano '$nombre' agregado exitosamente.")
+                    } else {
+                        println("Error: No se pudo agregar al aldeano.")
+                    }
+                },
+                {
+                    print("Ingrese ID del aldeano a eliminar: ")
+                    val id = readln().toIntOrNull() ?: 0
+                    if (servidor.eliminarAldeano(id)) {
+                        println("Aldeano con ID $id eliminado exitosamente.")
+                    } else {
+                        println("Error: No se pudo eliminar al aldeano. Verifique que el ID sea correcto.")
+                    }
+                },
+                {
+                    print("Ingrese ID del aldeano cesante: ")
+                    val id = readln().toIntOrNull() ?: 0
+                    print("Ingrese nueva profesion: ")
+                    val prof = readln()
+                    if (servidor.emplearAldeano(id, prof)) {
+                        println("Aldeano con ID $id empleado exitosamente como $prof.")
+                    } else {
+                        println("Error: No se pudo emplear al aldeano. Verifique el ID o su estado actual.")
+                    }
+                }
+            )
 
-            if (permisos >= 3) {
-                acciones.add { servidor.agregarTradeo() }
-                acciones.add { servidor.eliminarTradeo() }
-                acciones.add { servidor.promoverUsuario() }
-                acciones.add { servidor.banearUsuario() }
+            val accionesAdmin = listOf<() -> Unit>(
+                {
+                    print("ID del empleado: ")
+                    val id = readln().toIntOrNull() ?: 0
+                    print("Item de pago: ")
+                    val pago = readln()
+                    print("Cantidad de pago: ")
+                    val cantPago = readln().toIntOrNull() ?: 0
+                    print("Item en venta: ")
+                    val venta = readln()
+                    print("Cantidad en venta: ")
+                    val cantVenta = readln().toIntOrNull() ?: 0
+                    
+                    if (servidor.agregarTradeo(id, pago, cantPago, venta, cantVenta)) {
+                        println("Tradeo agregado exitosamente al aldeano con ID $id.")
+                    } else {
+                        println("Error: No se pudo agregar el tradeo. Verifique los datos ingresados.")
+                    }
+                },
+                {
+                    print("ID del empleado: ")
+                    val idE = readln().toIntOrNull() ?: 0
+                    print("ID del tradeo a eliminar: ")
+                    val idT = readln().toIntOrNull() ?: 0
+                    
+                    if (servidor.eliminarTradeo(idE, idT)) {
+                        println("Tradeo con ID $idT eliminado exitosamente del aldeano $idE.")
+                    } else {
+                        println("Error: No se pudo eliminar el tradeo.")
+                    }
+                },
+                {
+                    print("Nickname a promover: ")
+                    val nicknamePromover = readln()
+                    if (servidor.promoverUsuario(nicknamePromover)) {
+                        println("El usuario '$nicknamePromover' fue promovido exitosamente.")
+                    } else {
+                        println("Error: No se pudo promover al usuario '$nicknamePromover'.")
+                    }
+                },
+                {
+                    print("Nickname a banear: ")
+                    val nick = readln()
+                    if (servidor.banearUsuario(nick)) {
+                        println("El usuario '$nick' fue BANEADO con éxito.")
+                    } else {
+                        println("Error: No se pudo banear al usuario '$nick'.")
+                    }
+                }
+            )
+
+            when (usuario) {
+                is Admin -> {
+                    acciones.addAll(accionesNoob)
+                    acciones.addAll(accionesPro)
+                    acciones.addAll(accionesAdmin)
+                }
+                is Pro -> {
+                    acciones.addAll(accionesNoob)
+                    acciones.addAll(accionesPro)
+                }
+                is Noob -> {
+                    acciones.addAll(accionesNoob)
+                }
             }
 
             when (val opcion = leerOpcion()) {
