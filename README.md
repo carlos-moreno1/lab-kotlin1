@@ -394,18 +394,36 @@ Reglas de carga:
 - Los nicknames duplicados se omiten (se conserva el primero cargado).
 - Los usuarios de tipo `Admin` se rechazan; el único administrador es el creado en el código.
 
-### `data/entrada.txt`
+### Entradas de ejemplo
 
-Contiene una secuencia de respuestas de teclado pensada para ejecutar el programa sin interacción
-manual, por ejemplo:
+El proyecto incluye dos secuencias de respuestas de teclado para ejecutar el programa sin
+interacción manual:
+
+- **`data/entrada_normal.txt`:** recorre el registro de un usuario, las funciones disponibles para
+  `Noob` y `Pro`, su promoción por `Notch`, el baneo y desbaneo, y el acceso posterior del usuario.
+- **`data/entrada_errores.txt`:** prueba errores de entrada, validaciones y operaciones inválidas
+  de usuarios, aldeanos y tradeos.
+
+Ejecuta uno de los ejemplos desde la raíz del proyecto, donde están disponibles las rutas de
+`data/`:
+
+**Linux y macOS:**
 
 ```bash
-java -jar villager-management.jar < data/entrada.txt
+java -jar villager-management.jar < data/entrada_normal.txt
+java -jar villager-management.jar < data/entrada_errores.txt
 ```
 
-La secuencia debe respetar el orden de los menús y terminar con la opción `Salir`; de lo
+**Windows:**
+
+```bat
+java -jar .\villager-management.jar < .\data\entrada_normal.txt
+java -jar .\villager-management.jar < .\data\entrada_errores.txt
+```
+
+Cada secuencia debe respetar el orden de los menús y terminar con la opción `Salir`; de lo
 contrario, el programa puede quedar esperando entrada o terminar de forma abrupta. Si se modifica
-el menú, este archivo debe actualizarse.
+el menú, actualiza los archivos de entrada correspondientes.
 
 ## Compilación y ejecución
 
