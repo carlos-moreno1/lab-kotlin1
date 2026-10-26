@@ -34,7 +34,7 @@ class Noob(nombre: String, password: String): Usuario(nombre, password) {
     /**
      * Crea un usuario con la contraseña predeterminada.
      */
-    constructor(nombre: String) : super(nombre)
+    constructor(nombre: String) : this(nombre, "123456")
 }
 
 /**
@@ -44,7 +44,7 @@ class Pro(nombre: String, password: String): Usuario(nombre, password) {
     /**
      * Crea un usuario con la contraseña predeterminada.
      */
-    constructor(nombre: String) : super(nombre)
+    constructor(nombre: String) : this(nombre, "123456")
 }
 
 /**
@@ -54,7 +54,7 @@ class Admin(nombre: String, password: String): Usuario(nombre, password) {
     /**
      * Crea un administrador con la contraseña predeterminada.
      */
-    constructor(nombre: String) : super(nombre)
+    constructor(nombre: String) : this(nombre, "123456")
 }
 
 /**
@@ -64,5 +64,5 @@ class Baneado(nombre: String, password: String): Usuario(nombre, password) {
     /**
      * Crea un usuario baneado con la contraseña predeterminada.
      */
-    constructor(nombre: String) : super(nombre)
+    constructor(nombre: String) : this(nombre, "123456")
 }
