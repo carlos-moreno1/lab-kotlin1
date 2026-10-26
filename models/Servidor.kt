@@ -285,7 +285,6 @@ class Servidor() {
     fun agregarAldeanoEmpleado(nombre: String, posicion: String, profesion: String): Boolean {
         try {
             aldeanos.add(Empleado(nombre, posicion, profesion))
-            println(Colores.exito("\nAldeano '$nombre' agregado exitosamente."))
             return true    
         }
         catch (e: IllegalArgumentException) {
@@ -312,7 +311,6 @@ class Servidor() {
                     return false
                 }
             }
-            println(Colores.exito("\nAldeano '$nombre' agregado exitosamente."))
             return true    
         }
         catch (e: IllegalArgumentException) {

@@ -160,9 +160,13 @@ object Consola {
                     
                     if (estado.equals("Empleado", ignoreCase = true)) {
                         print("Ingrese profesion: ")
-                        servidor.agregarAldeanoEmpleado(nombre, pos, readln())
+                        if (servidor.agregarAldeanoEmpleado(nombre, pos, readln())) {
+                            println(Colores.exito("\nAldeano '$nombre' agregado exitosamente."))
+                        }
                     } else {
-                        servidor.agregarAldeanoNoEmpleado(nombre, pos, estado)
+                        if (servidor.agregarAldeanoNoEmpleado(nombre, pos, estado)) {
+                            println(Colores.exito("\nAldeano '$nombre' agregado exitosamente."))
+                        }
                     }
                 },
                 {
