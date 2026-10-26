@@ -24,14 +24,14 @@ class Servidor() {
         val archivo = File("data/aldeanos.txt")
         try {
             if (!archivo.exists()) {
-                println("Error de lectura: No se encontró el archivo 'data/aldeanos.txt'.")
+                println("\nError de lectura: No se encontró el archivo 'data/aldeanos.txt'.")
                 return
             }
 
             for ((indice, linea) in archivo.readLines().withIndex()) {
                 val datos = linea.split(",")
                 if (datos.size < 3) {
-                    println("Error de formato: Se omitió la línea ${indice + 1} de 'data/aldeanos.txt'.")
+                    println("\nError de formato: Se omitió la línea ${indice + 1} de 'data/aldeanos.txt'.")
                     continue
                 }
 
@@ -47,16 +47,16 @@ class Servidor() {
                     "Cesante" -> agregarAldeanoNoEmpleado(nombre, posicion, "Cesante")
                     "Nitwit" -> agregarAldeanoNoEmpleado(nombre, posicion, "Nitwit")
                     else -> {
-                        println("Error de formato: Tipo de aldeano desconocido en la línea ${indice + 1} de 'data/aldeanos.txt'.")
+                        println("\nError de formato: Tipo de aldeano desconocido en la línea ${indice + 1} de 'data/aldeanos.txt'.")
                         continue
                     }
                 }
             }
-            println("Datos iniciales cargados exitosamente desde 'data/aldeanos.txt'.")
+            println("\nDatos iniciales cargados exitosamente desde 'data/aldeanos.txt'.")
         } catch (e: IOException) {
-            println("Error de lectura: No se pudo leer 'data/aldeanos.txt': ${e.message}")
+            println("\nError de lectura: No se pudo leer 'data/aldeanos.txt': ${e.message}")
         } catch (e: SecurityException) {
-            println("Error de acceso: No se pudo acceder a 'data/aldeanos.txt': ${e.message}")
+            println("\nError de acceso: No se pudo acceder a 'data/aldeanos.txt': ${e.message}")
         }
     }
 
@@ -69,14 +69,14 @@ class Servidor() {
         val archivo = File("data/usuarios.txt")
         try {
             if (!archivo.exists()) {
-                println("Error de lectura: No se encontró el archivo 'data/usuarios.txt'.")
+                println("\nError de lectura: No se encontró el archivo 'data/usuarios.txt'.")
                 return
             }
 
             for ((indice, linea) in archivo.readLines().withIndex()) {
                 val datos = linea.split(",")
                 if (datos.size < 3) {
-                    println("Error de formato: Se omitió la línea ${indice + 1} de 'data/usuarios.txt'.")
+                    println("\nError de formato: Se omitió la línea ${indice + 1} de 'data/usuarios.txt'.")
                     continue
                 }
 
@@ -84,7 +84,7 @@ class Servidor() {
                 val nombre = datos[1].trim()
                 val password = datos[2].trim()
                 if (nombre.isBlank() || password.isBlank()) {
-                    println("Error de validación: Nombre o contraseña vacíos en la línea ${indice + 1} de 'data/usuarios.txt'.")
+                    println("\nError de validación: Nombre o contraseña vacíos en la línea ${indice + 1} de 'data/usuarios.txt'.")
                     continue
                 }
                 if (usuarios.any { it.nombre == nombre }) continue
@@ -94,22 +94,22 @@ class Servidor() {
                     "Pro" -> Pro(nombre, password)
                     "Baneado" -> Baneado(nombre, password)
                     "Admin" -> {
-                        println("Error de validación: No se permite cargar usuarios de tipo Admin.")
+                        println("\nError de validación: No se permite cargar usuarios de tipo Admin.")
                         null
                     }
                     else -> {
-                        println("Error de formato: Tipo de usuario desconocido en la línea ${indice + 1} de 'data/usuarios.txt'.")
+                        println("\nError de formato: Tipo de usuario desconocido en la línea ${indice + 1} de 'data/usuarios.txt'.")
                         null
                     }
                 }
 
                 if (usuario != null) usuarios.add(usuario)
             }
-            println("Usuarios cargados exitosamente desde 'data/usuarios.txt'.")
+            println("\nUsuarios cargados exitosamente desde 'data/usuarios.txt'.")
         } catch (e: IOException) {
-            println("Error de lectura: No se pudo leer 'data/usuarios.txt': ${e.message}")
+            println("\nError de lectura: No se pudo leer 'data/usuarios.txt': ${e.message}")
         } catch (e: SecurityException) {
-            println("Error de acceso: No se pudo acceder a 'data/usuarios.txt': ${e.message}")
+            println("\nError de acceso: No se pudo acceder a 'data/usuarios.txt': ${e.message}")
         }
     }
 
@@ -149,7 +149,8 @@ class Servidor() {
     fun mostrarUsuarios():Boolean {
         if (usuarios.isEmpty()) return false
 
-        println("Usuarios registrados:")
+        println("\nUSUARIOS REGISTRADOS")
+        println("--------------------")
         usuarios.forEachIndexed { index, usuario ->
             val tipo = when (usuario) {
                 is Pro -> "Pro"
@@ -169,7 +170,8 @@ class Servidor() {
      */
     fun verListaAldeanos():Boolean {
         if (aldeanos.isEmpty()) return false
-        println("\nLISTA DE ALDEANOS:")
+        println("\nALDEANOS REGISTRADOS")
+        println("--------------------")
         aldeanos.forEachIndexed { index, aldeano ->
             println("Id: ${index + 1}. Nombre: ${aldeano.nombre}. Status: ${aldeano.status}.")
         }
@@ -238,19 +240,26 @@ class Servidor() {
      * @return `true` si hay coincidencias; `false` en caso contrario.
      */
     fun buscarProfesion(profesion: String): Boolean {
-        var encontrado = false
-        for ((index, aldeano) in aldeanos.withIndex()) {
-            val empleado = aldeano as? Empleado ?: continue
-            if (empleado.profesion != profesion) continue
-
-            println("${index + 1}. ${empleado.nombre} (Ubicado en: ${empleado.posicion})")
-            encontrado = true
+        val empleadosEncontrados = aldeanos.withIndex().mapNotNull { (index, aldeano) ->
+            val empleado = aldeano as? Empleado
+            if (empleado != null && empleado.profesion == profesion) {
+                index to empleado
+            } else {
+                null
+            }
         }
 
-        if (!encontrado) {
+        if (empleadosEncontrados.isEmpty()) {
             println("No hay aldeanos con la profesión $profesion.")
             return false
         }
+
+        println("\nALDEANOS ENCONTRADOS")
+        println("--------------------")
+        for ((index, empleado) in empleadosEncontrados) {
+            println("${index + 1}. ${empleado.nombre} (Ubicado en: ${empleado.posicion})")
+        }
+
         return true
     }
     
@@ -268,7 +277,7 @@ class Servidor() {
             return true    
         }
         catch (e: IllegalArgumentException) {
-            println("Error de validación: ${e.message ?: "Datos de aldeano inválidos."}")
+            println("\nError de validación: ${e.message ?: "Datos de aldeano inválidos."}")
             return false
         }
     }
@@ -287,7 +296,7 @@ class Servidor() {
                 "Cesante" -> aldeanos.add(Cesante(nombre, posicion))
                 "Nitwit" -> aldeanos.add(Nitwit(nombre, posicion))
                 else -> {
-                    println("Error de validación: El estado del aldeano no es válido.")
+                    println("\nError de validación: El estado del aldeano no es válido.")
                     return false
                 }
             }
@@ -316,7 +325,7 @@ class Servidor() {
             aldeanos[indice] = Empleado(original.nombre, original.posicion, profesion)
             true
         } catch (e: IllegalArgumentException) {
-            println("Error de validación: ${e.message ?: "Datos de aldeano inválidos."}")
+            println("\nError de validación: ${e.message ?: "Datos de aldeano inválidos."}")
             false
         }
     }
