@@ -158,38 +158,25 @@ object Consola {
                     print("Ingrese estado: ")
                     val estado = readln()
                     
-                    val exito = if (estado.equals("Empleado", ignoreCase = true)) {
+                    if (estado.equals("Empleado", ignoreCase = true)) {
                         print("Ingrese profesion: ")
                         servidor.agregarAldeanoEmpleado(nombre, pos, readln())
                     } else {
                         servidor.agregarAldeanoNoEmpleado(nombre, pos, estado)
                     }
-                    
-                    if (exito) {
-                        println(Colores.exito("\nAldeano '$nombre' agregado exitosamente."))
-                    } else {
-                        println(Colores.error("\nError: No se pudo agregar al aldeano."))
-                    }
                 },
                 {
                     print("Ingrese ID del aldeano a eliminar: ")
                     val id = readln().toIntOrNull() ?: 0
-                    if (servidor.eliminarAldeano(id)) {
-                        println(Colores.exito("\nAldeano con ID $id eliminado exitosamente."))
-                    } else {
-                        println(Colores.error("\nError: No se pudo eliminar al aldeano. Verifique que el ID sea correcto."))
-                    }
+                    servidor.eliminarAldeano(id)
                 },
                 {
                     print("Ingrese ID del aldeano cesante: ")
                     val id = readln().toIntOrNull() ?: 0
                     print("Ingrese nueva profesion: ")
                     val prof = readln()
-                    if (servidor.emplearAldeano(id, prof)) {
-                        println(Colores.exito("\nAldeano con ID $id empleado exitosamente como $prof."))
-                    } else {
-                        println(Colores.error("\nError: No se pudo emplear al aldeano. Verifique el ID o su estado actual."))
-                    }
+                    
+                    servidor.emplearAldeano(id, prof)
                 }
             )
 
@@ -206,23 +193,14 @@ object Consola {
                     print("Cantidad en venta: ")
                     val cantVenta = readln().toIntOrNull() ?: 0
                     
-                    if (servidor.agregarTradeo(id, pago, cantPago, venta, cantVenta)) {
-                        println(Colores.exito("\nTradeo agregado exitosamente al aldeano con ID $id."))
-                    } else {
-                        println(Colores.error("\nError: No se pudo agregar el tradeo. Verifique los datos ingresados."))
-                    }
+                    servidor.agregarTradeo(id, pago, cantPago, venta, cantVenta)
                 },
                 {
                     print("ID del empleado: ")
                     val idE = readln().toIntOrNull() ?: 0
                     print("ID del tradeo a eliminar: ")
                     val idT = readln().toIntOrNull() ?: 0
-                    
-                    if (servidor.eliminarTradeo(idE, idT)) {
-                        println(Colores.exito("\nTradeo con ID $idT eliminado exitosamente del aldeano $idE."))
-                    } else {
-                        println(Colores.error("\nError: No se pudo eliminar el tradeo."))
-                    }
+                    servidor.eliminarTradeo(idE, idT)
                 },
                 {
                     servidor.mostrarUsuarios()
@@ -230,29 +208,17 @@ object Consola {
                 {
                     print("Nickname a promover: ")
                     val nicknamePromover = readln()
-                    if (servidor.promoverUsuario(nicknamePromover)) {
-                        println(Colores.exito("\nEl usuario '$nicknamePromover' fue promovido exitosamente."))
-                    } else {
-                        println(Colores.error("\nError: No se pudo promover al usuario '$nicknamePromover'."))
-                    }
+                    servidor.promoverUsuario(nicknamePromover)
                 },
                 {
                     print("Nickname para Unban: ")
                     val nick = readln()
-                    if (servidor.desbanearUsuario(nick)) {
-                        println(Colores.exito("\nEl usuario '$nick' se le realizo Unban con éxito."))
-                    } else {
-                        println(Colores.error("\nError: No se pudo realizar Unban al usuario '$nick'."))
-                    }
+                    servidor.desbanearUsuario(nick)
                 },
                 {
                     print("Nickname a banear: ")
                     val nick = readln()
-                    if (servidor.banearUsuario(nick)) {
-                        println(Colores.exito("\nEl usuario '$nick' fue BANEADO con éxito."))
-                    } else {
-                        println(Colores.error("\nError: No se pudo banear al usuario '$nick'."))
-                    }
+                    servidor.banearUsuario(nick)
                 }
             )
 

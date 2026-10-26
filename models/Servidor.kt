@@ -285,6 +285,7 @@ class Servidor() {
     fun agregarAldeanoEmpleado(nombre: String, posicion: String, profesion: String): Boolean {
         try {
             aldeanos.add(Empleado(nombre, posicion, profesion))
+            println(Colores.exito("\nAldeano '$nombre' agregado exitosamente."))
             return true    
         }
         catch (e: IllegalArgumentException) {
@@ -307,10 +308,11 @@ class Servidor() {
                 "Cesante" -> aldeanos.add(Cesante(nombre, posicion))
                 "Nitwit" -> aldeanos.add(Nitwit(nombre, posicion))
                 else -> {
-                    println(Colores.error("\nError de validación: El estado del aldeano no es válido."))
+                    println(Colores.error("\nError: El estado del aldeano no es válido."))
                     return false
                 }
             }
+            println(Colores.exito("\nAldeano '$nombre' agregado exitosamente."))
             return true    
         }
         catch (e: IllegalArgumentException) {
@@ -329,11 +331,18 @@ class Servidor() {
     fun emplearAldeano(id: Int, profesion: String): Boolean {
         if (id < 1) return false
         val indice = id - 1
-        val original = aldeanos.getOrNull(indice) ?: return false
-        if (original !is Cesante) return false
+        val original = aldeanos.getOrNull(indice) ?: {
+            println(Colores.error("\nError: No se encontró un aldeano con ID $id."))
+            return false
+        }
+        if (original !is Cesante) {
+            println(Colores.error("\nError: El aldeano con ID $id no puede ser empleado."))
+            return false
+        }
 
         return try {
             aldeanos[indice] = Empleado(original.nombre, original.posicion, profesion)
+            println(Colores.exito("\nAldeano con ID $id empleado exitosamente como $profesion."))
             true
         } catch (e: IllegalArgumentException) {
             println(Colores.error("\nError de validación: ${e.message ?: "Datos de aldeano inválidos."}"))
@@ -348,10 +357,18 @@ class Servidor() {
      * @return `true` si se elimina; `false` si el identificador no es válido.
      */
     fun eliminarAldeano(id: Int): Boolean {
-        if (id < 1) return false
+        if (id < 1) {
+            println(Colores.error("\nError: ID inválido."))
+            return false
+        }
+         
         val indice = id - 1
-        if (indice !in aldeanos.indices) return false
+        if (indice !in aldeanos.indices) {
+            println(Colores.error("\nError: No se encontró un aldeano con ID $id."))
+            return false
+        }
         aldeanos.removeAt(indice)
+        println(Colores.exito("\nAldeano con ID $id eliminado exitosamente."))
         return true
     }
     
@@ -374,11 +391,17 @@ class Servidor() {
     ): Boolean {
         val empleado = aldeanos.getOrNull(idAldeano - 1) as? Empleado
         if (empleado == null) {
-            println(Colores.error("\nError: No se encontró un empleado con el identificador $idAldeano."))
+            println(Colores.error("\nError: No se encontró un empleado con el ID $idAldeano."))
             return false
         }
-
-        return empleado.agregarTradeo(itemPago, cantPago, itemVenta, cantVenta)
+        val cumplimiento = empleado.agregarTradeo(itemPago, cantPago, itemVenta, cantVenta)
+        
+        if (cumplimiento) {
+            println(Colores.exito("\nTradeo añadido exitosamente."))
+        } else {
+            println(Colores.error("\nError: No se pudo añadir el tradeo."))
+        }
+        return cumplimiento
     }
 
     /**
@@ -391,14 +414,16 @@ class Servidor() {
     fun eliminarTradeo(idAldeano: Int, idTradeo: Int): Boolean {
         val empleado = aldeanos.getOrNull(idAldeano - 1) as? Empleado
         if (empleado == null) {
-            println(Colores.error("\nError: No se encontró un empleado con el identificador $idAldeano."))
+            println(Colores.error("\nError: No se encontró un empleado con el ID $idAldeano."))
             return false
         }
 
         if (!empleado.eliminarTradeo(idTradeo)) {
-            println(Colores.error("\nError: No se encontró el intercambio con el identificador $idTradeo."))
+            println(Colores.error("\nError: No se encontró el intercambio con el ID $idTradeo."))
             return false
         }
+        
+        println(Colores.exito("\nTradeo con ID $idTradeo eliminado exitosamente del aldeano con ID $idAldeano."))
         return true
     }
 
@@ -410,12 +435,19 @@ class Servidor() {
      */
     fun promoverUsuario(nombre: String): Boolean {
         val indice = usuarios.indexOfFirst { it.nombre == nombre }
-        if (indice == -1) return false
+        if (indice == -1) {
+            println(Colores.error("\nError: No se encontró el usuario '$nombre'."))
+            return false
+        }
 
         val usuario = usuarios[indice]
-        if (usuario !is Noob) return false
+        if (usuario !is Noob) {
+            println(Colores.error("\nError: El usuario '$nombre' no puede ser promovido."))
+            return false
+        }
 
         usuarios[indice] = Pro(usuario.nombre, usuario.password)
+        println(Colores.exito("\nEl usuario '$nombre' fue promovido a Pro."))
         return true
     }
 
@@ -433,10 +465,17 @@ class Servidor() {
         }
 
         val usuario = usuarios[indice]
-        if (usuario is Admin) return false
+        if (usuario is Admin) {
+            println(Colores.error("\nError: No se puede banear a un Admin."))
+            return false  
+        } 
+        if (usuario is Baneado) {
+            println(Colores.error("\nError: El usuario '$nombre' ya está baneado."))
+            return false
+        }
 
         usuarios[indice] = Baneado(usuario.nombre, usuario.password)
-        println(Colores.exito("Usuario $nombre baneado exitosamente."))
+        println(Colores.exito("\nEl usuario '$nombre' fue BANEADO con éxito."))
         return true
     }
 
@@ -448,12 +487,19 @@ class Servidor() {
      */
     fun desbanearUsuario(nombre: String): Boolean {
         val indice = usuarios.indexOfFirst { it.nombre == nombre }
-        if (indice == -1) return false
+        if (indice == -1) {
+            println(Colores.error("\nError: Usuario '$nombre' no encontrado."))
+            return false
+        }
 
         val usuario = usuarios[indice]
-        if (usuario !is Baneado) return false
-
+        if (usuario !is Baneado) {
+            println(Colores.error("\nError: Usuario '$nombre' no está Baneado."))
+            return false
+        }
+        
         usuarios[indice] = Noob(usuario.nombre, usuario.password)
+        println(Colores.exito("\nEl usuario '$nick' ha sido desbaneado con éxito."))
         return true
     }
 }
