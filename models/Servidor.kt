@@ -15,24 +15,29 @@ class Servidor() {
     }
 
     /**
-     * Carga los aldeanos definidos en `aldeanos.txt`.
+     * Carga los aldeanos definidos en `data/aldeanos.txt`.
      *
-     * El archivo debe contener una entrada por línea, con los campos separados por comas:
-     * estado, nombre, posición y, opcionalmente para empleados, profesión.
-     * Las líneas incompletas y los estados no reconocidos se omiten. Si el archivo no existe
-     * o no se puede leer, se informa el error por consola.
+     * El archivo, relativo al directorio de ejecución, debe contener una entrada por línea
+     * con los campos separados por comas: estado, nombre, posición y, opcionalmente para
+     * empleados, profesión. Si no se indica profesión, se usa `"Librero"`.
+     * Las líneas incompletas y los estados no reconocidos se omiten. Si no se puede crear un
+     * aldeano con los datos de una línea, se informa por consola. Si el archivo no existe o no
+     * se puede leer, también se informa el error.
      */
     fun cargarAldeanos() {
         val archivo = File("data/aldeanos.txt")
-        if (!archivo.exists()) {
-            println("Archivo 'aldeanos.txt' no encontrado. No se cargaron aldeanos.")
-            return
-        }
-
         try {
-            for (linea in archivo.readLines()) {
+            if (!archivo.exists()) {
+                println("Error de lectura: No se encontró el archivo 'data/aldeanos.txt'.")
+                return
+            }
+
+            for ((indice, linea) in archivo.readLines().withIndex()) {
                 val datos = linea.split(",")
-                if (datos.size < 3) continue
+                if (datos.size < 3) {
+                    println("Error de formato: Se omitió la línea ${indice + 1} de 'data/aldeanos.txt'.")
+                    continue
+                }
 
                 val tipo = datos[0].trim()
                 val nombre = datos[1].trim()
@@ -45,53 +50,75 @@ class Servidor() {
                     }
                     "Cesante" -> agregarAldeanoNoEmpleado(nombre, posicion, "Cesante")
                     "Nitwit" -> agregarAldeanoNoEmpleado(nombre, posicion, "Nitwit")
+                    else -> {
+                        println("Error de formato: Tipo de aldeano desconocido en la línea ${indice + 1} de 'data/aldeanos.txt'.")
+                        continue
+                    }
                 }
             }
-            println("Datos iniciales cargados exitosamente desde 'aldeanos.txt'.")
+            println("Datos iniciales cargados exitosamente desde 'data/aldeanos.txt'.")
         } catch (e: IOException) {
-            println("Error al leer el archivo: ${e.message}")
+            println("Error de lectura: No se pudo leer 'data/aldeanos.txt': ${e.message}")
+        } catch (e: SecurityException) {
+            println("Error de acceso: No se pudo acceder a 'data/aldeanos.txt': ${e.message}")
         }
     }
 
     /**
-     * Carga los usuarios definidos en `usuarios.txt`.
+     * Carga los usuarios definidos en `data/usuarios.txt`.
      *
      * El archivo debe contener una entrada por línea, con los campos separados por comas:
      * tipo, nombre y contraseña. Los tipos válidos son `Noob`, `Pro` y `Baneado`;
      * los administradores no se cargan desde el archivo.
-     * Las líneas incompletas, los tipos no reconocidos y los nombres ya registrados se omiten.
-     * Si el archivo no existe o no se puede leer, se informa el error por consola.
+     * Las líneas incompletas, los tipos no reconocidos, los campos vacíos y los nombres ya
+     * registrados se omiten.
+     * Si el archivo no existe o no se puede leer por falta de permisos, se informa el error por consola.
      */
     fun cargarUsuarios() {
         val archivo = File("data/usuarios.txt")
-        if (!archivo.exists()) {
-            println("Archivo 'usuarios.txt' no encontrado. No se cargaron usuarios.")
-            return
-        }
-
         try {
-            for (linea in archivo.readLines()) {
+            if (!archivo.exists()) {
+                println("Error de lectura: No se encontró el archivo 'data/usuarios.txt'.")
+                return
+            }
+
+            for ((indice, linea) in archivo.readLines().withIndex()) {
                 val datos = linea.split(",")
-                if (datos.size < 3) continue
+                if (datos.size < 3) {
+                    println("Error de formato: Se omitió la línea ${indice + 1} de 'data/usuarios.txt'.")
+                    continue
+                }
 
                 val tipo = datos[0].trim()
                 val nombre = datos[1].trim()
                 val password = datos[2].trim()
-                if (nombre.isBlank() || password.isBlank()) continue
+                if (nombre.isBlank() || password.isBlank()) {
+                    println("Error de validación: Nombre o contraseña vacíos en la línea ${indice + 1} de 'data/usuarios.txt'.")
+                    continue
+                }
                 if (usuarios.any { it.nombre == nombre }) continue
 
                 val usuario = when (tipo) {
                     "Noob" -> Noob(nombre, password)
                     "Pro" -> Pro(nombre, password)
                     "Baneado" -> Baneado(nombre, password)
-                    else -> null
+                    "Admin" -> {
+                        println("Error de validación: No se permite cargar usuarios de tipo Admin.")
+                        null
+                    }
+                    else -> {
+                        println("Error de formato: Tipo de usuario desconocido en la línea ${indice + 1} de 'data/usuarios.txt'.")
+                        null
+                    }
                 }
 
                 if (usuario != null) usuarios.add(usuario)
             }
-            println("Usuarios cargados exitosamente desde 'usuarios.txt'.")
+            println("Usuarios cargados exitosamente desde 'data/usuarios.txt'.")
         } catch (e: IOException) {
-            println("Error al leer el archivo: ${e.message}")
+            println("Error de lectura: No se pudo leer 'data/usuarios.txt': ${e.message}")
+        } catch (e: SecurityException) {
+            println("Error de acceso: No se pudo acceder a 'data/usuarios.txt': ${e.message}")
         }
     }
 
@@ -100,11 +127,12 @@ class Servidor() {
      *
      * @param nombre Nombre que identificará al usuario.
      * @param password Contraseña del usuario.
+     * @param passwordConfirm Confirmación de la contraseña.
      * @return `true` si el usuario se registra; `false` si el nombre ya existe o si contraseña no coincide.
      */
-    fun register(nombre: String, password: String, passVer: String): Boolean {
+    fun register(nombre: String, password: String, passwordConfirm: String): Boolean {
         if (usuarios.any { it.nombre == nombre }) return false
-        if (password != passVer) return false
+        if (password != passwordConfirm) return false
         usuarios.add(Noob(nombre, password))
         return true
     }
@@ -187,7 +215,8 @@ class Servidor() {
      * Busca y muestra todos los empleados que venden el artículo indicado.
      *
      * @param item Artículo que se busca en los intercambios.
-     * @return `true` si al menos un empleado vende el artículo; `false` en caso contrario.
+     * @return `true` si al menos un empleado vende un artículo con el nombre exacto indicado;
+     * `false` si no hay coincidencias.
      */
     fun buscarTradeo(item: String): Boolean {
         var encontrado = false
@@ -249,6 +278,7 @@ class Servidor() {
             return true    
         }
         catch (e: IllegalArgumentException) {
+            println("Error de validación: ${e.message ?: "Datos de aldeano inválidos."}")
             return false
         }
     }
@@ -266,11 +296,15 @@ class Servidor() {
             when (status) {
                 "Cesante" -> aldeanos.add(Cesante(nombre, posicion))
                 "Nitwit" -> aldeanos.add(Nitwit(nombre, posicion))
-                else -> return false
+                else -> {
+                    println("Error de validación: El estado del aldeano no es válido.")
+                    return false
+                }
             }
             return true    
         }
         catch (e: IllegalArgumentException) {
+            println("Error de validación: ${e.message ?: "Datos de aldeano inválidos."}")
             return false
         }
     }
@@ -280,7 +314,7 @@ class Servidor() {
      *
      * @param id Identificador del aldeano, comenzando en 1.
      * @param profesion Profesión que se le asignará al aldeano.
-     * @return `true` si el aldeano cesante fue empleado; `false` si el identificador no es válido o no corresponde a un cesante.
+     * @return `true` si el aldeano cesante fue empleado; `false` si el identificador no es válido, no corresponde a un cesante o la profesión no es válida.
      */
     fun emplearAldeano(id: Int, profesion: String): Boolean {
         if (id < 1) return false
@@ -288,8 +322,13 @@ class Servidor() {
         val original = aldeanos.getOrNull(indice) ?: return false
         if (original !is Cesante) return false // Verifica que cumpla el requisito para ser empleado
 
-        aldeanos[indice] = Empleado(original.nombre, original.posicion, profesion) // Reemplaza instancia por otra con mismos datos + profesión
-        return true
+        return try {
+            aldeanos[indice] = Empleado(original.nombre, original.posicion, profesion)
+            true
+        } catch (e: IllegalArgumentException) {
+            println("Error de validación: ${e.message ?: "Datos de aldeano inválidos."}")
+            false
+        }
     }
 
     /**
@@ -309,6 +348,11 @@ class Servidor() {
     /**
      * Registra un intercambio en el empleado indicado.
      *
+     * @param idAldeano Identificador del aldeano empleado, comenzando en 1.
+     * @param itemPago Artículo que se recibe como pago.
+     * @param cantPago Cantidad del artículo de pago.
+     * @param itemVenta Artículo que ofrece el empleado.
+     * @param cantVenta Cantidad del artículo ofrecido.
      * @return `true` si el intercambio se agregó; `false` si el empleado o los datos no son válidos.
      */
     fun agregarTradeo(
@@ -320,7 +364,7 @@ class Servidor() {
     ): Boolean {
         val empleado = aldeanos.getOrNull(idAldeano - 1) as? Empleado
         if (empleado == null) {
-            println("No existe un empleado con ese id.")
+            println("Error: No se encontró un empleado con el identificador $idAldeano.")
             return false
         }
 
@@ -337,12 +381,12 @@ class Servidor() {
     fun eliminarTradeo(idAldeano: Int, idTradeo: Int): Boolean {
         val empleado = aldeanos.getOrNull(idAldeano - 1) as? Empleado
         if (empleado == null) {
-            println("No existe un empleado con ese id.")
+            println("Error: No se encontró un empleado con el identificador $idAldeano.")
             return false
         }
 
         if (!empleado.eliminarTradeo(idTradeo)) {
-            println("No existe un tradeo con ese id.")
+            println("Error: No se encontró el intercambio con el identificador $idTradeo.")
             return false
         }
         return true
@@ -374,7 +418,7 @@ class Servidor() {
     fun banearUsuario(nombre: String): Boolean {
         val indice = usuarios.indexOfFirst { it.nombre == nombre }
         if (indice == -1) {
-            println("El usuario $nombre no existe.")
+            println("Error: No se encontró el usuario '$nombre'.")
             return false
         }
 

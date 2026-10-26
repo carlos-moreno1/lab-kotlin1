@@ -11,14 +11,17 @@ fun main () {
     var sesionIniciada = false
 
     do{
-        Consola.menuLogin() // muestra el menu
-        opcion= Consola.leerOpcion()    //seleccionamos una opcion
-        when(Opcion){
+        Consola.menuLogin()                                                          // muestra el menu
+        opcion= Consola.leerOpcion()                                                 //seleccionamos una opcion
+        when(Opcion){                                                                //respuestas a la opcion elegida  
             1-> {
-                sesionIniciada =Consola.inicioSesion(servidor)
+                sesionIniciada = Consola.inicioSesion(servidor)
+                if (sesionIniciada ){
+                    Consola.sesion(servidor, 1)                                     //creo que era asi favor revisar            /*Ejecuta el inicio de sesion y abre el menu principal */
+                }
             }
             2->{
-                Consola.registrarSesion(servidor)
+                Consola.registrarSesion(servidor)                                   //registra un nuevo usuario
             }
             3->{
                 println("Cerrando programa")
@@ -27,47 +30,6 @@ fun main () {
                 println("selecciona una opcion valida")
             }
         }
-    } while(opcion != 3 && !sesionIniciada)
-    /*  
-    val Consola = Consola()
-    val Opcion = Consola.leerOpcion()
-
-   
-
-    val Aldeano = Aldeano()    
-        val Empleado = Empleado()
-                val tradeo = Tradeo()
-        val Cesante = Cesante()
-        val Nitwit = Nitwit()
-    val Usuario= Usuario()
-
-
-
-
-
-    Consola.menuLogin()
-    Consola.inicioSesion()
-    Consola.menuPrincipal()
-
-
-
-
-
-
-    //Menú Principal
-    verDatosAldeano()
-    buscarTradeo()
-    cerrarSesion()
-    
-    //Menú Pro
-    agregarAldeano()
-    modificarTradeos()
-    emplearAldeano()
-    eliminarAldeano()
-    
-    //Menú Admin
-    ascender()
-    banear()
-     */
-
+    } while(opcion != 3)                                             //el ciclo termina cuando se escoge la opcion de salida
+ 
 }

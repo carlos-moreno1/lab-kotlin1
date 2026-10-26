@@ -7,6 +7,7 @@ package cl.ucm.models
  * @property cantPago Cantidad del artículo de pago; debe ser mayor que cero.
  * @property itemVenta Nombre del artículo que se ofrece en venta.
  * @property cantVenta Cantidad del artículo ofrecido; debe ser mayor que cero.
+ * @throws IllegalArgumentException Si los nombres de los artículos están vacíos o alguna cantidad no es positiva.
  */
 class Tradeo (
     val itemPago: String,
@@ -15,9 +16,9 @@ class Tradeo (
     val cantVenta: Int
 ) {
     init {
-        require(itemPago.isNotBlank()) { "Item de pago inválido" }
-        require(itemVenta.isNotBlank()) { "Item en venta inválido" }
-        require(cantPago > 0) { "Cantidad de item de pago inválida" }
-        require(cantVenta > 0) { "Cantidad de item en venta inválida" }
+        require(itemPago.isNotBlank()) { "El artículo de pago no puede estar vacío." }
+        require(itemVenta.isNotBlank()) { "El artículo en venta no puede estar vacío." }
+        require(cantPago > 0) { "La cantidad del artículo de pago debe ser mayor que cero." }
+        require(cantVenta > 0) { "La cantidad del artículo en venta debe ser mayor que cero." }
     }
 }
