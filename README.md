@@ -501,8 +501,6 @@ classDiagram
     }
 
     class Servidor {
-        -MutableList~Usuario~ usuarios
-        -MutableList~Aldeano~ aldeanos
         +cargarUsuarios() void
         +cargarAldeanos() void
         +register(nombre: String, password: String, passwordConfirm: String) Boolean
@@ -546,7 +544,6 @@ classDiagram
     class Empleado {
         +String status
         +String profesion
-        -MutableList~Tradeo~ tradeos
         +verDatos() void
         +obtenerTradeo() List~Tradeo~
         +agregarTradeo(itemPago: String, cantPago: Int, itemVenta: String, cantVenta: Int) Boolean
