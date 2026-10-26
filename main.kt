@@ -1,7 +1,16 @@
 import helpers.*
 import models.*
 
-// GRUPO: BENJAMÍN MUÑOZ BALBOA, CARLOS ROJAS VALDÉS, CARLOS MORENO ROJAS, MANUEL ASTUDILLO AYALA.
+    
+/*
+ * GRUPO: BENJAMÍN MUÑOZ BALBOA, CARLOS ROJAS VALDÉS, CARLOS MORENO ROJAS, MANUEL ASTUDILLO AYALA.
+ *
+ * COMANDO COMPILACIÓN:
+ * kotlinc .\main.kt .\helpers\Consola.kt .\helpers\Colores.kt .\models\Aldeano.kt .\models\Servidor.kt .\models\Tradeo.kt .\models\Usuario.kt -include-runtime -d .\programa.jar
+ * 
+ * COMANDO EJECUCIÓN:
+ * java -jar .\programa.jar
+ */
 
 /**
  * Punto de entrada principal del "Villager Management System".
