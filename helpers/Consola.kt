@@ -27,7 +27,7 @@ object Consola {
     fun leerOpcion(): Int {
         print("Elija opción: ")
         val entrada = readlnOrNull() ?: return 0
-        return entrada.toIntOrNull()?.takeIf { it in 1..11 } ?: 0
+        return entrada.toIntOrNull()?.takeIf { it > 0 } ?: 0
     }
 
     /**
@@ -131,17 +131,17 @@ object Consola {
                 {
                     print("Ingrese ID del aldeano: ")
                     val id = readln().toIntOrNull() ?: 0
-                    servidor.verTradeosAldeano(id)
-                },
-                {
-                    print("Ingrese ID del aldeano: ")
-                    val id = readln().toIntOrNull() ?: 0
                     servidor.verDatosAldeano(id)
                 },
                 {
                     print("Ingrese el item a buscar: ")
                     val item = readln()
                     servidor.buscarTradeo(item)
+                },
+                {
+                    print("Ingrese ID del aldeano: ")
+                    val id = readln().toIntOrNull() ?: 0
+                    servidor.verTradeosAldeano(id)
                 }
             )
 
@@ -240,7 +240,7 @@ object Consola {
                     } else {
                         println("Error: No se pudo realizar Unban al usuario '$nick'.")
                     }
-                }
+                },
                 {
                     print("Nickname a banear: ")
                     val nick = readln()

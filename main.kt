@@ -37,7 +37,7 @@ fun main() {
                 println("Cerrando programa...")
             }
             else -> {
-                println("Seleccione una opción válida.")
+                println(Colores.error("Seleccione una opción válida."))
             }
         }
     } while(opcion != 3)

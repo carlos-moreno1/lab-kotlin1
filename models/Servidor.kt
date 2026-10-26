@@ -1,5 +1,6 @@
 package models
 
+import helpers.Colores
 import java.io.File
 import java.io.IOException
 
@@ -24,14 +25,14 @@ class Servidor() {
         val archivo = File("data/aldeanos.txt")
         try {
             if (!archivo.exists()) {
-                println("\nError de lectura: No se encontró el archivo 'data/aldeanos.txt'.")
+                println(Colores.error("\nError de lectura: No se encontró el archivo 'data/aldeanos.txt'."))
                 return
             }
 
             for ((indice, linea) in archivo.readLines().withIndex()) {
                 val datos = linea.split(",")
                 if (datos.size < 3) {
-                    println("\nError de formato: Se omitió la línea ${indice + 1} de 'data/aldeanos.txt'.")
+                    println(Colores.error("\nError de formato: Se omitió la línea ${indice + 1} de 'data/aldeanos.txt'."))
                     continue
                 }
 
@@ -47,16 +48,16 @@ class Servidor() {
                     "Cesante" -> agregarAldeanoNoEmpleado(nombre, posicion, "Cesante")
                     "Nitwit" -> agregarAldeanoNoEmpleado(nombre, posicion, "Nitwit")
                     else -> {
-                        println("\nError de formato: Tipo de aldeano desconocido en la línea ${indice + 1} de 'data/aldeanos.txt'.")
+                        println(Colores.error("\nError de formato: Tipo de aldeano desconocido en la línea ${indice + 1} de 'data/aldeanos.txt'."))
                         continue
                     }
                 }
             }
-            println("\nDatos iniciales cargados exitosamente desde 'data/aldeanos.txt'.")
+            println(Colores.exito("\nDatos iniciales cargados exitosamente desde 'data/aldeanos.txt'."))
         } catch (e: IOException) {
-            println("\nError de lectura: No se pudo leer 'data/aldeanos.txt': ${e.message}")
+            println(Colores.error("\nError de lectura: No se pudo leer 'data/aldeanos.txt': ${e.message}"))
         } catch (e: SecurityException) {
-            println("\nError de acceso: No se pudo acceder a 'data/aldeanos.txt': ${e.message}")
+            println(Colores.error("\nError de acceso: No se pudo acceder a 'data/aldeanos.txt': ${e.message}"))
         }
     }
 
@@ -69,14 +70,14 @@ class Servidor() {
         val archivo = File("data/usuarios.txt")
         try {
             if (!archivo.exists()) {
-                println("\nError de lectura: No se encontró el archivo 'data/usuarios.txt'.")
+                println(Colores.error("\nError de lectura: No se encontró el archivo 'data/usuarios.txt'."))
                 return
             }
 
             for ((indice, linea) in archivo.readLines().withIndex()) {
                 val datos = linea.split(",")
                 if (datos.size < 3) {
-                    println("\nError de formato: Se omitió la línea ${indice + 1} de 'data/usuarios.txt'.")
+                    println(Colores.error("\nError de formato: Se omitió la línea ${indice + 1} de 'data/usuarios.txt'."))
                     continue
                 }
 
@@ -84,7 +85,7 @@ class Servidor() {
                 val nombre = datos[1].trim()
                 val password = datos[2].trim()
                 if (nombre.isBlank() || password.isBlank()) {
-                    println("\nError de validación: Nombre o contraseña vacíos en la línea ${indice + 1} de 'data/usuarios.txt'.")
+                    println(Colores.error("\nError de validación: Nombre o contraseña vacíos en la línea ${indice + 1} de 'data/usuarios.txt'."))
                     continue
                 }
                 if (usuarios.any { it.nombre == nombre }) continue
@@ -94,22 +95,22 @@ class Servidor() {
                     "Pro" -> Pro(nombre, password)
                     "Baneado" -> Baneado(nombre, password)
                     "Admin" -> {
-                        println("\nError de validación: No se permite cargar usuarios de tipo Admin.")
+                        println(Colores.error("\nError de validación: No se permite cargar usuarios de tipo Admin."))
                         null
                     }
                     else -> {
-                        println("\nError de formato: Tipo de usuario desconocido en la línea ${indice + 1} de 'data/usuarios.txt'.")
+                        println(Colores.error("\nError de formato: Tipo de usuario desconocido en la línea ${indice + 1} de 'data/usuarios.txt'."))
                         null
                     }
                 }
 
                 if (usuario != null) usuarios.add(usuario)
             }
-            println("\nUsuarios cargados exitosamente desde 'data/usuarios.txt'.")
+            println(Colores.exito("\nUsuarios cargados exitosamente desde 'data/usuarios.txt'."))
         } catch (e: IOException) {
-            println("\nError de lectura: No se pudo leer 'data/usuarios.txt': ${e.message}")
+            println(Colores.error("\nError de lectura: No se pudo leer 'data/usuarios.txt': ${e.message}"))
         } catch (e: SecurityException) {
-            println("\nError de acceso: No se pudo acceder a 'data/usuarios.txt': ${e.message}")
+            println(Colores.error("\nError de acceso: No se pudo acceder a 'data/usuarios.txt': ${e.message}"))
         }
     }
 
@@ -223,15 +224,15 @@ class Servidor() {
             if (tradeosEncontrados.isEmpty()) continue
 
             encontrado = true
-            println("\n${index + 1}. ${empleado.nombre} (Ubicado en: ${empleado.posicion}):")
+            println(Colores.exito("\n${index + 1}. ${empleado.nombre} (Ubicado en: ${empleado.posicion}):"))
             tradeosEncontrados.forEach { tradeo ->
-                println(" Vende: ${tradeo.cantVenta} ${tradeo.itemVenta}")
-                println(" Precio: ${tradeo.cantPago} ${tradeo.itemPago}")
+                println(Colores.exito(" Vende: ${tradeo.cantVenta} ${tradeo.itemVenta}"))
+                println(Colores.exito(" Precio: ${tradeo.cantPago} ${tradeo.itemPago}"))
             }
         }
 
         if (!encontrado) {
-            println("No hay aldeanos que vendan $item.")
+            println(Colores.error("No hay aldeanos que vendan $item."))
             return false
         }
         return true
@@ -254,14 +255,14 @@ class Servidor() {
         }
 
         if (empleadosEncontrados.isEmpty()) {
-            println("No hay aldeanos con la profesión $profesion.")
+            println(Colores.error("No hay aldeanos con la profesión $profesion."))
             return false
         }
 
-        println("\nALDEANOS ENCONTRADOS")
-        println("--------------------")
+        println(Colores.exito("\nALDEANOS ENCONTRADOS"))
+        println(Colores.exito("--------------------"))
         for ((index, empleado) in empleadosEncontrados) {
-            println("${index + 1}. ${empleado.nombre} (Ubicado en: ${empleado.posicion})")
+            println(Colores.exito("${index + 1}. ${empleado.nombre} (Ubicado en: ${empleado.posicion})"))
         }
 
         return true
@@ -281,7 +282,7 @@ class Servidor() {
             return true    
         }
         catch (e: IllegalArgumentException) {
-            println("\nError de validación: ${e.message ?: "Datos de aldeano inválidos."}")
+            println(Colores.error("\nError de validación: ${e.message ?: "Datos de aldeano inválidos."}"))
             return false
         }
     }
@@ -300,14 +301,14 @@ class Servidor() {
                 "Cesante" -> aldeanos.add(Cesante(nombre, posicion))
                 "Nitwit" -> aldeanos.add(Nitwit(nombre, posicion))
                 else -> {
-                    println("\nError de validación: El estado del aldeano no es válido.")
+                    println(Colores.error("\nError de validación: El estado del aldeano no es válido."))
                     return false
                 }
             }
             return true    
         }
         catch (e: IllegalArgumentException) {
-            println("Error de validación: ${e.message ?: "Datos de aldeano inválidos."}")
+            println(Colores.error("Error de validación: ${e.message ?: "Datos de aldeano inválidos."}"))
             return false
         }
     }
@@ -329,7 +330,7 @@ class Servidor() {
             aldeanos[indice] = Empleado(original.nombre, original.posicion, profesion)
             true
         } catch (e: IllegalArgumentException) {
-            println("\nError de validación: ${e.message ?: "Datos de aldeano inválidos."}")
+            println(Colores.error("\nError de validación: ${e.message ?: "Datos de aldeano inválidos."}"))
             false
         }
     }
@@ -367,7 +368,7 @@ class Servidor() {
     ): Boolean {
         val empleado = aldeanos.getOrNull(idAldeano - 1) as? Empleado
         if (empleado == null) {
-            println("\nError: No se encontró un empleado con el identificador $idAldeano.")
+            println(Colores.error("\nError: No se encontró un empleado con el identificador $idAldeano."))
             return false
         }
 
@@ -384,12 +385,12 @@ class Servidor() {
     fun eliminarTradeo(idAldeano: Int, idTradeo: Int): Boolean {
         val empleado = aldeanos.getOrNull(idAldeano - 1) as? Empleado
         if (empleado == null) {
-            println("\nError: No se encontró un empleado con el identificador $idAldeano.")
+            println(Colores.error("\nError: No se encontró un empleado con el identificador $idAldeano."))
             return false
         }
 
         if (!empleado.eliminarTradeo(idTradeo)) {
-            println("\nError: No se encontró el intercambio con el identificador $idTradeo.")
+            println(Colores.error("\nError: No se encontró el intercambio con el identificador $idTradeo."))
             return false
         }
         return true
@@ -421,7 +422,7 @@ class Servidor() {
     fun banearUsuario(nombre: String): Boolean {
         val indice = usuarios.indexOfFirst { it.nombre == nombre }
         if (indice == -1) {
-            println("\nError: No se encontró el usuario '$nombre'.")
+            println(Colores.error("\nError: No se encontró el usuario '$nombre'."))
             return false
         }
 
@@ -429,7 +430,7 @@ class Servidor() {
         if (usuario is Admin) return false
 
         usuarios[indice] = Baneado(usuario.nombre, usuario.password)
-        println("Usuario $nombre baneado exitosamente.")
+        println(Colores.exito("Usuario $nombre baneado exitosamente."))
         return true
     }
 

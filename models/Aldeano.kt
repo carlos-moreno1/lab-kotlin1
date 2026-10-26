@@ -1,5 +1,7 @@
 package models
 
+import helpers.Colores
+
 /**
  * Aldeano registrado en el sistema.
  *
@@ -86,7 +88,7 @@ class Empleado(nombre: String, posicion: String, val profesion: String): Aldeano
             tradeos.add(Tradeo(itemPago, cantPago, itemVenta, cantVenta))
             return true
         } catch (error: IllegalArgumentException) {
-            println("Error de validación: ${error.message ?: "Datos de intercambio inválidos."}")
+            println(Colores.error("Error de validación: ${error.message ?: "Datos de intercambio inválidos."}"))
             return false
         }
     }
