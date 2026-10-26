@@ -84,9 +84,10 @@ object Consola {
         println("\n--- MENÚ PRINCIPAL ---")
         var n = 1
 
-        println("${n++}. Ver Aldeanos")
+        println("${n++}. Lista Aldeanos")
         println("${n++}. Ver datos Aldeano")
         println("${n++}. Buscar Tradeo")
+        println("${n++}. Tradeos de Aldeano")
 
         if (usuario is Pro || usuario is Admin) {
             println("${n++}. Agregar Aldeano")
@@ -97,7 +98,9 @@ object Consola {
         if (usuario is Admin) {
             println("${n++}. Agregar Tradeos")
             println("${n++}. Eliminar Tradeos")
+            println("${n++}. Lista Usuarios")
             println("${n++}. Promover Usuario")
+            println("${n++}. Unban Usuario")
             println("${n++}. Banear Usuario")
         }
 
@@ -122,7 +125,14 @@ object Consola {
             val acciones = mutableListOf<() -> Unit>()
 
             val accionesNoob = listOf<() -> Unit>(
-                { servidor.verListaAldeanos() },
+                { 
+                    servidor.verListaAldeanos() 
+                },
+                {
+                    print("Ingrese ID del aldeano: ")
+                    val id = readln().toIntOrNull() ?: 0
+                    servidor.verTradeosAldeano(id)
+                },
                 {
                     print("Ingrese ID del aldeano: ")
                     val id = readln().toIntOrNull() ?: 0
@@ -211,6 +221,9 @@ object Consola {
                     }
                 },
                 {
+                    servidor.mostrarUsuarios()
+                },
+                {
                     print("Nickname a promover: ")
                     val nicknamePromover = readln()
                     if (servidor.promoverUsuario(nicknamePromover)) {
@@ -219,6 +232,15 @@ object Consola {
                         println("Error: No se pudo promover al usuario '$nicknamePromover'.")
                     }
                 },
+                {
+                    print("Nickname para Unban: ")
+                    val nick = readln()
+                    if (servidor.desbanearUsuario(nick)) {
+                        println("El usuario '$nick' se le realizo Unban con éxito.")
+                    } else {
+                        println("Error: No se pudo realizar Unban al usuario '$nick'.")
+                    }
+                }
                 {
                     print("Nickname a banear: ")
                     val nick = readln()
