@@ -72,7 +72,8 @@ object Consola {
     }
 
     /**
-     * Imprime las opciones del menú principal correspondientes al nivel de permisos del usuario.
+     * Muestra las opciones disponibles según el rol: `Pro` también puede gestionar tradeos y
+     * `Admin` administra usuarios.
      *
      * @param usuario Instancia del usuario autenticado que define las opciones visibles.
      */
@@ -92,12 +93,12 @@ object Consola {
             println("${(n++).toString().padStart(2)}. Agregar Aldeano")
             println("${(n++).toString().padStart(2)}. Eliminar Aldeano")
             println("${(n++).toString().padStart(2)}. Emplear Aldeano")
+            println("${(n++).toString().padStart(2)}. Agregar Tradeos")
+            println("${(n++).toString().padStart(2)}. Eliminar Tradeos")
         }
 
         if (usuario is Admin) {
             println("------------------------------")
-            println("${(n++).toString().padStart(2)}. Agregar Tradeos")
-            println("${(n++).toString().padStart(2)}. Eliminar Tradeos")
             println("${(n++).toString().padStart(2)}. Lista Usuarios")
             println("${(n++).toString().padStart(2)}. Promover Usuario")
             println("${(n++).toString().padStart(2)}. Unban Usuario")
@@ -173,10 +174,7 @@ object Consola {
                     val prof = readln()
                     
                     servidor.emplearAldeano(id, prof)
-                }
-            )
-
-            val accionesAdmin = listOf<() -> Unit>(
+                },
                 {
                     print("ID del empleado: ")
                     val id = readln().toIntOrNull() ?: 0
@@ -198,7 +196,10 @@ object Consola {
                     print("ID del tradeo a eliminar: ")
                     val idT = readln().toIntOrNull() ?: 0
                     servidor.eliminarTradeo(idE, idT)
-                },
+                }
+            )
+
+            val accionesAdmin = listOf<() -> Unit>(
                 {
                     servidor.mostrarUsuarios()
                 },

@@ -129,8 +129,8 @@ experiencia en el servidor. El rol se representa mediante la clase del objeto (`
 | :---: | :--- |
 | Baneado | No puede acceder al sistema. Se considera un usuario problemático. El baneo es reversible: un `Admin` puede desbanearlo y vuelve a ser `Noob`. |
 | Noob | Tiene permisos de solo lectura. Su vista es superficial: busca objetos a la venta, consulta las coordenadas para saber a dónde ir y revisa los tradeos de un aldeano. |
-| Pro | Tiene permisos de escritura. Además de consultar, es el encargado de registrar nuevos aldeanos en el sistema y eliminarlos si mueren o son movidos. |
-| Admin | Tiene el control total. Se encarga de mantener el orden, con la capacidad exclusiva de expulsar (banear) y desbanear usuarios problemáticos, listar usuarios, promover `Noob` a `Pro` y gestionar los tradeos de los aldeanos. |
+| Pro | Tiene permisos de escritura. Además de consultar, puede registrar, eliminar y emplear aldeanos, así como agregar y eliminar sus tradeos. |
+| Admin | Tiene los permisos de `Pro` y, además, puede listar usuarios, promover `Noob` a `Pro`, y banear o desbanear usuarios. |
 
 **Cuenta administrador inicial:** el constructor de `Servidor` crea siempre al usuario
 `Notch` con contraseña `maincra`. Es el único administrador y no puede ser baneado. Para cambiar
@@ -267,8 +267,8 @@ numeración dependen del rango del usuario autenticado: el menú omite las opcio
 | Agregar Aldeano | — | ✓ | ✓ | Solicita nombre, posición y estado. Si el estado es exactamente `Empleado`, pide la profesión; `Cesante` y `Nitwit` también deben escribirse exactamente como se indican. |
 | Eliminar Aldeano | — | ✓ | ✓ | Elimina el aldeano indicado por su ID. Los IDs siguientes se recalculan. |
 | Emplear Aldeano | — | ✓ | ✓ | Solicita el ID de un aldeano `Cesante` y una profesión, y lo convierte en `Empleado`. |
-| Agregar Tradeos | — | — | ✓ | Solicita ID del empleado, ítem en venta y su cantidad, ítem de pago y su cantidad, y registra el intercambio. |
-| Eliminar Tradeos | — | — | ✓ | Solicita el ID del empleado y el ID del tradeo, y elimina el intercambio. |
+| Agregar Tradeos | — | ✓ | ✓ | Solicita ID del empleado, ítem en venta y su cantidad, ítem de pago y su cantidad, y registra el intercambio. |
+| Eliminar Tradeos | — | ✓ | ✓ | Solicita el ID del empleado y el ID del tradeo, y elimina el intercambio. |
 | Lista Usuarios | — | — | ✓ | Muestra el nombre y el tipo de todos los usuarios registrados (sin contraseñas). |
 | Promover Usuario | — | — | ✓ | Convierte a un usuario `Noob` en `Pro`. |
 | Unban Usuario | — | — | ✓ | Convierte a un usuario `Baneado` en `Noob`. |
@@ -278,7 +278,7 @@ numeración dependen del rango del usuario autenticado: el menú omite las opcio
 **Numeración resultante:**
 
 - `Noob`: opciones 1–4 y `Cerrar Sesión` en 5.
-- `Pro`: opciones 1–7 y `Cerrar Sesión` en 8.
+- `Pro`: opciones 1–9 y `Cerrar Sesión` en 10.
 - `Admin`: opciones 1–13 y `Cerrar Sesión` en 14.
 
 ## Validaciones y reglas
