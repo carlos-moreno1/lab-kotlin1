@@ -1,10 +1,10 @@
 package cl.ucm.models
 
 /**
- * Representa a un aldeano dentro del sistema.
+ * Aldeano registrado en el sistema.
  *
  * @property nombre Nombre del aldeano.
- * @property posicion Ubicación o posición del aldeano dentro del juego.
+ * @property posicion Ubicación del aldeano.
  * @throws IllegalArgumentException Si el nombre o la posición están vacíos.
  */
 abstract class Aldeano(val nombre: String, posicion: String) {
@@ -19,10 +19,10 @@ abstract class Aldeano(val nombre: String, posicion: String) {
     abstract val status: String
 
     /**
-     * Actualiza la posición del aldeano.
+     * Cambia la posición del aldeano.
      *
-     * @param nuevaPosicion Nueva posición; no puede estar vacía ni contener solo espacios.
-     * @return `true` si se actualizó; `false` si la posición no es válida.
+     * @param nuevaPosicion Nueva posición, no vacía.
+     * @return `true` si se actualiza; `false` si está vacía.
      */
     fun cambiarPosicion(nuevaPosicion: String): Boolean {
         if (nuevaPosicion.isBlank()) return false
@@ -31,7 +31,7 @@ abstract class Aldeano(val nombre: String, posicion: String) {
     }
     
     /**
-     * Muestra por consola el nombre, el estado y la posición del aldeano.
+     * Muestra nombre, estado y posición.
      */
     open fun verDatos() {
         println("Nombre: $nombre")
@@ -41,9 +41,9 @@ abstract class Aldeano(val nombre: String, posicion: String) {
 }
 
 /**
- * Representa a un aldeano que cuenta con profesión y puede registrar intercambios.
+ * Aldeano con profesión e intercambios.
  * 
- * @property profesion Profesión que indica la especialidad del aldeano.
+ * @property profesion Profesión del aldeano.
  * @throws IllegalArgumentException Si el nombre o la posición están vacíos.
  */
 class Empleado(nombre: String, posicion: String, val profesion: String): Aldeano(nombre, posicion) {
@@ -51,7 +51,7 @@ class Empleado(nombre: String, posicion: String, val profesion: String): Aldeano
     private val tradeos: MutableList<Tradeo> = mutableListOf()
     
     /**
-     * Muestra los datos del aldeano y su profesión por consola.
+     * Muestra los datos del aldeano y su profesión.
      */
     override fun verDatos(): kotlin.Unit {
         super.verDatos()
@@ -59,20 +59,20 @@ class Empleado(nombre: String, posicion: String, val profesion: String): Aldeano
     }
     
     /**
-     * Obtiene una copia de los intercambios registrados.
+     * Devuelve una copia de los intercambios registrados.
      *
      * @return Lista de intercambios del empleado.
      */
     fun obtenerTradeo(): List<Tradeo> = tradeos.toList()
     
     /**
-     * Registra un intercambio ofrecido por el empleado.
+     * Agrega un intercambio al empleado.
      *
-     * @param itemPago Artículo que se recibe como pago.
-     * @param cantPago Cantidad del artículo de pago.
-     * @param itemVenta Artículo que ofrece el empleado.
-     * @param cantVenta Cantidad del artículo ofrecido.
-     * @return `true` si el intercambio se registra; `false` si sus datos no son válidos.
+     * @param itemPago Artículo a pagar.
+     * @param cantPago Cantidad del item a pagar.
+     * @param itemVenta Artículo ofrecido por el aldeano.
+     * @param cantVenta Cantidad del item ofrecido.
+     * @return `true` si se agrega; `false` si los datos no son válidos.
      */
     fun agregarTradeo(
         itemPago: String,
@@ -90,10 +90,10 @@ class Empleado(nombre: String, posicion: String, val profesion: String): Aldeano
     }
 
     /**
-     * Elimina un intercambio usando el identificador mostrado al usuario, comenzando en 1.
+     * Elimina un intercambio por su identificador.
      *
-     * @param id Identificador del intercambio en la lista.
-     * @return `true` si se eliminó el intercambio; `false` si el identificador no es válido.
+     * @param id Identificador del intercambio.
+     * @return `true` si se elimina; `false` si el identificador no es válido.
      */
     fun eliminarTradeo(id: Int): Boolean {
         if (id !in 1..tradeos.size) return false
@@ -102,7 +102,7 @@ class Empleado(nombre: String, posicion: String, val profesion: String): Aldeano
     }
     
     /**
-     * Muestra por consola los intercambios registrados o indica si no hay ninguno.
+     * Muestra los intercambios registrados o indica si no hay.
      */
     fun verTradeos(){
         if (tradeos.isEmpty()) {
@@ -115,14 +115,14 @@ class Empleado(nombre: String, posicion: String, val profesion: String): Aldeano
 }
 
 /**
- * Representa a un aldeano sin empleo pero que tiene la capacidad de adquirir uno.
+ * Aldeano sin empleo que puede adquirir una profesión.
  */
 class Cesante(nombre: String, posicion: String): Aldeano(nombre, posicion) {
     override val status: String = "Cesante"
 }
 
 /**
- * Representa a un aldeano sin empleo que NO tiene la capacidad de adquirir uno.
+ * Aldeano sin empleo que no puede adquirir una profesión.
  */
 class Nitwit(nombre: String, posicion: String): Aldeano(nombre, posicion) {
     override val status: String = "Nitwit"
