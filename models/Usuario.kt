@@ -1,4 +1,4 @@
-package cl.ucm.models
+package models
 
 /**
  * Clase abstracta que define las propiedades y comportamientos comunes de todos los usuarios del sistema.

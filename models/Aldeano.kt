@@ -1,4 +1,4 @@
-package cl.ucm.models
+package models
 
 /**
  * Representa a un aldeano dentro del sistema.

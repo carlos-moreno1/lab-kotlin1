@@ -1,5 +1,5 @@
-import cl.ucm.helpers.*
-import cl.ucm.models.*
+import helpers.*
+import models.*
 
 
 // GRUPO: BENJAMÍN MUÑOZ BALBOA, CARLOS ROJAS VALDÉS, CARLOS MORENO ROJAS, MANUEL ASTUDILLO AYALA.

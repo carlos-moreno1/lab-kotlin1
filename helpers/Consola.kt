@@ -1,5 +1,5 @@
-package cl.ucm.helpers
-import cl.ucm.models.*
+package helpers
+import models.*
 
 /**
  * Interfaz de consola para el "Villager Management System".

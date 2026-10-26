@@ -1,4 +1,4 @@
-package cl.ucm.models
+package models
 
 /**
  * Representa un intercambio entre un artículo de pago y uno ofrecido en venta.
