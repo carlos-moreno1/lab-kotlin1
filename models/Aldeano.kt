@@ -36,10 +36,14 @@ abstract class Aldeano(val nombre: String, val posicion: String) {
 /**
  * Aldeano con profesión e intercambios.
  * 
- * @property profesion Profesión del aldeano.
- * @throws IllegalArgumentException Si el nombre o la posición están vacíos.
+ * @property profesion Profesión obligatoria del aldeano.
+ * @throws IllegalArgumentException Si el nombre, la posición o la profesión están vacíos.
  */
 class Empleado(nombre: String, posicion: String, val profesion: String): Aldeano(nombre, posicion) {
+    init {
+        require(profesion.isNotBlank()) { "La profesión del aldeano no puede estar vacía." }
+    }
+
     override val status: String = "Empleado"
     private val tradeos: MutableList<Tradeo> = mutableListOf()
     

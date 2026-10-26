@@ -171,8 +171,8 @@ temporal) y volverse un usuario `Baneado`.
 
 - `nombre` es público y no puede estar vacío.
 - `password` es `internal` y se compara mediante `verificarPassword(pass)`.
-- Existe un constructor secundario que asigna la contraseña predeterminada `123456`; el menú de
-  registro no lo utiliza, ya que siempre solicita una contraseña y su confirmación.
+- Todos los constructores requieren una contraseña explícita; no se asignan contraseñas
+  predeterminadas.
 - Las clases `Noob`, `Pro`, `Admin` y `Baneado` no agregan atributos ni métodos: el rol se
   determina por el tipo de objeto.
 
@@ -197,8 +197,8 @@ Subtipos:
 | `Cesante` | `Cesante` | No tiene empleo, pero puede ser empleado con la operación `Emplear Aldeano`. |
 | `Nitwit` | `Nitwit` | No tiene empleo y no puede adquirir uno. |
 
-La profesión de un `Empleado` se solicita al crearlo o al emplear un `Cesante`. En esta versión
-no se valida que la profesión sea un campo no vacío.
+La profesión de un `Empleado` se solicita al crearlo o al emplear un `Cesante` y no puede estar
+vacía.
 
 ### Tradeo
 
@@ -264,7 +264,7 @@ numeración dependen del rango del usuario autenticado: el menú omite las opcio
 | Ver datos Aldeano | ✓ | ✓ | ✓ | Solicita un ID y muestra nombre, estado, posición y, si es empleado, su profesión. |
 | Buscar Tradeo | ✓ | ✓ | ✓ | Solicita el nombre exacto de un ítem en venta y lista los empleados que lo venden, su ID y las cantidades del intercambio. No muestra la posición; para eso debe usarse `Ver datos Aldeano`. |
 | Tradeos de Aldeano | ✓ | ✓ | ✓ | Solicita el ID de un aldeano empleado y lista sus tradeos con sus IDs posicionales. |
-| Agregar Aldeano | — | ✓ | ✓ | Solicita nombre, posición y estado. Si el estado es `Empleado` (sin distinguir mayúsculas), pide la profesión; si es `Cesante` o `Nitwit`, los usa como estado. |
+| Agregar Aldeano | — | ✓ | ✓ | Solicita nombre, posición y estado. Si el estado es exactamente `Empleado`, pide la profesión; `Cesante` y `Nitwit` también deben escribirse exactamente como se indican. |
 | Eliminar Aldeano | — | ✓ | ✓ | Elimina el aldeano indicado por su ID. Los IDs siguientes se recalculan. |
 | Emplear Aldeano | — | ✓ | ✓ | Solicita el ID de un aldeano `Cesante` y una profesión, y lo convierte en `Empleado`. |
 | Agregar Tradeos | — | — | ✓ | Solicita ID del empleado, ítem en venta y su cantidad, ítem de pago y su cantidad, y registra el intercambio. |
@@ -302,15 +302,15 @@ Para evitar que el sistema falle o tenga datos irreales, el sistema asegura que:
 **Gestión de aldeanos:**
 
 - El nombre y la posición (coordenadas) de un aldeano no pueden ser campos vacíos.
+- La profesión de un `Empleado` es obligatoria y no puede estar vacía.
 - Solo se permite el ingreso de tres estados válidos para los aldeanos: `Empleado`, `Cesante` y
   `Nitwit`.
-- En el menú, el estado `Empleado` se reconoce sin distinguir mayúsculas de minúsculas; para
-  `Cesante` y `Nitwit` se debe escribir el estado exactamente como se indica.
+- En el menú, los estados deben escribirse exactamente como se indican, incluida la mayúscula
+  inicial de `Empleado`.
 - Únicamente los aldeanos en estado `Cesante` pueden ser modificados mediante la operación
   `Emplear Aldeano`. Los `Nitwit` son incapaces de adquirir empleo.
 - La posición no se puede modificar después de crear el aldeano.
 - Los IDs son posicionales y cambian cuando se elimina un aldeano anterior.
-- La profesión no se valida como campo obligatorio en esta versión.
 
 **Gestión de intercambios (tradeos):**
 
@@ -348,12 +348,13 @@ tipo,nombre,posicion,profesion
 - `tipo`: `Empleado`, `Cesante` o `Nitwit`.
 - `nombre`: nombre o apodo del aldeano (obligatorio).
 - `posicion`: coordenadas o ubicación (obligatorio).
-- `profesion`: solo se usa para `Empleado`; si se omite, se asigna `Librero`.
+- `profesion`: solo se usa para `Empleado`; si se omite, se asigna `Librero`. Si se proporciona
+  vacía, se rechaza el aldeano con un mensaje de validación.
 
 Ejemplo incluido en el proyecto:
 
 ```text
-Empleado,Claude,x=120 y=64 z=-30,Librero
+Empleado,Guillermo,x=120 y=64 z=-30,Librero
 Empleado,Kim,x=118 y=64 z=-30,Herrero de armas
 Cesante,Miguelito,x=125 y=64 z=-28
 Nitwit,Fulano,x=130 y=64 z=-25
@@ -442,7 +443,7 @@ Luego se ejecuta con `java -jar villager-management.jar` desde la raíz del proy
 
 ## Ejemplo de uso
 
-Inicio de sesión como administrador y registro de un tradeo para el aldeano `Claude` (ID 1):
+Inicio de sesión como administrador y registro de un tradeo para el aldeano `Guillermo` (ID 1):
 
 ```text
 1. Iniciar Sesión
@@ -461,12 +462,12 @@ Cantidad de pago: 1
 Ingrese el item a buscar: Libro
 
 ALDEANOS ENCONTRADOS
-Claude (ID: 1)
+Guillermo (ID: 1)
     Vende: 1 Libro
     Precio: 1 Esmeralda
 ```
 
-Para consultar la ubicación de `Claude`, se usa la opción `2. Ver datos Aldeano` con el ID `1`.
+Para consultar la ubicación de `Guillermo`, se usa la opción `2. Ver datos Aldeano` con el ID `1`.
 Al terminar, `14. Cerrar Sesión` vuelve al menú de inicio y `3. Salir` cierra la aplicación.
 
 ## Diagrama UML

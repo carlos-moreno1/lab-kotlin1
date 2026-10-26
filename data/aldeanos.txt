@@ -1,4 +1,4 @@
-Empleado,Claude,x=120 y=64 z=-30,Librero
+Empleado,Guillermo,x=120 y=64 z=-30,Librero
 Empleado,Kim,x=118 y=64 z=-30,Herrero de armas
 Cesante,Miguelito,x=125 y=64 z=-28
 Nitwit,Fulano,x=130 y=64 z=-25

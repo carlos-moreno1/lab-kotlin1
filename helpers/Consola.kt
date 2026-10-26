@@ -150,7 +150,7 @@ object Consola {
                     print("Ingrese estado: ")
                     val estado = readln()
                     
-                    if (estado.equals("Empleado", ignoreCase = true)) {
+                    if (estado == "Empleado") {
                         print("Ingrese profesion: ")
                         if (servidor.agregarAldeanoEmpleado(nombre, pos, readln())) {
                             println(Colores.exito("\nAldeano '$nombre' agregado exitosamente."))

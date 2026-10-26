@@ -10,7 +10,7 @@ import models.*
 // kotlinc ./main.kt ./helpers/*.kt ./models/*.kt -include-runtime -d ./villager-management.jar
 // 
 // COMANDO EJECUCIÓN (Windows, Linux y macOS):
-// java -jar .\villager-management.jar
+// java -jar villager-management.jar
     
 /**
  * Punto de entrada principal del "Villager Management System".

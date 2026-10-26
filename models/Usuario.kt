@@ -4,19 +4,12 @@ package models
  * Datos y comportamiento común de los usuarios.
  *
  * @property nombre Nombre de usuario.
- * @property password Contraseña.
+ * @property password Contraseña obligatoria.
  */
 abstract class Usuario(val nombre: String, internal val password: String) {
     init {
     require(nombre.isNotBlank()) { "El nombre del usuario no puede estar vacío." }
     }
-    
-    /**
-     * Crea un usuario con la contraseña predeterminada (`123456`).
-     *
-     * @param nombre Nombre de usuario.
-     */
-    constructor(nombre: String) : this(nombre, "123456")
 
     /**
      * Comprueba la contraseña.
@@ -34,39 +27,19 @@ abstract class Usuario(val nombre: String, internal val password: String) {
 /**
  * Usuario básico.
  */
-class Noob(nombre: String, password: String): Usuario(nombre, password) {
-    /**
-     * Crea un usuario con la contraseña predeterminada (`123456`).
-     */
-    constructor(nombre: String) : this(nombre, "123456")
-}
+class Noob(nombre: String, password: String): Usuario(nombre, password)
 
 /**
  * Usuario de nivel intermedio.
  */
-class Pro(nombre: String, password: String): Usuario(nombre, password) {
-    /**
-     * Crea un usuario con la contraseña predeterminada (`123456`).
-     */
-    constructor(nombre: String) : this(nombre, "123456")
-}
+class Pro(nombre: String, password: String): Usuario(nombre, password)
 
 /**
  * Usuario administrador.
  */
-class Admin(nombre: String, password: String): Usuario(nombre, password) {
-    /**
-     * Crea un administrador con la contraseña predeterminada (`123456`).
-     */
-    constructor(nombre: String) : this(nombre, "123456")
-}
+class Admin(nombre: String, password: String): Usuario(nombre, password)
 
 /**
  * Usuario baneado.
  */
-class Baneado(nombre: String, password: String): Usuario(nombre, password) {
-    /**
-     * Crea un usuario baneado con la contraseña predeterminada (`123456`).
-     */
-    constructor(nombre: String) : this(nombre, "123456")
-}
+class Baneado(nombre: String, password: String): Usuario(nombre, password)

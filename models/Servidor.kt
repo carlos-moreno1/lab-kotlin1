@@ -273,7 +273,7 @@ class Servidor() {
      * @param nombre Nombre del aldeano.
      * @param posicion Posición del aldeano.
      * @param profesion Profesión asignada.
-     * @return `true` si se registra; `false` si el nombre o la posición no son válidos.
+     * @return `true` si se registra; `false` si el nombre, la posición o la profesión no son válidos.
      */
     fun agregarAldeanoEmpleado(nombre: String, posicion: String, profesion: String): Boolean {
         try {
@@ -318,7 +318,7 @@ class Servidor() {
      *
      * @param id Identificador del aldeano, comenzando en 1.
      * @param profesion Profesión asignada.
-     * @return `true` si se emplea; `false` si el identificador no existe o el aldeano no es cesante.
+     * @return `true` si se emplea; `false` si el identificador no existe, el aldeano no es cesante o la profesión no es válida.
      */
     fun emplearAldeano(id: Int, profesion: String): Boolean {
         if (id < 1) return false
