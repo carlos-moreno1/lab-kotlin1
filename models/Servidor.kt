@@ -244,9 +244,10 @@ class Servidor() {
      */
     fun buscarTradeo(item: String): Boolean {
         val coincidencias = aldeanos.withIndex().mapNotNull { (index, aldeano) ->
-            val empleado = aldeano as? Empleado ?: return@mapNotNull null
-            val tradeos = empleado.obtenerTradeo().filter { it.itemVenta == item }
-            if (tradeos.isEmpty()) null else Triple(index, empleado, tradeos)
+            (aldeano as? Empleado)?.let { empleado ->
+                val tradeos = empleado.obtenerTradeo().filter { it.itemVenta == item }
+                if (tradeos.isEmpty()) null else Triple(index, empleado, tradeos)
+            }
         }
 
         if (coincidencias.isEmpty()) {
