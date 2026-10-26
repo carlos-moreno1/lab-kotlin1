@@ -5,7 +5,15 @@ import cl.ucm.models.*
  * Interfaz de consola de "Villager Management System".
  *
  * Concentra los menús, la lectura por teclado y el despacho de acciones hacia
- * [servidor]. Implementada como un Singleton (object).
+ * [servidor]. Funciona como intermediaria entre el usuario y [Servidor], sin 
+ * duplicar sus responsabilidades:
+ * 1. Lee los datos: Solicita nombres, contraseñas, identificadores, etc.
+ * 2. Invoca a Servidor: Pasa los argumentos sin reimplementar la lógica.
+ * 3. Interpreta el retorno: Evalúa Boolean o Usuario? para informar al usuario.
+ * 4. Evita mensajes duplicados: Si el servidor ya imprime (ej. listar usuarios),
+ *    la consola no repite la información.
+ *
+ * Implementada como un Singleton (object).
  */
 object Consola {
     /**
@@ -32,9 +40,15 @@ object Consola {
     }
 
     /**
-     * Autentica al usuario en el [servidor].
+     * Autentica al usuario delegando en el [servidor].
      *
-     * @return `true` si las credenciales son válidas.
+     * La consola lee las credenciales y comprueba el resultado de [Servidor.login].
+     * Rechaza usuarios inexistentes, baneados o con contraseña incorrecta.
+     * Utiliza el tipo del usuario devuelto para determinar los permisos de la sesión.
+     *
+     * @param servidor La instancia del servidor.
+     * @return [Usuario] si las credenciales son válidas y el acceso es permitido; 
+     *         `null` si falla el inicio de sesión.
      */
     fun inicioSesion(servidor: Servidor): Usuario? {
         print("Ingrese usuario: ")
@@ -55,9 +69,12 @@ object Consola {
     /**
      * Pide usuario y contraseña dos veces y registra la cuenta en [servidor].
      *
-     * @return `true` si el registro fue exitoso; `false` si las contraseñas no
-     *   coinciden o el usuario ya existe.
-     * @see inicioSesion
+     * Invoca a [Servidor.register] para crear un usuario nuevo de tipo Noob.
+     * La consola evalúa el booleano devuelto para mostrar el mensaje de éxito o error.
+     *
+     * @param servidor La instancia del servidor.
+     * @return `true` si el registro fue exitoso (nombre no ocupado y contraseñas coinciden); 
+     *         `false` si el nombre ya existe o las contraseñas no coinciden.
      */
     fun registrarSesion(servidor: Servidor): Boolean {
         print("Ingrese usuario: ")
@@ -108,6 +125,15 @@ object Consola {
 
     /**
      * Ejecuta el bucle de sesión hasta que el usuario elige «Cerrar Sesión».
+     *
+     * Centraliza la lectura de datos requeridos (IDs, profesiones, ítems, nicknames)
+     * y delega la lógica de negocio (búsqueda, modificación, administración de usuarios
+     * y aldeanos) a la instancia de [Servidor]. 
+     *
+     * Evalúa los retornos de las funciones (Boolean) para determinar si muestra
+     * mensajes de éxito o error personalizados en consola, evitando duplicar 
+     * aquellos mensajes o listas (como verListaAldeanos o buscarTradeo) que el 
+     * servidor ya imprime internamente.
      *
      * @param servidor La instancia del servidor.
      * @param usuario El objeto que representa al usuario autenticado y su rol ([Admin], [Pro] o [Noob]).
