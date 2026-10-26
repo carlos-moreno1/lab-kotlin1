@@ -30,7 +30,7 @@ Alcance de esta versión:
 
 ## Estructura del Proyecto
 
-El proyecto está contenido dentro de la carpeta principal `VillagerManagement` y se organiza en los siguientes directorios:
+El proyecto está contenido dentro de la carpeta principal `villager-management` y se organiza en los siguientes directorios:
 
 *   **`/` (Raíz):** Contiene el archivo `main.kt`, que sirve como punto de entrada de la aplicación.
 *   **`/helpers`:** Contiene el archivo `Consola.kt`, encargado de la interfaz de usuario, los menús y la interacción por teclado.
