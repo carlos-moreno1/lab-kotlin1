@@ -9,11 +9,11 @@ Sin embargo, a medida que la zona crece, la cantidad de aldeanos se vuelve inman
 Hoy en día, los jugadores intentan organizar esta zona usando carteles de madera o
 simplemente confiando en su memoria. Esto genera varios problemas:
 
-1. Pérdida de tiempo: Los jugadores olvidan qué aldeano vende qué objeto exacto y pasan
+- **Pérdida de tiempo**: Los jugadores olvidan qué aldeano vende qué objeto exacto y pasan
     minutos buscando sin rumbo.
-2. Posición: No hay registro claro de en qué coordenadas exactas se
+- **Posición**: No hay registro claro de en qué coordenadas exactas se
     encuentra el aldeano que vende un encantamiento crucial (como Mending/Reparación).
-3. Falta de administración: Cualquier jugador nuevo puede entrar, alterar los intercambios
+- **Falta de administración**: Cualquier jugador nuevo puede entrar, alterar los intercambios
     o perder aldeanos sin que haya un registro de quién hizo qué.
 
 **Minecraft Villager Management** reemplaza los carteles y la memoria por un sistema de
