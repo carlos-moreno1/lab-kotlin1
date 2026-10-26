@@ -1,13 +1,13 @@
 package cl.ucm.models
 
 /**
- * Representa un intercambio entre un artículo de pago y uno ofrecido en venta.
+ * Intercambio ofrecido por un [Empleado].
  *
- * @property itemPago Nombre del artículo que se entrega como pago.
- * @property cantPago Cantidad del artículo de pago; debe ser mayor que cero.
- * @property itemVenta Nombre del artículo que se ofrece en venta.
- * @property cantVenta Cantidad del artículo ofrecido; debe ser mayor que cero.
- * @throws IllegalArgumentException Si los nombres de los artículos están vacíos o alguna cantidad no es positiva.
+ * @property itemPago Artículo que el empleado recibe como pago.
+ * @property cantPago Cantidad recibida; debe ser positiva.
+ * @property itemVenta Artículo que ofrece el empleado.
+ * @property cantVenta Cantidad ofrecida; debe ser positiva.
+ * @throws IllegalArgumentException Si un artículo está vacío o una cantidad no es positiva.
  */
 class Tradeo (
     val itemPago: String,
