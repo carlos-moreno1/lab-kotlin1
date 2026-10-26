@@ -30,11 +30,12 @@ Alcance de esta versión:
 
 ## Estructura del Proyecto
 
-El código fuente está organizado de la siguiente manera:
-- `/`: Contiene el archivo `main.kt` que sirve como punto de entrada de la aplicación.
-- `/cl/ucm/helpers`: Contiene el objecto singleton `Consola.kt`, encargado de la interfaz de usuario, los menús y la lectura de datos.
-- `/cl/ucm/models`: Contiene la lógica de negocio y las entidades del sistema (`Servidor.kt`, `Aldeano.kt`, `Usuario.kt`, `Tradeo.kt`).
-- `/data`: Directorio destinado a los archivos de texto (`aldeanos.txt`, `usuarios.txt`) para la carga inicial de datos.
+El proyecto está contenido dentro de la carpeta principal `lab-kotlin1` y se organiza en los siguientes directorios:
+
+*   **`/` (Raíz):** Contiene el archivo `main.kt`, que sirve como punto de entrada de la aplicación.
+*   **`/helpers`:** Contiene el archivo `Consola.kt`, encargado de la interfaz de usuario, los menús y la interacción por teclado.
+*   **`/models`:** Contiene la lógica de negocio y las entidades del sistema (`Servidor.kt`, `Aldeano.kt`, `Usuario.kt`, `Tradeo.kt`).
+*   **`/data`:** Directorio destinado a los archivos de texto (`aldeanos.txt`, `usuarios.txt`) para la carga y persistencia inicial de datos.
 
 ## Usuarios del sistema
 
