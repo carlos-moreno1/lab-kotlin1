@@ -363,7 +363,7 @@ class Servidor() {
     ): Boolean {
         val empleado = aldeanos.getOrNull(idAldeano - 1) as? Empleado
         if (empleado == null) {
-            println("Error: No se encontró un empleado con el identificador $idAldeano.")
+            println("\nError: No se encontró un empleado con el identificador $idAldeano.")
             return false
         }
 
@@ -380,12 +380,12 @@ class Servidor() {
     fun eliminarTradeo(idAldeano: Int, idTradeo: Int): Boolean {
         val empleado = aldeanos.getOrNull(idAldeano - 1) as? Empleado
         if (empleado == null) {
-            println("Error: No se encontró un empleado con el identificador $idAldeano.")
+            println("\nError: No se encontró un empleado con el identificador $idAldeano.")
             return false
         }
 
         if (!empleado.eliminarTradeo(idTradeo)) {
-            println("Error: No se encontró el intercambio con el identificador $idTradeo.")
+            println("\nError: No se encontró el intercambio con el identificador $idTradeo.")
             return false
         }
         return true
@@ -417,7 +417,7 @@ class Servidor() {
     fun banearUsuario(nombre: String): Boolean {
         val indice = usuarios.indexOfFirst { it.nombre == nombre }
         if (indice == -1) {
-            println("Error: No se encontró el usuario '$nombre'.")
+            println("\nError: No se encontró el usuario '$nombre'.")
             return false
         }
 
