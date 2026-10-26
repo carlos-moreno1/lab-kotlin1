@@ -11,7 +11,7 @@ class Servidor() {
     private val aldeanos: MutableList<Aldeano> = mutableListOf()
 
     init {
-        usuarios.add(Admin("Notch", "miancra"))
+        usuarios.add(Admin("Notch", "maincra"))
     }
 
     /**

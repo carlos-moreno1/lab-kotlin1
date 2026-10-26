@@ -4,7 +4,7 @@ import models.*
 // GRUPO: BENJAMÍN MUÑOZ BALBOA, CARLOS ROJAS VALDÉS, CARLOS MORENO ROJAS, MANUEL ASTUDILLO AYALA.
 
 /**
- * Punto de entrada principal de la aplicación "Villager Management System".
+ * Punto de entrada principal del "Villager Management System".
  *
  * Inicializa la instancia central del [Servidor], carga los datos iniciales de 
  * usuarios y aldeanos desde los archivos de texto, y ejecuta el bucle principal 
