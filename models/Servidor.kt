@@ -199,8 +199,12 @@ class Servidor() {
      * @return `true` si corresponde a un empleado; `false` en caso contrario.
      */
     fun verTradeosAldeano(id: Int): Boolean {
-        if (id < 1) return false
-        val aldeano = aldeanos.getOrNull(id - 1) as? Empleado ?: return false
+        val aldeano = aldeanos.getOrNull(id - 1) as? Empleado
+        if (aldeano == null) {
+            println(Colores.error("\nError: El aldeano indicado no existe o no es un empleado."))
+            return false
+        }
+
         aldeano.verTradeos()
         return true
     }
