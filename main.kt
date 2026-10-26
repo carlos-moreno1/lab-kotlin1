@@ -1,17 +1,17 @@
 import helpers.*
 import models.*
 
+// GRUPO: BENJAMÍN MUÑOZ BALBOA, CARLOS ROJAS VALDÉS, CARLOS MORENO ROJAS, MANUEL ASTUDILLO AYALA.
+//
+// COMANDO COMPILACIÓN (Windows):
+// kotlinc .\main.kt .\helpers\Consola.kt .\helpers\Colores.kt .\models\Aldeano.kt .\models\Servidor.kt .\models\Tradeo.kt .\models\Usuario.kt -include-runtime -d .\villager-management.jar
+//
+// COMANDO COMPILACIÓN (Linux y macOS):
+// kotlinc ./main.kt ./helpers/*.kt ./models/*.kt -include-runtime -d ./villager-management.jar
+// 
+// COMANDO EJECUCIÓN (Windows, Linux y macOS):
+// java -jar .\villager-management.jar
     
-/*
- * GRUPO: BENJAMÍN MUÑOZ BALBOA, CARLOS ROJAS VALDÉS, CARLOS MORENO ROJAS, MANUEL ASTUDILLO AYALA.
- *
- * COMANDO COMPILACIÓN:
- * kotlinc .\main.kt .\helpers\Consola.kt .\helpers\Colores.kt .\models\Aldeano.kt .\models\Servidor.kt .\models\Tradeo.kt .\models\Usuario.kt -include-runtime -d .\villager-management.jar
- * 
- * COMANDO EJECUCIÓN:
- * java -jar .\villager-management.jar
- */
-
 /**
  * Punto de entrada principal del "Villager Management System".
  *
