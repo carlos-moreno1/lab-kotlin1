@@ -9,9 +9,7 @@ import helpers.Colores
  * @property posicion Ubicación del aldeano.
  * @throws IllegalArgumentException Si el nombre o la posición están vacíos.
  */
-abstract class Aldeano(val nombre: String, posicion: String) {
-    var posicion: String = posicion
-        private set
+abstract class Aldeano(val nombre: String, val posicion: String) {
 
     init {
         require(nombre.isNotBlank()) { "El nombre del aldeano no puede estar vacío." }
@@ -23,18 +21,6 @@ abstract class Aldeano(val nombre: String, posicion: String) {
      */
     abstract val status: String
 
-    /**
-     * Cambia la posición del aldeano.
-     *
-     * @param nuevaPosicion Nueva posición, no vacía.
-     * @return `true` si se actualiza; `false` si está vacía.
-     */
-    fun cambiarPosicion(nuevaPosicion: String): Boolean {
-        if (nuevaPosicion.isBlank()) return false
-        posicion = nuevaPosicion
-        return true
-    }
-    
     /**
      * Muestra nombre, estado y posición.
      */

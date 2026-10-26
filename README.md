@@ -145,7 +145,6 @@ classDiagram
         + verDatosAldeano(id: Int): Boolean
         + verTradeosAldeano(id: Int): Boolean
         + buscarTradeo(item: String): Boolean
-        + buscarProfesion(profesion: String): Boolean
         + agregarAldeanoEmpleado(nombre: String, posicion: String, profesion: String): Boolean
         + agregarAldeanoNoEmpleado(nombre: String, posicion: String, status: String): Boolean
         + emplearAldeano(id: Int, profesion: String): Boolean
@@ -172,9 +171,8 @@ classDiagram
     class Aldeano {
         <<abstract>>
         + nombre: String
-        - posicion: String
+        + posicion: String
         + status: String*
-        + cambiarPosicion(nuevaPosicion: String): Boolean
         + verDatos()
     }
 

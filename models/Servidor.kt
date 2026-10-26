@@ -268,36 +268,6 @@ class Servidor() {
     }
     
     /**
-     * Muestra todos los empleados de la profesión indicada.
-     *
-     * @param profesion Profesión buscada, con coincidencia exacta.
-     * @return `true` si hay coincidencias; `false` en caso contrario.
-     */
-    fun buscarProfesion(profesion: String): Boolean {
-        val empleadosEncontrados = aldeanos.withIndex().mapNotNull { (index, aldeano) ->
-            val empleado = aldeano as? Empleado
-            if (empleado != null && empleado.profesion == profesion) {
-                index to empleado
-            } else {
-                null
-            }
-        }
-
-        if (empleadosEncontrados.isEmpty()) {
-            println(Colores.error("No hay aldeanos con la profesión $profesion."))
-            return false
-        }
-
-        println(Colores.exito("\nALDEANOS ENCONTRADOS"))
-        println(Colores.exito("--------------------"))
-        for ((index, empleado) in empleadosEncontrados) {
-            println(Colores.exito("${index + 1}. ${empleado.nombre} (Ubicado en: ${empleado.posicion})"))
-        }
-
-        return true
-    }
-    
-    /**
      * Crea y registra un empleado.
      *
      * @param nombre Nombre del aldeano.
