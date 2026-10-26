@@ -186,6 +186,8 @@ class Servidor() {
      */
     fun verDatosAldeano(id: Int): Boolean {
         if (id < 1) return false
+        println("\TRADEOS ENCONTRADOS1")
+        println("--------------------")
         val aldeano = aldeanos.getOrNull(id - 1) ?: return false
         aldeano.verDatos()
         return true
@@ -199,6 +201,8 @@ class Servidor() {
      */
     fun verTradeosAldeano(id: Int): Boolean {
         if (id < 1) return false
+        println("\TRADEOS ENCONTRADOS2")
+        println("--------------------")
         val aldeano = aldeanos.getOrNull(id - 1) as? Empleado ?: return false
         aldeano.verTradeos()
         return true
