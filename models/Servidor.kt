@@ -102,9 +102,9 @@ class Servidor() {
      * @param password Contraseña del usuario.
      * @return `true` si el usuario se registra; `false` si el nombre ya existe o si contraseña no coincide.
      */
-    fun register(nombre: String, password: String, passVer: String): Boolean {
+    fun register(nombre: String, password: String, passwordConfirm: String): Boolean {
         if (usuarios.any { it.nombre == nombre }) return false
-        if (password != passVer) return false
+        if (password != passwordConfirm) return false
         usuarios.add(Noob(nombre, password))
         return true
     }
