@@ -12,7 +12,7 @@ abstract class Usuario(val nombre: String, internal val password: String) {
     }
     
     /**
-     * Crea un usuario con la contraseña predeterminada.
+     * Crea un usuario con la contraseña predeterminada (`123456`).
      *
      * @param nombre Nombre de usuario.
      */
@@ -36,7 +36,7 @@ abstract class Usuario(val nombre: String, internal val password: String) {
  */
 class Noob(nombre: String, password: String): Usuario(nombre, password) {
     /**
-     * Crea un usuario con la contraseña predeterminada.
+     * Crea un usuario con la contraseña predeterminada (`123456`).
      */
     constructor(nombre: String) : this(nombre, "123456")
 }
@@ -46,7 +46,7 @@ class Noob(nombre: String, password: String): Usuario(nombre, password) {
  */
 class Pro(nombre: String, password: String): Usuario(nombre, password) {
     /**
-     * Crea un usuario con la contraseña predeterminada.
+     * Crea un usuario con la contraseña predeterminada (`123456`).
      */
     constructor(nombre: String) : this(nombre, "123456")
 }
@@ -56,7 +56,7 @@ class Pro(nombre: String, password: String): Usuario(nombre, password) {
  */
 class Admin(nombre: String, password: String): Usuario(nombre, password) {
     /**
-     * Crea un administrador con la contraseña predeterminada.
+     * Crea un administrador con la contraseña predeterminada (`123456`).
      */
     constructor(nombre: String) : this(nombre, "123456")
 }
@@ -66,7 +66,7 @@ class Admin(nombre: String, password: String): Usuario(nombre, password) {
  */
 class Baneado(nombre: String, password: String): Usuario(nombre, password) {
     /**
-     * Crea un usuario baneado con la contraseña predeterminada.
+     * Crea un usuario baneado con la contraseña predeterminada (`123456`).
      */
     constructor(nombre: String) : this(nombre, "123456")
 }

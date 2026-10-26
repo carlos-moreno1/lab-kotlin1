@@ -18,6 +18,9 @@ abstract class Aldeano(val nombre: String, posicion: String) {
         require(posicion.isNotBlank()) { "La posición del aldeano no puede estar vacía." }
     }
     
+    /**
+     * Estado actual del aldeano.
+     */
     abstract val status: String
 
     /**
@@ -72,10 +75,10 @@ class Empleado(nombre: String, posicion: String, val profesion: String): Aldeano
     /**
      * Agrega un intercambio al empleado.
      *
-     * @param itemPago Artículo a pagar.
-     * @param cantPago Cantidad del item a pagar.
+     * @param itemPago Artículo que recibe el empleado.
+     * @param cantPago Cantidad del artículo recibido.
      * @param itemVenta Artículo ofrecido por el aldeano.
-     * @param cantVenta Cantidad del item ofrecido.
+     * @param cantVenta Cantidad del artículo ofrecido.
      * @return `true` si se agrega; `false` si los datos no son válidos.
      */
     fun agregarTradeo(
@@ -96,7 +99,7 @@ class Empleado(nombre: String, posicion: String, val profesion: String): Aldeano
     /**
      * Elimina un intercambio por su identificador.
      *
-     * @param id Identificador del intercambio.
+     * @param id Identificador del intercambio, comenzando en 1.
      * @return `true` si se elimina; `false` si el identificador no es válido.
      */
     fun eliminarTradeo(id: Int): Boolean {

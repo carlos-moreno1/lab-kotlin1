@@ -24,7 +24,7 @@ object Consola {
     /**
      * Captura y valida una opción numérica ingresada por el usuario.
      *
-     * @return La opción elegida, o `0` si la entrada es inválida o nula.
+     * @return La opción elegida, o `0` si la entrada es inválida, nula o no positiva.
      */
     fun leerOpcion(): Int {
         print("Elija opción: ")
@@ -36,7 +36,7 @@ object Consola {
      * Solicita credenciales por teclado y autentica al usuario en el sistema.
      *
      * @param servidor Instancia del servidor que procesa la validación.
-     * @return El [Usuario] si las credenciales son válidas; `null` si son incorrectas o el usuario está baneado.
+     * @return El [Usuario] si las credenciales son válidas; `null` si no existe, la contraseña es incorrecta o está baneado.
      */
     fun inicioSesion(servidor: Servidor): Usuario? {
         print("Ingrese usuario: ")
@@ -52,7 +52,7 @@ object Consola {
      * Solicita datos por teclado e intenta registrar un nuevo usuario en el sistema.
      *
      * @param servidor Instancia del servidor que procesa el registro.
-     * @return `true` si el registro es exitoso; `false` si el nombre ya existe o las contraseñas no coinciden.
+     * @return `true` si el registro es exitoso; `false` si el nombre ya existe o está vacío, o las contraseñas no coinciden.
      */
     fun registrarSesion(servidor: Servidor): Boolean {
         print("Ingrese usuario: ")
@@ -109,11 +109,7 @@ object Consola {
     }
 
     /**
-     * Inicia el bucle interactivo de la sesión del usuario.
-     *
-     * Captura las entradas necesarias (IDs, profesiones, ítems) y evalúa los retornos 
-     * booleanos del [Servidor] para emitir mensajes de éxito o error, evitando duplicar 
-     * salidas que la lógica interna ya imprime.
+     * Muestra las opciones según los permisos del usuario y ejecuta las acciones elegidas.
      *
      * @param servidor Instancia del servidor.
      * @param usuario Usuario autenticado cuyos permisos dictan las acciones disponibles.
@@ -184,14 +180,15 @@ object Consola {
                 {
                     print("ID del empleado: ")
                     val id = readln().toIntOrNull() ?: 0
-                    print("Item de pago: ")
+                    print("Item que vende el aldeano: ")
+                    val venta = readln()
+                    print("Cantidad del item en venta: ")
+                    val cantVenta = readln().toIntOrNull() ?: 0
+                    print("Item a pagar al aldeano: ")
                     val pago = readln()
                     print("Cantidad de pago: ")
                     val cantPago = readln().toIntOrNull() ?: 0
-                    print("Item en venta: ")
-                    val venta = readln()
-                    print("Cantidad en venta: ")
-                    val cantVenta = readln().toIntOrNull() ?: 0
+                    
                     
                     servidor.agregarTradeo(id, pago, cantPago, venta, cantVenta)
                 },

@@ -5,7 +5,7 @@ import java.io.File
 import java.io.IOException
 
 /**
- * Gestiona usuarios y aldeanos registrados.
+ * Gestiona usuarios y aldeanos registrados. Incluye un administrador inicial.
  */
 class Servidor() {
     private val usuarios: MutableList<Usuario> = mutableListOf()
@@ -16,10 +16,10 @@ class Servidor() {
     }
 
     /**
-     * Carga aldeanos desde `data/aldeanos.txt` 
-     * 
-     * Lee estado, nombre, posición y, para empleados, profesión.
-     * Asume como profesión predeterminada `"Librero"`
+     * Carga aldeanos desde `data/aldeanos.txt`.
+     *
+     * Lee tipo, nombre, posición y profesión. Si un empleado no especifica profesión,
+     * usa `"Librero"`.
      */
     fun cargarAldeanos() {
         val archivo = File("data/aldeanos.txt")
@@ -62,9 +62,9 @@ class Servidor() {
     }
 
     /**
-     * Carga usuarios desde `data/usuarios.txt`
-     * 
-     * Acepta solo usuarios `Noob`, `Pro` y `Baneado`.
+     * Carga usuarios `Noob`, `Pro` y `Baneado` desde `data/usuarios.txt`.
+     *
+     * Omite los nombres duplicados y no permite cargar usuarios `Admin`.
      */
     fun cargarUsuarios() {
         val archivo = File("data/usuarios.txt")
@@ -125,7 +125,7 @@ class Servidor() {
      * @param nombre Nombre de usuario.
      * @param password Contraseña.
      * @param passwordConfirm Confirmación de la contraseña.
-     * @return `true` si se registra; `false` si el nombre ya existe o las contraseñas no coinciden.
+     * @return `true` si se registra; `false` si el nombre está vacío o repetido, o las contraseñas no coinciden.
      */
     fun register(nombre: String, password: String, passwordConfirm: String): Boolean {
         if (usuarios.any { it.nombre == nombre }) return false
@@ -144,7 +144,7 @@ class Servidor() {
      *
      * @param nombre Nombre de usuario.
      * @param password Contraseña.
-     * @return El usuario autenticado o `null` si las credenciales no son válidas o está baneado.
+     * @return El usuario autenticado o `null` si no existe, la contraseña es incorrecta o está baneado.
      */
     fun login(nombre: String, password: String): Usuario? {
         val usuario = usuarios.firstOrNull { it.nombre == nombre } ?: run {
@@ -166,7 +166,7 @@ class Servidor() {
     }
 
     /**
-     * Muestra los usuarios registrados y su tipo.
+     * Muestra el id, nombre y tipo de los usuarios registrados.
      *
      * @return `true` si hay usuarios; `false` si la lista está vacía.
      */
@@ -205,7 +205,7 @@ class Servidor() {
     /**
      * Muestra los datos del aldeano indicado.
      *
-     * @param id Identificador del aldeano.
+     * @param id Identificador del aldeano, comenzando en 1.
      * @return `true` si existe; `false` si el identificador no es válido.
      */
     fun verDatosAldeano(id: Int): Boolean {
@@ -222,7 +222,7 @@ class Servidor() {
     /**
      * Muestra los intercambios del empleado indicado.
      *
-     * @param id Identificador del aldeano.
+     * @param id Identificador del aldeano, comenzando en 1.
      * @return `true` si corresponde a un empleado; `false` en caso contrario.
      */
     fun verTradeosAldeano(id: Int): Boolean {
@@ -270,7 +270,7 @@ class Servidor() {
     /**
      * Muestra todos los empleados de la profesión indicada.
      *
-     * @param profesion Profesión buscada.
+     * @param profesion Profesión buscada, con coincidencia exacta.
      * @return `true` si hay coincidencias; `false` en caso contrario.
      */
     fun buscarProfesion(profesion: String): Boolean {
@@ -303,7 +303,7 @@ class Servidor() {
      * @param nombre Nombre del aldeano.
      * @param posicion Posición del aldeano.
      * @param profesion Profesión asignada.
-     * @return `true` si se registra; `false` si algún dato no es válido.
+     * @return `true` si se registra; `false` si el nombre o la posición no son válidos.
      */
     fun agregarAldeanoEmpleado(nombre: String, posicion: String, profesion: String): Boolean {
         try {
@@ -322,7 +322,7 @@ class Servidor() {
      * @param nombre Nombre del aldeano.
      * @param posicion Posición del aldeano.
      * @param status Estado: `"Cesante"` o `"Nitwit"`.
-     * @return `true` si se registra; `false` si el estado o algún dato no es válido.
+     * @return `true` si se registra; `false` si el estado no se admite o el nombre o la posición no son válidos.
      */
     fun agregarAldeanoNoEmpleado(nombre: String, posicion: String, status: String): Boolean {
         try {
@@ -344,11 +344,11 @@ class Servidor() {
     }
 
     /**
-     * Asigna una profesión al aldeano cesante indicado.
+     * Convierte al aldeano cesante indicado en empleado.
      *
-     * @param id Identificador del aldeano.
+     * @param id Identificador del aldeano, comenzando en 1.
      * @param profesion Profesión asignada.
-     * @return `true` si se emplea; `false` si el aldeano o la profesión no son válidos.
+     * @return `true` si se emplea; `false` si el identificador no existe o el aldeano no es cesante.
      */
     fun emplearAldeano(id: Int, profesion: String): Boolean {
         if (id < 1) return false
@@ -375,7 +375,7 @@ class Servidor() {
     /**
      * Elimina el aldeano indicado.
      *
-     * @param id Identificador del aldeano.
+     * @param id Identificador del aldeano, comenzando en 1.
      * @return `true` si se elimina; `false` si el identificador no es válido.
      */
     fun eliminarAldeano(id: Int): Boolean {
@@ -397,11 +397,11 @@ class Servidor() {
     /**
      * Registra un intercambio para el empleado indicado.
      *
-     * @param idAldeano Identificador del empleado.
+     * @param idAldeano Identificador del empleado, comenzando en 1.
      * @param itemPago Artículo a pagar al empleado.
-     * @param cantPago Cantidad del articulo a pagar.
+     * @param cantPago Cantidad del artículo a pagar.
      * @param itemVenta Artículo que vende el empleado.
-     * @param cantVenta Cantidad del item en venta.
+     * @param cantVenta Cantidad del artículo en venta.
      * @return `true` si se agrega; `false` si el empleado o los datos no son válidos.
      */
     fun agregarTradeo(
@@ -429,8 +429,8 @@ class Servidor() {
     /**
      * Elimina un intercambio del empleado indicado.
      *
-     * @param idAldeano Identificador del empleado.
-     * @param idTradeo Identificador del intercambio.
+     * @param idAldeano Identificador del empleado, comenzando en 1.
+     * @param idTradeo Identificador del intercambio, comenzando en 1.
      * @return `true` si se elimina; `false` si algún identificador no es válido.
      */
     fun eliminarTradeo(idAldeano: Int, idTradeo: Int): Boolean {
@@ -482,7 +482,7 @@ class Servidor() {
      * Banea al usuario indicado, excepto si es [Admin].
      *
      * @param nombre Nombre de usuario.
-     * @return `true` si se banea; `false` si no existe o es [Admin].
+     * @return `true` si se banea; `false` si no existe, es [Admin] o ya está baneado.
      */
     fun banearUsuario(nombre: String): Boolean {
         val indice = usuarios.indexOfFirst { it.nombre == nombre }

@@ -15,9 +15,8 @@ import models.*
 /**
  * Punto de entrada principal del "Villager Management System".
  *
- * Inicializa la instancia central del [Servidor], carga los datos iniciales de 
- * usuarios y aldeanos desde los archivos de texto, y ejecuta el bucle principal 
- * del menú de inicio delegando la captura de opciones e interacciones a la [Consola].
+ * Inicializa el [Servidor], carga los datos iniciales y ejecuta el menú de inicio
+ * mediante la [Consola].
  */
 fun main() {
     val servidor = Servidor()
