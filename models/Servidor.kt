@@ -186,8 +186,12 @@ class Servidor() {
      * @return `true` si existe; `false` si el identificador no es válido.
      */
     fun verDatosAldeano(id: Int): Boolean {
-        if (id < 1) return false
-        val aldeano = aldeanos.getOrNull(id - 1) ?: return false
+        val aldeano = aldeanos.getOrNull(id - 1)
+        if (aldeano == null) {
+            println(Colores.error("\nError: No existe un aldeano con el ID $id."))
+            return false
+        }
+
         aldeano.verDatos()
         return true
     }
@@ -227,12 +231,13 @@ class Servidor() {
             return false
         }
 
-        println(Colores.exito("COINCIDENCIAS ENCONTRADAS"))
+        println(Colores.exito("\nCOINCIDENCIAS ENCONTRADAS"))
+        println(Colores.exito("-------------------------"))
         for ((index, empleado, tradeos) in coincidencias) {
-            println(Colores.exito("\n${empleado.nombre} (ID: ${index + 1}) (Ubicado en: ${empleado.posicion}):"))
+            println(Colores.exito("\nID: ${index + 1}. Nombre: ${empleado.nombre}. Ubicación: ${empleado.posicion}):"))
             tradeos.forEach { tradeo ->
-                println(Colores.exito(" Vende: ${tradeo.cantVenta} ${tradeo.itemVenta}"))
-                println(Colores.exito(" Precio: ${tradeo.cantPago} ${tradeo.itemPago}"))
+                println(Colores.exito("\tVende: ${tradeo.cantVenta} ${tradeo.itemVenta}"))
+                println(Colores.exito("\tPrecio: ${tradeo.cantPago} ${tradeo.itemPago}"))
             }
         }
 

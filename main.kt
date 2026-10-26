@@ -34,7 +34,7 @@ fun main() {
                 Consola.registrarSesion(servidor)
             }
             3 -> {
-                println("Cerrando programa...")
+                println("Cerrando programa...\n")
             }
             else -> {
                 println(Colores.error("Seleccione una opción válida."))

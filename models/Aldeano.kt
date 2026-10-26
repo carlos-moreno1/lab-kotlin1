@@ -111,6 +111,7 @@ class Empleado(nombre: String, posicion: String, val profesion: String): Aldeano
     fun verTradeos(){
         if (tradeos.isEmpty()) {
             println(Colores.error("\nSin tradeos registrados."))
+            return
         }
         println(Colores.exito("\nTRADEOS ENCONTRADOS"))
         println(Colores.exito("--------------------"))
