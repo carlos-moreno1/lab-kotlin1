@@ -150,8 +150,8 @@ class Servidor() {
     fun mostrarUsuarios():Boolean {
         if (usuarios.isEmpty()) return false
 
-        println("\nUSUARIOS REGISTRADOS")
-        println("--------------------")
+        println(Colores.exito("\nUSUARIOS REGISTRADOS"))
+        println(Colores.exito("--------------------"))
         usuarios.forEachIndexed { index, usuario ->
             val tipo = when (usuario) {
                 is Pro -> "Pro"
@@ -159,7 +159,7 @@ class Servidor() {
                 is Baneado -> "Baneado"
                 else -> "Noob"
             }
-            println("${index + 1}. ${usuario.nombre} ($tipo)")
+            println(Colores.exito("${index + 1}. ${usuario.nombre} ($tipo)"))
         }
         return true
     }
@@ -171,10 +171,10 @@ class Servidor() {
      */
     fun verListaAldeanos():Boolean {
         if (aldeanos.isEmpty()) return false
-        println("\nALDEANOS REGISTRADOS")
-        println("--------------------")
+        println(Colores.exito("\nALDEANOS REGISTRADOS"))
+        println(Colores.exito("--------------------"))
         aldeanos.forEachIndexed { index, aldeano ->
-            println("Id: ${index + 1}. Nombre: ${aldeano.nombre}. Status: ${aldeano.status}.")
+            println(Colores.exito("Id: ${index + 1}. Nombre: ${aldeano.nombre}. Status: ${aldeano.status}."))
         }
         return true
     }
@@ -187,8 +187,6 @@ class Servidor() {
      */
     fun verDatosAldeano(id: Int): Boolean {
         if (id < 1) return false
-        println("\TRADEOS ENCONTRADOS1")
-        println("--------------------")
         val aldeano = aldeanos.getOrNull(id - 1) ?: return false
         aldeano.verDatos()
         return true
@@ -202,9 +200,9 @@ class Servidor() {
      */
     fun verTradeosAldeano(id: Int): Boolean {
         if (id < 1) return false
-        println("\TRADEOS ENCONTRADOS2")
-        println("--------------------")
         val aldeano = aldeanos.getOrNull(id - 1) as? Empleado ?: return false
+        println(Colores.exito("\nTRADEOS ENCONTRADOS"))
+        println(Colores.exito("--------------------"))
         aldeano.verTradeos()
         return true
     }
@@ -216,25 +214,26 @@ class Servidor() {
      * @return `true` si hay coincidencias; `false` en caso contrario.
      */
     fun buscarTradeo(item: String): Boolean {
-        var encontrado = false
+        val coincidencias = aldeanos.withIndex().mapNotNull { (index, aldeano) ->
+            val empleado = aldeano as? Empleado ?: return@mapNotNull null
+            val tradeos = empleado.obtenerTradeo().filter { it.itemVenta == item }
+            if (tradeos.isEmpty()) null else Triple(index, empleado, tradeos)
+        }
 
-        for ((index, aldeano) in aldeanos.withIndex()) {
-            val empleado = aldeano as? Empleado ?: continue
-            val tradeosEncontrados = empleado.obtenerTradeo().filter { it.itemVenta == item }
-            if (tradeosEncontrados.isEmpty()) continue
+        if (coincidencias.isEmpty()) {
+            println(Colores.error("\nNo hay aldeanos que vendan $item."))
+            return false
+        }
 
-            encontrado = true
-            println(Colores.exito("\n${index + 1}. ${empleado.nombre} (Ubicado en: ${empleado.posicion}):"))
-            tradeosEncontrados.forEach { tradeo ->
+        println(Colores.exito("COINCIDENCIAS ENCONTRADAS"))
+        for ((index, empleado, tradeos) in coincidencias) {
+            println(Colores.exito("\n${empleado.nombre} (ID: ${index + 1}) (Ubicado en: ${empleado.posicion}):"))
+            tradeos.forEach { tradeo ->
                 println(Colores.exito(" Vende: ${tradeo.cantVenta} ${tradeo.itemVenta}"))
                 println(Colores.exito(" Precio: ${tradeo.cantPago} ${tradeo.itemPago}"))
             }
         }
 
-        if (!encontrado) {
-            println(Colores.error("No hay aldeanos que vendan $item."))
-            return false
-        }
         return true
     }
     

@@ -12,11 +12,13 @@ object Consola {
      * Imprime el menú de inicio para usuarios no autenticados.
      */
     fun menuLogin() {
-        println("\n=== VILLAGER MANAGEMENT SYSTEM ===")
+        println("\n==========================")
+        println("VILLAGER MANAGEMENT SYSTEM")
+        println("==========================")
         println("1. Iniciar Sesión")
         println("2. Registrarse")
         println("3. Salir")
-        println("==================================")
+        println("==========================")
     }
 
     /**
@@ -81,7 +83,9 @@ object Consola {
      * @param usuario Instancia del usuario autenticado que define las opciones visibles.
      */
     fun menuPrincipal(usuario: Usuario) {
-        println("\n--- MENÚ PRINCIPAL ---")
+        println("\n------------------------------")
+        println("        MENÚ PRINCIPAL")
+        println("------------------------------")
         var n = 1
 
         println("${n++}. Lista Aldeanos")
@@ -105,7 +109,7 @@ object Consola {
         }
 
         println("${n}. Cerrar Sesión") // Para volver al menú de login.
-        println("----------------------")
+        println("------------------------------")
     }
 
     /**

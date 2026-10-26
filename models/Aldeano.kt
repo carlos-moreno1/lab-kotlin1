@@ -36,11 +36,11 @@ abstract class Aldeano(val nombre: String, posicion: String) {
      * Muestra nombre, estado y posición.
      */
     open fun verDatos() {
-        println("\nDATOS ALDEANO")
-        println("-------------")
-        println("Nombre: $nombre")
-        println("Status: $status")
-        println("Posición: $posicion")
+         println(Colores.exito("\nDATOS ALDEANO"))
+         println(Colores.exito("-------------"))
+         println(Colores.exito("Nombre: $nombre"))
+         println(Colores.exito("Status: $status"))
+         println(Colores.exito("Posición: $posicion"))
     }
 }
 
@@ -59,7 +59,7 @@ class Empleado(nombre: String, posicion: String, val profesion: String): Aldeano
      */
     override fun verDatos(): kotlin.Unit {
         super.verDatos()
-        println("Profesión: $profesion")
+        println(Colores.exito("Profesión: $profesion"))
     }
     
     /**
@@ -110,10 +110,10 @@ class Empleado(nombre: String, posicion: String, val profesion: String): Aldeano
      */
     fun verTradeos(){
         if (tradeos.isEmpty()) {
-            println("Sin tradeos registrados.")
+            println(Colores.error("Sin tradeos registrados."))
         }
         tradeos.forEachIndexed { index, tradeo ->
-            println("${index + 1}. En venta: ${tradeo.cantVenta} ${tradeo.itemVenta}. Precio a pagar: ${tradeo.cantPago} ${tradeo.itemPago}.")
+            println(Colores.exito("${index + 1}. En venta: ${tradeo.cantVenta} ${tradeo.itemVenta}. Precio a pagar: ${tradeo.cantPago} ${tradeo.itemPago}."))
         }
     }
 }
