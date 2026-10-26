@@ -5,14 +5,15 @@ package cl.ucm.models
  *
  * @property nombre Nombre del aldeano.
  * @property posicion Ubicación o posición del aldeano dentro del juego.
+ * @throws IllegalArgumentException Si el nombre o la posición están vacíos.
  */
 abstract class Aldeano(val nombre: String, posicion: String) {
     var posicion: String = posicion
         private set
 
     init {
-        require(nombre.isNotBlank()) {"Nombre no ingresado."}
-        require(posicion.isNotBlank()) {"Posición no ingresada."}
+        require(nombre.isNotBlank()) { "El nombre del aldeano no puede estar vacío." }
+        require(posicion.isNotBlank()) { "La posición del aldeano no puede estar vacía." }
     }
     
     abstract val status: String
@@ -43,6 +44,7 @@ abstract class Aldeano(val nombre: String, posicion: String) {
  * Representa a un aldeano que cuenta con profesión y puede registrar intercambios.
  * 
  * @property profesion Profesión que indica la especialidad del aldeano.
+ * @throws IllegalArgumentException Si el nombre o la posición están vacíos.
  */
 class Empleado(nombre: String, posicion: String, val profesion: String): Aldeano(nombre, posicion) {
     override val status: String = "Empleado"
@@ -82,7 +84,7 @@ class Empleado(nombre: String, posicion: String, val profesion: String): Aldeano
             tradeos.add(Tradeo(itemPago, cantPago, itemVenta, cantVenta))
             return true
         } catch (error: IllegalArgumentException) {
-            println("No se pudo agregar el intercambio: ${error.message}")
+            println("Error de validación: ${error.message ?: "Datos de intercambio inválidos."}")
             return false
         }
     }
