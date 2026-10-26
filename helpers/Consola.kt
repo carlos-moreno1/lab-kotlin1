@@ -2,22 +2,14 @@ package cl.ucm.helpers
 import cl.ucm.models.*
 
 /**
- * Interfaz de consola de "Villager Management System".
+ * Interfaz de consola para el "Villager Management System".
  *
- * Concentra los menús, la lectura por teclado y el despacho de acciones hacia
- * [servidor]. Funciona como intermediaria entre el usuario y [Servidor], sin 
- * duplicar sus responsabilidades:
- * 1. Lee los datos: Solicita nombres, contraseñas, identificadores, etc.
- * 2. Invoca a Servidor: Pasa los argumentos sin reimplementar la lógica.
- * 3. Interpreta el retorno: Evalúa Boolean o Usuario? para informar al usuario.
- * 4. Evita mensajes duplicados: Si el servidor ya imprime (ej. listar usuarios),
- *    la consola no repite la información.
- *
- * Implementada como un Singleton (object).
+ * Gestiona los menús, la captura de entrada estándar y la presentación de mensajes, 
+ * delegando la ejecución de la lógica de negocio y validación al [Servidor].
  */
 object Consola {
     /**
-     * Imprime el menú de inicio (fuera de sesión).
+     * Imprime el menú de inicio para usuarios no autenticados.
      */
     fun menuLogin() {
         println("\n=== VILLAGER MANAGEMENT SYSTEM ===")
@@ -27,11 +19,9 @@ object Consola {
     }
 
     /**
-     * Lee una opción del menú desde la entrada estándar.
+     * Captura y valida una opción numérica ingresada por el usuario.
      *
-     * Descarta entradas no numéricas o fuera de rango.
-     *
-     * @return la opción elegida, o `0` si la entrada es inválida o se cerró el flujo.
+     * @return La opción elegida, o `0` si la entrada es inválida o nula.
      */
     fun leerOpcion(): Int {
         print("Elija opción: ")
@@ -40,15 +30,10 @@ object Consola {
     }
 
     /**
-     * Autentica al usuario delegando en el [servidor].
+     * Solicita credenciales por teclado y autentica al usuario en el sistema.
      *
-     * La consola lee las credenciales y comprueba el resultado de [Servidor.login].
-     * Rechaza usuarios inexistentes, baneados o con contraseña incorrecta.
-     * Utiliza el tipo del usuario devuelto para determinar los permisos de la sesión.
-     *
-     * @param servidor La instancia del servidor.
-     * @return [Usuario] si las credenciales son válidas y el acceso es permitido; 
-     *         `null` si falla el inicio de sesión.
+     * @param servidor Instancia del servidor que procesa la validación.
+     * @return El [Usuario] si las credenciales son válidas; `null` si son incorrectas o el usuario está baneado.
      */
     fun inicioSesion(servidor: Servidor): Usuario? {
         print("Ingrese usuario: ")
@@ -67,14 +52,10 @@ object Consola {
     }
 
     /**
-     * Pide usuario y contraseña dos veces y registra la cuenta en [servidor].
+     * Solicita datos por teclado e intenta registrar un nuevo usuario en el sistema.
      *
-     * Invoca a [Servidor.register] para crear un usuario nuevo de tipo Noob.
-     * La consola evalúa el booleano devuelto para mostrar el mensaje de éxito o error.
-     *
-     * @param servidor La instancia del servidor.
-     * @return `true` si el registro fue exitoso (nombre no ocupado y contraseñas coinciden); 
-     *         `false` si el nombre ya existe o las contraseñas no coinciden.
+     * @param servidor Instancia del servidor que procesa el registro.
+     * @return `true` si el registro es exitoso; `false` si el nombre ya existe o las contraseñas no coinciden.
      */
     fun registrarSesion(servidor: Servidor): Boolean {
         print("Ingrese usuario: ")
@@ -94,9 +75,9 @@ object Consola {
     }
 
     /**
-     * Imprime el menú principal mostrando solo las opciones habilitadas.
+     * Imprime las opciones del menú principal correspondientes al nivel de permisos del usuario.
      *
-     * @param usuario El objeto que representa al usuario autenticado y su rol.
+     * @param usuario Instancia del usuario autenticado que define las opciones visibles.
      */
     fun menuPrincipal(usuario: Usuario) {
         println("\n--- MENÚ PRINCIPAL ---")
@@ -124,19 +105,14 @@ object Consola {
     }
 
     /**
-     * Ejecuta el bucle de sesión hasta que el usuario elige «Cerrar Sesión».
+     * Inicia el bucle interactivo de la sesión del usuario.
      *
-     * Centraliza la lectura de datos requeridos (IDs, profesiones, ítems, nicknames)
-     * y delega la lógica de negocio (búsqueda, modificación, administración de usuarios
-     * y aldeanos) a la instancia de [Servidor]. 
+     * Captura las entradas necesarias (IDs, profesiones, ítems) y evalúa los retornos 
+     * booleanos del [Servidor] para emitir mensajes de éxito o error, evitando duplicar 
+     * salidas que la lógica interna ya imprime.
      *
-     * Evalúa los retornos de las funciones (Boolean) para determinar si muestra
-     * mensajes de éxito o error personalizados en consola, evitando duplicar 
-     * aquellos mensajes o listas (como verListaAldeanos o buscarTradeo) que el 
-     * servidor ya imprime internamente.
-     *
-     * @param servidor La instancia del servidor.
-     * @param usuario El objeto que representa al usuario autenticado y su rol ([Admin], [Pro] o [Noob]).
+     * @param servidor Instancia del servidor.
+     * @param usuario Usuario autenticado cuyos permisos dictan las acciones disponibles.
      */
     fun sesion(servidor: Servidor, usuario: Usuario) {
         while (true) {
