@@ -318,6 +318,7 @@ class Servidor() {
                 "Nitwit" -> aldeanos.add(Nitwit(nombre, posicion))
                 else -> {
                     println(Colores.error("\nError: El estado del aldeano no es válido."))
+                    println(Colores.error("Estados válidos: 'Empleado', 'Cesante' o 'Nitwit'."))
                     return false
                 }
             }
