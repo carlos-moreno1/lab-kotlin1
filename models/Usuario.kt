@@ -1,24 +1,24 @@
 package cl.ucm.models
 
 /**
- * Clase abstracta que define las propiedades y comportamientos comunes de todos los usuarios del sistema.
+ * Datos y comportamiento común de los usuarios.
  *
- * @property nombre nombre de usuario
- * @property password Contraseña de acceso.
+ * @property nombre Nombre de usuario.
+ * @property password Contraseña.
  */
 abstract class Usuario(val nombre: String, internal val password: String) {
     /**
-     * Constructor secundario que crea un usuario asignando una contraseña predefinida.
+     * Crea un usuario con la contraseña predeterminada.
      *
      * @param nombre Nombre de usuario.
      */
     constructor(nombre: String) : this(nombre, "123456")
 
     /**
-     * Verifica si la contraseña coincide con la registrada.
+     * Comprueba la contraseña.
      *
-     * @param pass Contraseña a validar.
-     * @return 'true' si la contraseña es corecta, 'false' si es incorrecta.
+     * @param pass Contraseña ingresada.
+     * @return `true` si coincide; `false` en caso contrario.
      */
 
     fun verificarPassword(pass: String): Boolean {
@@ -28,41 +28,41 @@ abstract class Usuario(val nombre: String, internal val password: String) {
 }
 
 /**
- * Representa a un usuario básico.
+ * Usuario básico.
  */
 class Noob(nombre: String, password: String): Usuario(nombre, password) {
     /**
-     * Constructor secundario que asigna la contraseña predeterminada del nivel noob.
+     * Crea un usuario con la contraseña predeterminada.
      */
     constructor(nombre: String) : super(nombre)
 }
 
 /**
- * Representa a un usuario intermedio.
+ * Usuario de nivel intermedio.
  */
 class Pro(nombre: String, password: String): Usuario(nombre, password) {
     /**
-     * Constructor secundario que asigna la contraseña predeterminada del nivel pro.
+     * Crea un usuario con la contraseña predeterminada.
      */
     constructor(nombre: String) : super(nombre)
 }
 
 /**
- * Representa a un administrador.
+ * Usuario administrador.
  */
 class Admin(nombre: String, password: String): Usuario(nombre, password) {
     /**
-     * Constructor secundario que asigna la contraseña predeterminada del nivel admin.
+     * Crea un administrador con la contraseña predeterminada.
      */
     constructor(nombre: String) : super(nombre)
 }
 
 /**
- * Representa a un usuario baneado.
+ * Usuario baneado.
  */
 class Baneado(nombre: String, password: String): Usuario(nombre, password) {
     /**
-     * Constructor secundario que asigna la contraseña predeterminada.
+     * Crea un usuario baneado con la contraseña predeterminada.
      */
     constructor(nombre: String) : super(nombre)
 }
