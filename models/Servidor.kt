@@ -331,7 +331,7 @@ class Servidor() {
     fun emplearAldeano(id: Int, profesion: String): Boolean {
         if (id < 1) return false
         val indice = id - 1
-        val original = aldeanos.getOrNull(indice) ?: {
+        val original = aldeanos.getOrNull(indice) ?: run {
             println(Colores.error("\nError: No se encontró un aldeano con ID $id."))
             return false
         }
@@ -499,7 +499,7 @@ class Servidor() {
         }
         
         usuarios[indice] = Noob(usuario.nombre, usuario.password)
-        println(Colores.exito("\nEl usuario '$nick' ha sido desbaneado con éxito."))
+        println(Colores.exito("\nEl usuario '$nombre' ha sido desbaneado con éxito."))
         return true
     }
 }
