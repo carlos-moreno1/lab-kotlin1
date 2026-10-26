@@ -147,8 +147,21 @@ class Servidor() {
      * @return El usuario autenticado o `null` si las credenciales no son válidas o está baneado.
      */
     fun login(nombre: String, password: String): Usuario? {
-        val usuario = usuarios.firstOrNull { it.nombre == nombre } ?: return null
-        if (usuario is Baneado || !usuario.verificarPassword(password)) return null
+        val usuario = usuarios.firstOrNull { it.nombre == nombre } ?: run {
+            println(Colores.error("\nError: Usuario $nombre no registrado."))
+            return null
+        }
+
+        if (usuario is Baneado) {
+            println(Colores.error("\nError: Usuario $nombre está baneado."))
+            return null
+        }
+        if (!usuario.verificarPassword(password)) {
+            println(Colores.error("\nError: Contraseña incorrecta."))
+            return null
+        }
+
+        println(Colores.exito("\nInicio de sesión exitoso."))
         return usuario
     }
 

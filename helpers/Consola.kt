@@ -45,13 +45,7 @@ object Consola {
         val password = readln()
 
         val usuarioLogueado = servidor.login(usuario, password)
-        return if (usuarioLogueado != null) {
-            println(Colores.exito("\nInicio de sesión exitoso."))
-            usuarioLogueado
-        } else {
-            println(Colores.error("\nInicio de sesión incorrecto."))
-            null
-        }
+        return if (usuarioLogueado != null) usuarioLogueado else null
     }
 
     /**
