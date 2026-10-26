@@ -12,10 +12,13 @@ fun main () {
 
     do{
         Consola.menuLogin() // muestra el menu
-        opcion= Consola.leerOpcion()    //seleccionamos una opcion
-        when(Opcion){
+        opcion= Consola.leerOpcion()                                                 //seleccionamos una opcion
+        when(Opcion){                                                                //respuestas a la opcion elegida  
             1-> {
-                sesionIniciada =Consola.inicioSesion(servidor)
+                sesionIniciada = Consola.inicioSesion(servidor)
+                if (sesionIniciada ){
+                    Consola.sesion(servidor, 1)                                     //creo que era asi favor revisar            /*Ejecuta el inicio de sesion y abre el menu principal */
+                }
             }
             2->{
                 Consola.registrarSesion(servidor)
@@ -27,7 +30,7 @@ fun main () {
                 println("selecciona una opcion valida")
             }
         }
-    } while(opcion != 3 && !sesionIniciada)
+    } while(opcion != 3)                                             //el ciclo termina cuando se escoge la opcion de salida
     /*  
     val Consola = Consola()
     val Opcion = Consola.leerOpcion()
