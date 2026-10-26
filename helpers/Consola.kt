@@ -88,29 +88,29 @@ object Consola {
         println("------------------------------")
         var n = 1
 
-        println("${n++}. Lista Aldeanos")
-        println("${n++}. Ver datos Aldeano")
-        println("${n++}. Buscar Tradeo")
-        println("${n++}. Tradeos de Aldeano")
+        println("${(n++).toString().padStart(2)}. Lista Aldeanos")
+        println("${(n++).toString().padStart(2)}. Ver datos Aldeano")
+        println("${(n++).toString().padStart(2)}. Buscar Tradeo")
+        println("${(n++).toString().padStart(2)}. Tradeos de Aldeano")
 
         if (usuario is Pro || usuario is Admin) {
             println("------------------------------")
-            println("${n++}. Agregar Aldeano")
-            println("${n++}. Eliminar Aldeano")
-            println("${n++}. Emplear Aldeano")
+            println("${(n++).toString().padStart(2)}. Agregar Aldeano")
+            println("${(n++).toString().padStart(2)}. Eliminar Aldeano")
+            println("${(n++).toString().padStart(2)}. Emplear Aldeano")
         }
 
         if (usuario is Admin) {
             println("------------------------------")
-            println("${n++}. Agregar Tradeos")
-            println("${n++}. Eliminar Tradeos")
-            println("${n++}. Lista Usuarios")
-            println("${n++}. Promover Usuario")
-            println("${n++}. Unban Usuario")
-            println("${n++}. Banear Usuario")
+            println("${(n++).toString().padStart(2)}. Agregar Tradeos")
+            println("${(n++).toString().padStart(2)}. Eliminar Tradeos")
+            println("${(n++).toString().padStart(2)}. Lista Usuarios")
+            println("${(n++).toString().padStart(2)}. Promover Usuario")
+            println("${(n++).toString().padStart(2)}. Unban Usuario")
+            println("${(n++).toString().padStart(2)}. Banear Usuario")
         }
 
-        println("${n}. Cerrar Sesión") // Para volver al menú de login.
+        println("${n.toString().padStart(2)}. Cerrar Sesión") // Para volver al menú de login.
         println("------------------------------")
     }
 

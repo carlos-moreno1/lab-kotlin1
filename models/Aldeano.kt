@@ -116,7 +116,7 @@ class Empleado(nombre: String, posicion: String, val profesion: String): Aldeano
         println(Colores.exito("\nTRADEOS ENCONTRADOS"))
         println(Colores.exito("--------------------"))
         tradeos.forEachIndexed { index, tradeo ->
-            println(Colores.exito("${index + 1}. En venta: ${tradeo.cantVenta} ${tradeo.itemVenta}. Precio a pagar: ${tradeo.cantPago} ${tradeo.itemPago}."))
+            println(Colores.exito("${(index + 1).toString().padStart(2)} | En venta: ${tradeo.cantVenta} ${tradeo.itemVenta}. Precio a pagar: ${tradeo.cantPago} ${tradeo.itemPago}."))
         }
     }
 }
