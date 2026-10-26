@@ -169,11 +169,10 @@ class Servidor() {
      */
     fun verListaAldeanos():Boolean {
         if (aldeanos.isEmpty()) return false
-        println("\n--- LISTA DE ALDEANOS ---")
+        println("\nLISTA DE ALDEANOS:")
         aldeanos.forEachIndexed { index, aldeano ->
             println("Id: ${index + 1}. Nombre: ${aldeano.nombre}. Status: ${aldeano.status}.")
         }
-        println("-------------------------")
         return true
     }
 
@@ -218,7 +217,7 @@ class Servidor() {
             if (tradeosEncontrados.isEmpty()) continue
 
             encontrado = true
-            println("${index + 1}. ${empleado.nombre} (Ubicado en: ${empleado.posicion}):")
+            println("\n${index + 1}. ${empleado.nombre} (Ubicado en: ${empleado.posicion}):")
             tradeosEncontrados.forEach { tradeo ->
                 println(" Vende: ${tradeo.cantVenta} ${tradeo.itemVenta}")
                 println(" Precio: ${tradeo.cantPago} ${tradeo.itemPago}")

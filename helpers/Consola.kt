@@ -16,7 +16,7 @@ object Consola {
         println("1. Iniciar Sesión")
         println("2. Registrarse")
         println("3. Salir")
-        println("====================================")
+        println("==================================")
     }
 
     /**
@@ -44,10 +44,10 @@ object Consola {
 
         val usuarioLogueado = servidor.login(usuario, password)
         return if (usuarioLogueado != null) {
-            println("Inicio de sesión exitoso.")
+            println("\nInicio de sesión exitoso.")
             usuarioLogueado
         } else {
-            println("Inicio de sesión incorrecto.")
+            println("\nInicio de sesión incorrecto.")
             null
         }
     }
@@ -67,10 +67,10 @@ object Consola {
         val passwordConfirm = readln()
 
         return if (servidor.register(usuario, password, passwordConfirm)) {
-            println("Registro de usuario exitoso.")
+            println("\nRegistro de usuario exitoso.")
             true
         } else {
-            println("Registro incorrecto. El usuario ya existe o las contraseñas no coinciden.")
+            println("\nRegistro incorrecto. El usuario ya existe o las contraseñas no coinciden.")
             false
         }
     }
@@ -85,8 +85,8 @@ object Consola {
         var n = 1
 
         println("${n++}. Ver Aldeanos")
-        println("${n++}. Ver datos Aldeanos")
-        println("${n++}. Buscar Intercambio")
+        println("${n++}. Ver datos Aldeano")
+        println("${n++}. Buscar Tradeo")
 
         if (usuario is Pro || usuario is Admin) {
             println("${n++}. Agregar Aldeano")
@@ -102,7 +102,7 @@ object Consola {
         }
 
         println("${n}. Cerrar Sesión") // Para volver al menú de login.
-        println("------------------------")
+        println("----------------------")
     }
 
     /**

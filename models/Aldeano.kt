@@ -34,6 +34,7 @@ abstract class Aldeano(val nombre: String, posicion: String) {
      * Muestra nombre, estado y posición.
      */
     open fun verDatos() {
+        println("\nDATOS ALDEANO:")
         println("Nombre: $nombre")
         println("Status: $status")
         println("Posición: $posicion")
