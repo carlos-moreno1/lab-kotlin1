@@ -101,7 +101,7 @@ object Consola {
         }
 
         println("${n}. Cerrar Sesión") // Para volver al menú de login.
-        print("Elija opción: ")
+        println("------------------------")
     }
 
     /**
@@ -245,6 +245,7 @@ object Consola {
             }
 
             when (val opcion = leerOpcion()) {
+                println("\n")
                 in 1..acciones.size -> acciones[opcion - 1]()
                 acciones.size + 1 -> {
                     println("Sesión cerrada.")
