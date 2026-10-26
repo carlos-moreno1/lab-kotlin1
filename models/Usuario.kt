@@ -7,6 +7,10 @@ package models
  * @property password Contraseña.
  */
 abstract class Usuario(val nombre: String, internal val password: String) {
+    init {
+    require(nombre.isNotBlank()) { "El nombre del usuario no puede estar vacío." }
+    }
+    
     /**
      * Crea un usuario con la contraseña predeterminada.
      *

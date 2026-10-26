@@ -72,7 +72,7 @@ object Consola {
             println(Colores.exito("\nRegistro de usuario exitoso."))
             true
         } else {
-            println(Colores.error("\nRegistro incorrecto. El usuario ya existe o las contraseñas no coinciden."))
+            println(Colores.error("\nRegistro incorrecto."))
             false
         }
     }
@@ -94,12 +94,14 @@ object Consola {
         println("${n++}. Tradeos de Aldeano")
 
         if (usuario is Pro || usuario is Admin) {
+            println("------------------------------")
             println("${n++}. Agregar Aldeano")
             println("${n++}. Eliminar Aldeano")
             println("${n++}. Emplear Aldeano")
         }
 
         if (usuario is Admin) {
+            println("------------------------------")
             println("${n++}. Agregar Tradeos")
             println("${n++}. Eliminar Tradeos")
             println("${n++}. Lista Usuarios")

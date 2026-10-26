@@ -90,18 +90,23 @@ class Servidor() {
                 }
                 if (usuarios.any { it.nombre == nombre }) continue
 
-                val usuario = when (tipo) {
-                    "Noob" -> Noob(nombre, password)
-                    "Pro" -> Pro(nombre, password)
-                    "Baneado" -> Baneado(nombre, password)
-                    "Admin" -> {
-                        println(Colores.error("\nError de validación: No se permite cargar usuarios de tipo Admin."))
-                        null
+                val usuario = try {
+                    when (tipo) {
+                        "Noob" -> Noob(nombre, password)
+                        "Pro" -> Pro(nombre, password)
+                        "Baneado" -> Baneado(nombre, password)
+                        "Admin" -> {
+                            println(Colores.error("\nError de validación: No se permite cargar usuarios de tipo Admin."))
+                            null
+                        }
+                        else -> {
+                            println(Colores.error("\nError de formato: Tipo de usuario desconocido en la línea ${indice + 1} de 'data/usuarios.txt'."))
+                            null
+                        }
                     }
-                    else -> {
-                        println(Colores.error("\nError de formato: Tipo de usuario desconocido en la línea ${indice + 1} de 'data/usuarios.txt'."))
-                        null
-                    }
+                } catch (e: IllegalArgumentException) {
+                    println(Colores.error("\nError de validación en la línea ${indice + 1} de 'data/usuarios.txt': ${e.message ?: "Datos de usuario inválidos."}"))
+                    continue
                 }
 
                 if (usuario != null) usuarios.add(usuario)
@@ -125,8 +130,13 @@ class Servidor() {
     fun register(nombre: String, password: String, passwordConfirm: String): Boolean {
         if (usuarios.any { it.nombre == nombre }) return false
         if (password != passwordConfirm) return false
-        usuarios.add(Noob(nombre, password))
-        return true
+        return try {
+            usuarios.add(Noob(nombre, password))
+            true
+        } catch (e: IllegalArgumentException) {
+            println(Colores.error("\nError de validación: ${e.message ?: "Datos de usuario inválidos."}"))
+            false
+        }
     }
 
     /**
@@ -231,10 +241,10 @@ class Servidor() {
             return false
         }
 
-        println(Colores.exito("\nCOINCIDENCIAS ENCONTRADAS"))
-        println(Colores.exito("-------------------------"))
+        println(Colores.exito("\nALDEANOS ENCONTRADOS"))
+        println(Colores.exito("--------------------"))
         for ((index, empleado, tradeos) in coincidencias) {
-            println(Colores.exito("\nID: ${index + 1}. Nombre: ${empleado.nombre}. Ubicación: ${empleado.posicion}):"))
+            println(Colores.exito("\n${empleado.nombre} (ID: ${index + 1})"))
             tradeos.forEach { tradeo ->
                 println(Colores.exito("\tVende: ${tradeo.cantVenta} ${tradeo.itemVenta}"))
                 println(Colores.exito("\tPrecio: ${tradeo.cantPago} ${tradeo.itemPago}"))
@@ -314,7 +324,7 @@ class Servidor() {
             return true    
         }
         catch (e: IllegalArgumentException) {
-            println(Colores.error("Error de validación: ${e.message ?: "Datos de aldeano inválidos."}"))
+            println(Colores.error("\nError de validación: ${e.message ?: "Datos de aldeano inválidos."}"))
             return false
         }
     }
@@ -444,7 +454,12 @@ class Servidor() {
             return false
         }
 
-        usuarios[indice] = Pro(usuario.nombre, usuario.password)
+        try {
+            usuarios[indice] = Pro(usuario.nombre, usuario.password)
+        } catch (e: IllegalArgumentException) {
+            println(Colores.error("\nError de validación: ${e.message ?: "Datos de usuario inválidos."}"))
+            return false
+        }
         println(Colores.exito("\nEl usuario '$nombre' fue promovido a Pro."))
         return true
     }
@@ -472,7 +487,12 @@ class Servidor() {
             return false
         }
 
-        usuarios[indice] = Baneado(usuario.nombre, usuario.password)
+        try {
+            usuarios[indice] = Baneado(usuario.nombre, usuario.password)
+        } catch (e: IllegalArgumentException) {
+            println(Colores.error("\nError de validación: ${e.message ?: "Datos de usuario inválidos."}"))
+            return false
+        }
         println(Colores.exito("\nEl usuario '$nombre' fue BANEADO con éxito."))
         return true
     }
@@ -496,7 +516,12 @@ class Servidor() {
             return false
         }
         
-        usuarios[indice] = Noob(usuario.nombre, usuario.password)
+        try {
+            usuarios[indice] = Noob(usuario.nombre, usuario.password)
+        } catch (e: IllegalArgumentException) {
+            println(Colores.error("\nError de validación: ${e.message ?: "Datos de usuario inválidos."}"))
+            return false
+        }
         println(Colores.exito("\nEl usuario '$nombre' ha sido desbaneado con éxito."))
         return true
     }

@@ -43,10 +43,10 @@ fun main() {
                 Consola.registrarSesion(servidor)
             }
             3 -> {
-                println("Cerrando programa...\n")
+                println("\nCerrando programa...\n")
             }
             else -> {
-                println(Colores.error("Seleccione una opción válida."))
+                println(Colores.error("\nSeleccione una opción válida."))
             }
         }
     } while(opcion != 3)
