@@ -30,7 +30,7 @@ Alcance de esta versión:
 
 ## Estructura del Proyecto
 
-El proyecto está contenido dentro de la carpeta principal `lab-kotlin1` y se organiza en los siguientes directorios:
+El proyecto está contenido dentro de la carpeta principal `VillagerManagement` y se organiza en los siguientes directorios:
 
 *   **`/` (Raíz):** Contiene el archivo `main.kt`, que sirve como punto de entrada de la aplicación.
 *   **`/helpers`:** Contiene el archivo `Consola.kt`, encargado de la interfaz de usuario, los menús y la interacción por teclado.
@@ -44,6 +44,7 @@ el servidor:
 
 | Usuario | Tarea desempeñada en el sistema |
 | :---: | :---: |
+| Baneado | No puede acceder al sistema. Se considera un usuario problemático. |
 | Noob | Tiene permisos de solo lectura. Su vista es superficial: busca objetos<br>a la venta y consulta las coordenadas para saber a dónde ir.|
 | Pro | Tiene permisos de escritura. Además de consultar, es el encargado<br>de registrar nuevos aldeanos en el sistema y eliminarlos si mueren o<br>son movidos. |
 | Admin | Tiene el control total. Se encarga de mantener el orden, con la<br>capacidad exclusiva de expulsar (banear) a usuarios problemáticos<br>del sistema como tambien ascenderlos de rango. |
@@ -54,17 +55,23 @@ Para que el sistema funcione y tenga sentido, se han definido los siguientes ele
 ### Servidor
 Es el motor central del sistema. Actúa como el lugar virtual donde se guardan todos los
 registros de los aldeanos y donde se conectan los usuarios. El servidor es quien recibe las
-órdenes (como buscar un tradeo) y entrega las respuestas.
-
-### Aldeano
-Representa a cada aldeano dentro del juego. Cada uno de ellos recibe un identificador único (ID)
-para no confundirlo con otro, y guarda información clave: su ubicación exacta (coordenadas),
-su estado (Empleado, Cesante o Nitwit), y en el caso de los empleados, su profesión y los intercambios que ofrece.
+órdenes y actúa en consecuencia.
 
 ### Usuario
-Representa a la persona real frente a la pantalla. Todo usuario debe registrarse con su nickname
-(nombre del jugador). Dependiendo de su rango (Noob, Pro o Admin), el sistema le permitirá
-realizar distintas acciones.
+Representa a la persona real frente a la pantalla. Todo usuario debe registrarse con un nombre
+(nickname) y su respectiva contraseña. Dependiendo de su rango (Noob, Pro o Admin), el sistema le permitirá
+realizar distintas acciones. Puede perder acceso al sistema (de manera no permanente) y volverse
+un usuario Baneado.
+
+### Aldeano
+Representa a cada aldeano dentro del juego. Cada uno de ellos recibe nombre y tiene un
+identificador único (ID) basado en la posición que tiene en la lista que maneja el Servidor.
+Se guarda información como nombre (apodo dado por el jugador), posición (típicamente coordenadas)
+y, en el caso de los empleados, su profesión y los intercambios que ofrece.
+
+### Tradeo
+Representa los datos presentes en un intercambio realizado por un aldeano Empleado.
+Contempla los items en venta y a pagar, con sus respectivas cantidades.
 
 ## Operaciones que permitirá el sistema
 
