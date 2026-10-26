@@ -16,6 +16,7 @@ object Consola {
         println("1. Iniciar Sesión")
         println("2. Registrarse")
         println("3. Salir")
+        println("====================================")
     }
 
     /**
@@ -245,7 +246,6 @@ object Consola {
             }
 
             when (val opcion = leerOpcion()) {
-                println("\n")
                 in 1..acciones.size -> acciones[opcion - 1]()
                 acciones.size + 1 -> {
                     println("Sesión cerrada.")

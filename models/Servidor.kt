@@ -169,9 +169,11 @@ class Servidor() {
      */
     fun verListaAldeanos():Boolean {
         if (aldeanos.isEmpty()) return false
+        println("\n--- LISTA DE ALDEANOS ---")
         aldeanos.forEachIndexed { index, aldeano ->
             println("Id: ${index + 1}. Nombre: ${aldeano.nombre}. Status: ${aldeano.status}.")
         }
+        println("-------------------------")
         return true
     }
 
