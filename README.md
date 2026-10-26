@@ -9,11 +9,11 @@ Sin embargo, a medida que la zona crece, la cantidad de aldeanos se vuelve inman
 Hoy en día, los jugadores intentan organizar esta zona usando carteles de madera o
 simplemente confiando en su memoria. Esto genera varios problemas:
 
-1. Pérdida de tiempo: Los jugadores olvidan qué aldeano vende qué objeto exacto y pasan
+- **Pérdida de tiempo**: Los jugadores olvidan qué aldeano vende qué objeto exacto y pasan
     minutos buscando sin rumbo.
-2. Posición: No hay registro claro de en qué coordenadas exactas se
+- **Posición**: No hay registro claro de en qué coordenadas exactas se
     encuentra el aldeano que vende un encantamiento crucial (como Mending/Reparación).
-3. Falta de administración: Cualquier jugador nuevo puede entrar, alterar los intercambios
+- **Falta de administración**: Cualquier jugador nuevo puede entrar, alterar los intercambios
     o perder aldeanos sin que haya un registro de quién hizo qué.
 
 **Minecraft Villager Management** reemplaza los carteles y la memoria por un sistema de
@@ -30,11 +30,12 @@ Alcance de esta versión:
 
 ## Estructura del Proyecto
 
-El código fuente está organizado de la siguiente manera:
-- `/`: Contiene el archivo `main.kt` que sirve como punto de entrada de la aplicación.
-- `/cl/ucm/helpers`: Contiene el objecto singleton `Consola.kt`, encargado de la interfaz de usuario, los menús y la lectura de datos.
-- `/cl/ucm/models`: Contiene la lógica de negocio y las entidades del sistema (`Servidor.kt`, `Aldeano.kt`, `Usuario.kt`, `Tradeo.kt`).
-- `/data`: Directorio destinado a los archivos de texto (`aldeanos.txt`, `usuarios.txt`) para la carga inicial de datos.
+El proyecto está contenido dentro de la carpeta principal `lab-kotlin1` y se organiza en los siguientes directorios:
+
+*   **`/` (Raíz):** Contiene el archivo `main.kt`, que sirve como punto de entrada de la aplicación.
+*   **`/helpers`:** Contiene el archivo `Consola.kt`, encargado de la interfaz de usuario, los menús y la interacción por teclado.
+*   **`/models`:** Contiene la lógica de negocio y las entidades del sistema (`Servidor.kt`, `Aldeano.kt`, `Usuario.kt`, `Tradeo.kt`).
+*   **`/data`:** Directorio destinado a los archivos de texto (`aldeanos.txt`, `usuarios.txt`) para la carga y persistencia inicial de datos.
 
 ## Usuarios del sistema
 
