@@ -46,10 +46,10 @@ object Consola {
 
         val usuarioLogueado = servidor.login(usuario, password)
         return if (usuarioLogueado != null) {
-            println("\nInicio de sesión exitoso.")
+            println(Colores.exito("\nInicio de sesión exitoso."))
             usuarioLogueado
         } else {
-            println("\nInicio de sesión incorrecto.")
+            println(Colores.error("\nInicio de sesión incorrecto."))
             null
         }
     }
@@ -69,10 +69,10 @@ object Consola {
         val passwordConfirm = readln()
 
         return if (servidor.register(usuario, password, passwordConfirm)) {
-            println("\nRegistro de usuario exitoso.")
+            println(Colores.exito("\nRegistro de usuario exitoso."))
             true
         } else {
-            println("\nRegistro incorrecto. El usuario ya existe o las contraseñas no coinciden.")
+            println(Colores.error("\nRegistro incorrecto. El usuario ya existe o las contraseñas no coinciden."))
             false
         }
     }
@@ -166,18 +166,18 @@ object Consola {
                     }
                     
                     if (exito) {
-                        println("Aldeano '$nombre' agregado exitosamente.")
+                        println(Colores.exito("Aldeano '$nombre' agregado exitosamente."))
                     } else {
-                        println("Error: No se pudo agregar al aldeano.")
+                        println(Colores.error("Error: No se pudo agregar al aldeano."))
                     }
                 },
                 {
                     print("Ingrese ID del aldeano a eliminar: ")
                     val id = readln().toIntOrNull() ?: 0
                     if (servidor.eliminarAldeano(id)) {
-                        println("Aldeano con ID $id eliminado exitosamente.")
+                        println(Colores.exito("Aldeano con ID $id eliminado exitosamente."))
                     } else {
-                        println("Error: No se pudo eliminar al aldeano. Verifique que el ID sea correcto.")
+                        println(Colores.error("Error: No se pudo eliminar al aldeano. Verifique que el ID sea correcto."))
                     }
                 },
                 {
@@ -186,9 +186,9 @@ object Consola {
                     print("Ingrese nueva profesion: ")
                     val prof = readln()
                     if (servidor.emplearAldeano(id, prof)) {
-                        println("Aldeano con ID $id empleado exitosamente como $prof.")
+                        println(Colores.exito("Aldeano con ID $id empleado exitosamente como $prof."))
                     } else {
-                        println("Error: No se pudo emplear al aldeano. Verifique el ID o su estado actual.")
+                        println(Colores.error("Error: No se pudo emplear al aldeano. Verifique el ID o su estado actual."))
                     }
                 }
             )
@@ -207,9 +207,9 @@ object Consola {
                     val cantVenta = readln().toIntOrNull() ?: 0
                     
                     if (servidor.agregarTradeo(id, pago, cantPago, venta, cantVenta)) {
-                        println("Tradeo agregado exitosamente al aldeano con ID $id.")
+                        println(Colores.exito("Tradeo agregado exitosamente al aldeano con ID $id."))
                     } else {
-                        println("Error: No se pudo agregar el tradeo. Verifique los datos ingresados.")
+                        println(Colores.error("Error: No se pudo agregar el tradeo. Verifique los datos ingresados."))
                     }
                 },
                 {
@@ -219,9 +219,9 @@ object Consola {
                     val idT = readln().toIntOrNull() ?: 0
                     
                     if (servidor.eliminarTradeo(idE, idT)) {
-                        println("Tradeo con ID $idT eliminado exitosamente del aldeano $idE.")
+                        println(Colores.exito("Tradeo con ID $idT eliminado exitosamente del aldeano $idE."))
                     } else {
-                        println("Error: No se pudo eliminar el tradeo.")
+                        println(Colores.error("Error: No se pudo eliminar el tradeo."))
                     }
                 },
                 {
@@ -231,27 +231,27 @@ object Consola {
                     print("Nickname a promover: ")
                     val nicknamePromover = readln()
                     if (servidor.promoverUsuario(nicknamePromover)) {
-                        println("El usuario '$nicknamePromover' fue promovido exitosamente.")
+                        println(Colores.exito("El usuario '$nicknamePromover' fue promovido exitosamente."))
                     } else {
-                        println("Error: No se pudo promover al usuario '$nicknamePromover'.")
+                        println(Colores.error("Error: No se pudo promover al usuario '$nicknamePromover'."))
                     }
                 },
                 {
                     print("Nickname para Unban: ")
                     val nick = readln()
                     if (servidor.desbanearUsuario(nick)) {
-                        println("El usuario '$nick' se le realizo Unban con éxito.")
+                        println(Colores.exito("El usuario '$nick' se le realizo Unban con éxito."))
                     } else {
-                        println("Error: No se pudo realizar Unban al usuario '$nick'.")
+                        println(Colores.error("Error: No se pudo realizar Unban al usuario '$nick'."))
                     }
                 },
                 {
                     print("Nickname a banear: ")
                     val nick = readln()
                     if (servidor.banearUsuario(nick)) {
-                        println("El usuario '$nick' fue BANEADO con éxito.")
+                        println(Colores.exito("El usuario '$nick' fue BANEADO con éxito."))
                     } else {
-                        println("Error: No se pudo banear al usuario '$nick'.")
+                        println(Colores.error("Error: No se pudo banear al usuario '$nick'."))
                     }
                 }
             )
@@ -274,10 +274,10 @@ object Consola {
             when (val opcion = leerOpcion()) {
                 in 1..acciones.size -> acciones[opcion - 1]()
                 acciones.size + 1 -> {
-                    println("Sesión cerrada.")
+                    println(Colores.exito("Sesión cerrada."))
                     return
                 }
-                else -> println("Opción inválida.")
+                else -> println(Colores.error("Opción inválida."))
             }
         }
     }

@@ -201,8 +201,6 @@ class Servidor() {
     fun verTradeosAldeano(id: Int): Boolean {
         if (id < 1) return false
         val aldeano = aldeanos.getOrNull(id - 1) as? Empleado ?: return false
-        println(Colores.exito("\nTRADEOS ENCONTRADOS"))
-        println(Colores.exito("--------------------"))
         aldeano.verTradeos()
         return true
     }

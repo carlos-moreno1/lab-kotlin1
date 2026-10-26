@@ -110,8 +110,10 @@ class Empleado(nombre: String, posicion: String, val profesion: String): Aldeano
      */
     fun verTradeos(){
         if (tradeos.isEmpty()) {
-            println(Colores.error("Sin tradeos registrados."))
+            println(Colores.error("\nSin tradeos registrados."))
         }
+        println(Colores.exito("\nTRADEOS ENCONTRADOS"))
+        println(Colores.exito("--------------------"))
         tradeos.forEachIndexed { index, tradeo ->
             println(Colores.exito("${index + 1}. En venta: ${tradeo.cantVenta} ${tradeo.itemVenta}. Precio a pagar: ${tradeo.cantPago} ${tradeo.itemPago}."))
         }
